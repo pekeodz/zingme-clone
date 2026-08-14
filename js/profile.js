@@ -30,14 +30,10 @@ const daySelect = document.getElementById('input-dob-day');
         let originalCoverUrl = ""; let originalBgUrl = ""; let originalBgColor = "#e9eaed";
 
         // --- XỬ LÝ CHUYỂN TAB CHÍNH (TƯỜNG NHÀ <-> THÔNG TIN) ---
-        // --- XỬ LÝ CHUYỂN TAB CHÍNH (TƯỜNG NHÀ <-> THÔNG TIN) ---
         const mainTabTuongNha = document.getElementById('main-tab-tuongnha');
         const mainTabThongTin = document.getElementById('main-tab-thongtin');
         const mainContentTuongNha = document.getElementById('main-content-tuongnha');
         const mainContentThongTin = document.getElementById('main-content-thongtin');
-        
-        // Chọn phần Header để thay đổi viền
-        const headerWrap = document.querySelector('.profile-header-wrap');
 
         // Khi bấm vào Tường nhà
         mainTabTuongNha.addEventListener('click', (e) => {
@@ -48,9 +44,17 @@ const daySelect = document.getElementById('input-dob-day');
             // HIỆN Tường nhà, ẨN Thông tin
             mainContentTuongNha.style.display = 'flex'; 
             mainContentThongTin.style.display = 'none';
+        });
+
+        // Khi bấm vào Thông tin
+        mainTabThongTin.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainTabThongTin.classList.add('active'); 
+            mainTabTuongNha.classList.remove('active');
             
-            // Đóng viền Header lại, tạo khoảng cách xám chuẩn cho Tường nhà
-            headerWrap.classList.remove('no-gap'); 
+            // ẨN Tường nhà, HIỆN Thông tin
+            mainContentThongTin.style.display = 'flex'; 
+            mainContentTuongNha.style.display = 'none';
         });
 
         // Khi bấm vào Thông tin
