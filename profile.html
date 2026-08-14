@@ -6,7 +6,7 @@
     <title>Trang cá nhân | Zing Me</title>
     <style>
         /* --- CSS CƠ BẢN VÀ BỐ CỤC --- */
-        body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #e9eaed; color: #333; }
+        body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #e9eaed; color: #333; transition: background-color 0.3s; }
         a { text-decoration: none; color: #333; }
         
         .navbar { background-color: #2b2b2b; height: 45px; display: flex; align-items: center; justify-content: space-between; padding: 0 50px; border-bottom: 1px solid #111; position: sticky; top: 0; z-index: 100; }
@@ -28,7 +28,7 @@
 
         .container { width: 980px; margin: 15px auto; background: transparent; min-height: 800px; position: relative; }
 
-        /* --- BẢNG TÙY CHỈNH GIAO DIỆN MỚI --- */
+        /* --- BẢNG TÙY CHỈNH GIAO DIỆN --- */
         #cover-editor-panel { display: none; background: #f7f9fa; border: 1px solid #ddd; border-bottom: none; border-radius: 3px 3px 0 0; }
         .editor-header { background-color: #243a4e; height: 40px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; color: #9ab4cc; font-size: 13px; font-weight: bold; border-radius: 3px 3px 0 0; }
         .editor-tabs { display: flex; height: 100%; }
@@ -44,28 +44,39 @@
         .editor-col-title span { color: #bbb; margin-right: 5px; }
         .upload-box { height: 100px; border: 2px dashed #ddd; border-radius: 5px; display: flex; justify-content: center; align-items: center; background: white; cursor: pointer; transition: all 0.2s; }
         .upload-box.green { border-color: #27ae60; }
+        .upload-box:hover { background: #f9f9f9; }
         .upload-box.green:hover { background: #f0fdf4; }
         .plus-circle { width: 36px; height: 36px; border: 2px solid #ddd; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; color: #ddd; font-weight: bold; }
         .upload-box.green .plus-circle { border-color: #27ae60; color: #27ae60; }
         .editor-note { font-size: 11px; color: #999; margin-top: 10px; line-height: 1.5; }
         .color-palette { background: white; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
         .color-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 10px; }
-        .color-item { height: 20px; border-radius: 3px; cursor: pointer; }
+        .color-item { height: 20px; border-radius: 3px; cursor: pointer; transition: transform 0.1s; }
+        .color-item:hover { transform: scale(1.1); box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
         .color-picker-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
         .color-picker-row input { border: 1px solid #ddd; padding: 3px; width: 60px; font-size: 12px; outline: none;}
+        
         .editor-footer { padding: 15px 20px; display: flex; justify-content: flex-end; align-items: center; gap: 15px; border-top: 1px solid #eee; background: white; }
         .btn-delete-theme { background: transparent; border: none; color: #777; font-size: 13px; font-weight: bold; cursor: pointer; }
-        .btn-update-theme { background: #2b78c5; color: white; border: none; padding: 7px 15px; border-radius: 3px; font-weight: bold; font-size: 13px; cursor: pointer; }
+        .btn-update-theme { background: #1e7ec8; color: white; border: none; padding: 7px 15px; border-radius: 3px; font-weight: bold; font-size: 13px; cursor: pointer; }
 
-        /* --- CSS MỚI CHO TAB THƯ VIỆN HÌNH NỀN --- */
-        #tab-content-library { display: none; padding: 20px; background: white; }
-        .theme-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; width: 100%; max-height: 250px; overflow-y: auto; padding-right: 10px; }
-        .theme-thumbnail { width: 100%; height: 90px; object-fit: cover; border-radius: 3px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .theme-thumbnail:hover { border-color: #2b78c5; }
+        /* --- CSS CHO THƯ VIỆN HÌNH NỀN --- */
+        #tab-content-library { display: none; padding: 15px 20px 20px 20px; background: white; }
+        
+        .library-categories { display: flex; gap: 15px; border-bottom: 1px solid #e1e8ed; margin-bottom: 15px; }
+        .library-categories a { font-size: 11px; font-weight: bold; color: #39a0d8; padding-bottom: 8px; text-transform: uppercase; border-bottom: 2px solid transparent; }
+        .library-categories a.active { color: #1e7ec8; border-bottom-color: #1e7ec8; }
+        .library-categories a:hover { color: #1e7ec8; }
 
-        /* --- LAYOUT HEADER MỚI CỦA ZING ME (AVATAR TRÁI) --- */
+        .theme-grid { display: none; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .theme-grid.active-grid { display: grid; }
+
+        .theme-box { background: #ffffff; border: 1px solid #e1e8ed; height: 75px; padding: 3px; cursor: pointer; transition: border-color 0.2s; }
+        .theme-box:hover { border-color: #1e7ec8; }
+        .theme-thumbnail { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* --- LAYOUT HEADER --- */
         .profile-header-wrap { background: white; border: 1px solid #d3d6db; border-radius: 3px; margin-bottom: 15px; }
-
         .cover-photo { height: 250px; background: linear-gradient(to bottom, #d6e8f9, #f2f7fc); background-size: cover; background-position: center; position: relative; display: block; border-bottom: 1px solid #d3d6db; border-radius: 3px 3px 0 0; transition: background 0.3s; }
         .edit-cover-icon { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; padding: 6px 12px; font-size: 12px; border-radius: 3px; cursor: pointer; opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; gap: 5px; }
         .cover-photo:hover .edit-cover-icon { opacity: 1; }
@@ -92,7 +103,7 @@
         .tabs-right { font-size: 12px; font-weight: bold; }
         .zm-coin { color: #d77f10; }
 
-        /* --- BỐ CỤC NỘI DUNG FORM BÊN DƯỚI --- */
+        /* --- BỐ CỤC NỘI DUNG FORM --- */
         .content-body { display: flex; padding: 20px; gap: 20px; background: white; border: 1px solid #d3d6db; border-radius: 3px; }
         .col-left { width: 300px; text-align: center; font-size: 13px; color: #666; line-height: 1.5; border-right: 1px dashed #ccc; padding-right: 20px; }
         .col-left strong { color: #f29c1f; font-size: 14px; }
@@ -104,8 +115,8 @@
         .section-title span { background: #555; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
         .form-row { display: flex; align-items: center; margin-bottom: 15px; }
         .form-row label { width: 120px; font-size: 13px; color: #666; font-weight: bold; }
-        .form-row input[type="text"] { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 3px; font-size: 13px; outline: none; }
-        .form-row select { padding: 7px; border: 1px solid #ccc; border-radius: 3px; outline: none; margin-right: 10px; }
+        .form-row input[type="text"], .form-row select { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 3px; font-size: 13px; outline: none; }
+        .form-row select { margin-right: 10px; flex: none; }
         .form-row textarea { flex: 1; height: 100px; padding: 8px; border: 1px solid #ccc; border-radius: 3px; font-size: 13px; outline: none; resize: none; font-family: inherit; }
 
         .btn-group { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
@@ -150,10 +161,11 @@
             <div class="auto-size-text" id="btn-auto-size">Lấy kích thước tự động</div>
         </div>
     </div>
-    <!-- Input Ẩn -->
+    
+    <!-- Các Input File Ẩn -->
     <input type="file" id="avatar-file-input" accept="image/*" style="display: none;">
     <input type="file" id="cover-file-input" accept="image/png, image/jpeg" style="display: none;">
-
+    <input type="file" id="bg-file-input" accept="image/png, image/jpeg" style="display: none;">
 
     <div class="navbar">
         <div class="nav-left">
@@ -169,11 +181,10 @@
 
     <div class="container">
         
-        <!-- BẢNG TÙY CHỈNH GIAO DIỆN (Trượt xuống) -->
+        <!-- BẢNG TÙY CHỈNH GIAO DIỆN -->
         <div id="cover-editor-panel">
             <div class="editor-header">
                 <div class="editor-tabs">
-                    <!-- Đã gán ID để xử lý sự kiện Tab -->
                     <div id="tab-btn-library">Thư viện hình nền</div>
                     <div class="active" id="tab-btn-custom">Tùy chỉnh giao diện</div>
                 </div>
@@ -182,71 +193,89 @@
             
             <!-- NỘI DUNG TAB 1: THƯ VIỆN HÌNH NỀN -->
             <div id="tab-content-library">
-                <div style="margin-bottom: 15px; font-size: 13px; color: #666;">Chọn một hình nền có sẵn dưới đây để thay đổi diện mạo trang cá nhân của bạn.</div>
-                <div class="theme-grid">
-                    <!-- Bạn thay đổi src="" thành tên các file ảnh bạn đã tải về nhé -->
-                    <img src="cover/april_fool.jpg" class="theme-thumbnail" alt="Theme 1">
-                    <img src="cover/hpbd_zingme.jpg" class="theme-thumbnail" alt="Theme 2">
-                    <img src="cover/june_women.jpg" class="theme-thumbnail" alt="Theme 3">
-                    <img src="cover/sad_quote.jpg" class="theme-thumbnail" alt="Theme 4">
-                    <img src="cover/t_ara.jpg" class="theme-thumbnail" alt="Theme 5">
-                    <img src="cover/sakura.jpg" class="theme-thumbnail" alt="Theme 6">
-                    <img src="cover/princess.png" class="theme-thumbnail" alt="Theme 7">
-                    <img src="good_morning.jpg" class="theme-thumbnail" alt="Theme 8">
+                <div class="library-categories" id="library-menu">
+                    <a href="#" class="active" data-target="grid-camxuc">CẢM XÚC</a>
+                    <a href="#" data-target="grid-showbiz">SHOWBIZ</a>
+                    <a href="#" data-target="grid-zingme">ZING ME</a>
+                    <a href="#" data-target="grid-hoathinh">HOẠT HÌNH</a>
+                </div>
+
+                <div class="theme-grid active-grid" id="grid-camxuc">
+                    <div class="theme-box"><img src="cover/sad_quote.jpg" class="theme-thumbnail"></div>
+                    <div class="theme-box"><img src="cover/good_morning.jpg" class="theme-thumbnail"></div>
+                    <div class="theme-box"><img src="cover/june_women.jpg" class="theme-thumbnail"></div>
+                </div>
+
+                <div class="theme-grid" id="grid-showbiz">
+                    <div class="theme-box"><img src="cover/t_ara.jpg" class="theme-thumbnail"></div>
+                </div>
+
+                <div class="theme-grid" id="grid-zingme">
+                    <div class="theme-box"><img src="cover/hpbd_zingme.jpg" class="theme-thumbnail"></div>
+                    <div class="theme-box"><img src="cover/april_fool.jpg" class="theme-thumbnail"></div>
+                </div>
+
+                <div class="theme-grid" id="grid-hoathinh">
+                    <div class="theme-box"><img src="cover/princess.png" class="theme-thumbnail"></div>
                 </div>
             </div>
 
-            <!-- NỘI DUNG TAB 2: TÙY CHỈNH GIAO DIỆN (Ảnh bìa từ máy) -->
+            <!-- NỘI DUNG TAB 2: TÙY CHỈNH GIAO DIỆN -->
             <div class="editor-body" id="tab-content-custom">
+                <!-- ① Ảnh Bìa -->
                 <div class="editor-col">
                     <div class="editor-col-title"><span>①</span> Ảnh bìa</div>
-                    <div class="upload-box green" id="btn-upload-cover">
-                        <div class="plus-circle">+</div>
-                    </div>
-                    <div class="editor-note">Cho phép định dạng ảnh PNG, JPG.<br>Dung lượng tối đa 5 MB.<br>Kích thước tối thiểu 980 x 300.</div>
+                    <div class="upload-box green" id="btn-upload-cover"><div class="plus-circle">+</div></div>
+                    <div class="editor-note">Cho phép định dạng ảnh PNG, JPG.<br>Dung lượng tối đa 5 MB.</div>
                 </div>
+                <!-- ② Ảnh Nền Trang -->
                 <div class="editor-col">
                     <div class="editor-col-title"><span>②</span> Ảnh nền</div>
-                    <div class="upload-box"><div class="plus-circle" style="color: #ddd; border-color: #ddd;">+</div></div>
-                    <div class="editor-note">Cho phép định dạng ảnh PNG, JPG.<br>Dung lượng tối đa 5 MB.<br>Kích thước tối thiểu 1000 x 300.</div>
+                    <!-- Đã gắn ID cho nút tải ảnh nền -->
+                    <div class="upload-box" id="btn-upload-bg"><div class="plus-circle" style="color: #ddd; border-color: #ddd;">+</div></div>
+                    <div class="editor-note">Dùng để thay đổi nền toàn trang web.<br>Dung lượng tối đa 5 MB.</div>
                 </div>
+                <!-- ③ Màu Nền -->
                 <div class="editor-col">
                     <div class="editor-col-title"><span>③</span> Màu nền</div>
                     <div class="color-palette">
-                        <div style="font-size: 11px; color: #999; margin-bottom: 10px; background: #f0f0f0; padding: 5px;">Màu gợi ý theo hình nền của bạn</div>
+                        <div style="font-size: 11px; color: #999; margin-bottom: 10px; background: #f0f0f0; padding: 5px;">Màu nền hiển thị nếu không có ảnh nền</div>
                         <div class="color-grid">
-                            <div class="color-item" style="background: #f1c40f;"></div><div class="color-item" style="background: #2ecc71;"></div>
-                            <div class="color-item" style="background: #e74c3c;"></div><div class="color-item" style="background: #3498db;"></div>
-                            <div class="color-item" style="background: #9b59b6;"></div><div class="color-item" style="background: #34495e;"></div>
-                            <div class="color-item" style="background: #1abc9c;"></div>
+                            <div class="color-item" style="background: #f1c40f;" data-color="#f1c40f"></div>
+                            <div class="color-item" style="background: #2ecc71;" data-color="#2ecc71"></div>
+                            <div class="color-item" style="background: #e74c3c;" data-color="#e74c3c"></div>
+                            <div class="color-item" style="background: #3498db;" data-color="#3498db"></div>
+                            <div class="color-item" style="background: #9b59b6;" data-color="#9b59b6"></div>
+                            <div class="color-item" style="background: #34495e;" data-color="#34495e"></div>
+                            <div class="color-item" style="background: #1abc9c;" data-color="#1abc9c"></div>
+                            <div class="color-item" style="background: #e9eaed;" data-color="#e9eaed" title="Mặc định"></div>
                         </div>
-                        <div class="color-picker-row"><span>Chọn màu bạn thích</span><input type="text" value="#2b78c5"></div>
+                        <div class="color-picker-row">
+                            <span>Mã màu:</span>
+                            <input type="text" id="input-bg-color" value="#e9eaed">
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- NÚT LƯU CHUNG -->
             <div class="editor-footer">
-                <button class="btn-delete-theme">🗑 Xóa giao diện này</button>
+                <button class="btn-delete-theme" id="btn-delete-theme">🗑 Xóa giao diện này</button>
                 <button class="btn-update-theme" id="btn-save-cover">Cập nhật giao diện</button>
             </div>
         </div>
 
-        <!-- NEW HEADER LAYOUT -->
+        <!-- HEADER CHÍNH -->
         <div class="profile-header-wrap">
             <div class="cover-photo" id="main-cover-photo">
-                
                 <div class="edit-cover-icon" id="btn-open-editor">
-                    <img src="photo_editing.png" width="14" height="14" style="object-fit: contain;"> Sửa ảnh bìa
+                    <img src="photo_editing.png" width="14" height="14" style="object-fit: contain;"> Sửa giao diện
                 </div>
-                
                 <div class="avatar-container" id="avatar-container">
                     <div class="avatar" id="avatar-box">🎮</div>
                     <div class="edit-avatar-btn">
                         <img src="photo_editing.png" width="14" height="14" style="object-fit: contain;"> Sửa avatar
                     </div>
                 </div>
-
                 <div class="user-info-cover">
                     <h1 class="display-name" id="display-fullname">Đang tải...</h1>
                 </div>
@@ -259,17 +288,9 @@
                 </div>
                 <div class="profile-tabs-container">
                     <div class="profile-tabs">
-                        <a href="#">Tường nhà</a>
-                        <a href="#" class="active">Thông tin</a>
-                        <a href="#">Huy Chương</a>
-                        <a href="#">Bạn bè</a>
-                        <a href="#">Photo (0)</a>
-                        <a href="#">Blog (0)</a>
-                        <a href="#">Quan tâm (6)</a>
+                        <a href="#">Tường nhà</a><a href="#" class="active">Thông tin</a><a href="#">Huy Chương</a><a href="#">Bạn bè</a><a href="#">Photo (0)</a><a href="#">Blog (0)</a><a href="#">Quan tâm (6)</a>
                     </div>
-                    <div class="tabs-right">
-                        <strong class="zm-coin"><span id="display-zm">0</span> ZM</strong>
-                    </div>
+                    <div class="tabs-right"><strong class="zm-coin"><span id="display-zm">0</span> ZM</strong></div>
                 </div>
             </div>
         </div>
@@ -278,9 +299,7 @@
         <div class="content-body">
             <div class="col-left">
                 <strong>Bạn nên nhập thông tin chính xác.</strong><br>Thông tin của bạn sẽ được bảo mật tuyệt đối...
-                <div class="illustration">
-                    <img src="profile.png" alt="Minh họa">
-                </div>
+                <div class="illustration"><img src="profile.png" alt="Minh họa"></div>
             </div>
             <div class="col-right">
                 <div class="section-title"><span>👤</span> Thông tin cơ bản</div>
@@ -299,7 +318,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT FIREBASE -->
+    <!-- SCRIPT FIREBASE & LOGIC -->
     <script type="module">
         const daySelect = document.getElementById('input-dob-day');
         const monthSelect = document.getElementById('input-dob-month');
@@ -326,9 +345,14 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        
         let currentUser = null;
 
-        // Load dữ liệu
+        // BIẾN LƯU TRẠNG THÁI GIAO DIỆN GỐC (Dùng để khôi phục khi tắt bảng mà không lưu)
+        let originalCoverUrl = "";
+        let originalBgUrl = "";
+        let originalBgColor = "#e9eaed";
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -341,13 +365,28 @@
                         document.getElementById('display-level').innerText = "LEVEL " + (data.level || 1);
                         document.getElementById('display-zm').innerText = data.zm_coin || 0;
                         
-                        if (data.avatarUrl) {
-                            document.getElementById('avatar-box').innerHTML = `<img src="${data.avatarUrl}">`;
-                        }
+                        if (data.avatarUrl) document.getElementById('avatar-box').innerHTML = `<img src="${data.avatarUrl}">`;
+                        
+                        // Load Ảnh Bìa
                         if (data.coverUrl) {
+                            originalCoverUrl = data.coverUrl;
                             document.getElementById('main-cover-photo').style.backgroundImage = `url(${data.coverUrl})`;
                         }
+                        // Load Ảnh Nền (Background Image)
+                        if (data.bgUrl) {
+                            originalBgUrl = data.bgUrl;
+                            document.body.style.backgroundImage = `url(${data.bgUrl})`;
+                            document.body.style.backgroundAttachment = "fixed";
+                            document.body.style.backgroundSize = "cover";
+                        }
+                        // Load Màu Nền (Background Color)
+                        if (data.bgColor) {
+                            originalBgColor = data.bgColor;
+                            document.body.style.backgroundColor = data.bgColor;
+                            document.getElementById('input-bg-color').value = data.bgColor;
+                        }
                         
+                        // Form
                         document.getElementById('input-fullname').value = data.displayName || data.fullname || "";
                         document.getElementById('input-gender').value = data.gender || "Nam";
                         if(data.dob) {
@@ -364,97 +403,185 @@
                         document.getElementById('loading-screen').style.display = 'none';
                     }
                 } catch (e) { console.error(e); }
-            } else {
-                window.location.href = "index.html";
-            }
+            } else { window.location.href = "index.html"; }
         });
 
-        // --- XỬ LÝ ẢNH BÌA (TÙY CHỈNH & THƯ VIỆN) ---
+        // --- XỬ LÝ GIAO DIỆN: ẢNH BÌA, ẢNH NỀN, MÀU NỀN ---
         const btnOpenEditor = document.getElementById('btn-open-editor');
         const btnCloseEditor = document.getElementById('btn-close-editor');
         const coverEditorPanel = document.getElementById('cover-editor-panel');
+        
         const btnUploadCover = document.getElementById('btn-upload-cover');
         const coverFileInput = document.getElementById('cover-file-input');
+        
+        const btnUploadBg = document.getElementById('btn-upload-bg');
+        const bgFileInput = document.getElementById('bg-file-input');
+        
+        const colorItems = document.querySelectorAll('.color-item');
+        const inputBgColor = document.getElementById('input-bg-color');
+        
         const mainCoverPhoto = document.getElementById('main-cover-photo');
         const btnSaveCover = document.getElementById('btn-save-cover');
-        const btnDeleteTheme = document.querySelector('.btn-delete-theme');
+        const btnDeleteTheme = document.getElementById('btn-delete-theme');
         
+        // Biến lưu trạng thái thay đổi tạm thời
         let pendingCoverBase64 = null; 
+        let pendingBgBase64 = null;
+        let pendingBgColor = null;
 
-        // Xử lý Tabs
+        // Xử lý Tabs Thư viện & Tùy chỉnh
         const tabBtnLibrary = document.getElementById('tab-btn-library');
         const tabBtnCustom = document.getElementById('tab-btn-custom');
         const tabContentLibrary = document.getElementById('tab-content-library');
         const tabContentCustom = document.getElementById('tab-content-custom');
 
         tabBtnLibrary.addEventListener('click', () => {
-            tabBtnLibrary.classList.add('active');
-            tabBtnCustom.classList.remove('active');
-            tabContentLibrary.style.display = 'block';
-            tabContentCustom.style.display = 'none';
+            tabBtnLibrary.classList.add('active'); tabBtnCustom.classList.remove('active');
+            tabContentLibrary.style.display = 'block'; tabContentCustom.style.display = 'none';
+            btnDeleteTheme.style.visibility = 'hidden'; 
         });
 
         tabBtnCustom.addEventListener('click', () => {
-            tabBtnCustom.classList.add('active');
-            tabBtnLibrary.classList.remove('active');
-            tabContentCustom.style.display = 'flex';
-            tabContentLibrary.style.display = 'none';
+            tabBtnCustom.classList.add('active'); tabBtnLibrary.classList.remove('active');
+            tabContentCustom.style.display = 'flex'; tabContentLibrary.style.display = 'none';
+            btnDeleteTheme.style.visibility = 'visible';
         });
 
-        // Xử lý chọn ảnh từ Thư viện (MỚI)
-        const themeThumbnails = document.querySelectorAll('.theme-thumbnail');
-        themeThumbnails.forEach(thumb => {
-            thumb.addEventListener('click', () => {
-                pendingCoverBase64 = thumb.src; // Lấy link ảnh
-                mainCoverPhoto.style.backgroundImage = `url(${pendingCoverBase64})`; // Xem trước
+        // Menu danh mục Thư viện
+        const libraryLinks = document.querySelectorAll('#library-menu a');
+        const themeGrids = document.querySelectorAll('.theme-grid');
+        libraryLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                libraryLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                themeGrids.forEach(grid => grid.classList.remove('active-grid'));
+                document.getElementById(link.getAttribute('data-target')).classList.add('active-grid');
             });
         });
 
-        // Mở / Đóng panel
+        // Click ảnh Thư viện -> Chọn làm ảnh bìa
+        const themeThumbnails = document.querySelectorAll('.theme-thumbnail');
+        themeThumbnails.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                pendingCoverBase64 = thumb.src; 
+                mainCoverPhoto.style.backgroundImage = `url(${pendingCoverBase64})`; 
+            });
+        });
+
+        // Mở Panel
         btnOpenEditor.addEventListener('click', () => { coverEditorPanel.style.display = 'block'; });
-        btnCloseEditor.addEventListener('click', () => { coverEditorPanel.style.display = 'none'; pendingCoverBase64 = null; });
         
-        // Tải ảnh từ máy
+        // Đóng Panel -> Khôi phục giao diện gốc nếu chưa lưu
+        btnCloseEditor.addEventListener('click', () => { 
+            coverEditorPanel.style.display = 'none'; 
+            // Xóa biến tạm
+            pendingCoverBase64 = null; pendingBgBase64 = null; pendingBgColor = null;
+            // Khôi phục giao diện
+            mainCoverPhoto.style.backgroundImage = originalCoverUrl ? `url(${originalCoverUrl})` : '';
+            document.body.style.backgroundImage = originalBgUrl ? `url(${originalBgUrl})` : '';
+            document.body.style.backgroundColor = originalBgColor;
+            inputBgColor.value = originalBgColor;
+        });
+        
+        // 1. CHỌN ẢNH BÌA
         btnUploadCover.addEventListener('click', () => { coverFileInput.click(); });
         coverFileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
+            const file = e.target.files[0]; if (!file) return;
+            const reader = new FileReader(); reader.readAsDataURL(file);
             reader.onload = () => {
                 pendingCoverBase64 = reader.result;
                 mainCoverPhoto.style.backgroundImage = `url(${pendingCoverBase64})`; 
             };
         });
 
-        // Nút Lưu cập nhật giao diện (Hoạt động cho cả tải lên & Thư viện)
+        // 2. CHỌN ẢNH NỀN
+        btnUploadBg.addEventListener('click', () => { bgFileInput.click(); });
+        bgFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0]; if (!file) return;
+            const reader = new FileReader(); reader.readAsDataURL(file);
+            reader.onload = () => {
+                pendingBgBase64 = reader.result;
+                document.body.style.backgroundImage = `url(${pendingBgBase64})`; 
+                document.body.style.backgroundAttachment = "fixed";
+                document.body.style.backgroundSize = "cover";
+            };
+        });
+
+        // 3. CHỌN MÀU NỀN
+        colorItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const color = item.getAttribute('data-color');
+                pendingBgColor = color;
+                document.body.style.backgroundColor = color;
+                inputBgColor.value = color;
+            });
+        });
+        
+        inputBgColor.addEventListener('input', (e) => {
+            const color = e.target.value;
+            pendingBgColor = color;
+            document.body.style.backgroundColor = color;
+        });
+
+        // NÚT CẬP NHẬT (LƯU LÊN FIREBASE)
         btnSaveCover.addEventListener('click', async () => {
-            if (!currentUser || !pendingCoverBase64) { coverEditorPanel.style.display = 'none'; return; }
+            if (!currentUser) return;
+            
+            // Lọc ra các thay đổi
+            let updateData = {};
+            if (pendingCoverBase64 !== null) updateData.coverUrl = pendingCoverBase64;
+            if (pendingBgBase64 !== null) updateData.bgUrl = pendingBgBase64;
+            if (pendingBgColor !== null) updateData.bgColor = pendingBgColor;
+
+            // Nếu không sửa gì cả thì đóng panel
+            if (Object.keys(updateData).length === 0) {
+                coverEditorPanel.style.display = 'none'; return;
+            }
+
             btnSaveCover.innerText = "Đang lưu...";
             try {
-                const userRef = doc(db, "users", currentUser.uid);
-                await updateDoc(userRef, { coverUrl: pendingCoverBase64 });
+                await updateDoc(doc(db, "users", currentUser.uid), updateData);
+                
+                // Cập nhật lại trạng thái gốc
+                if (updateData.coverUrl) originalCoverUrl = updateData.coverUrl;
+                if (updateData.bgUrl) originalBgUrl = updateData.bgUrl;
+                if (updateData.bgColor) originalBgColor = updateData.bgColor;
+
+                // Xóa biến tạm
+                pendingCoverBase64 = null; pendingBgBase64 = null; pendingBgColor = null;
                 coverEditorPanel.style.display = 'none';
-                pendingCoverBase64 = null;
-            } catch (error) { console.error(error); alert("Không thể lưu ảnh bìa."); } 
+            } catch (error) { console.error(error); alert("Không thể lưu giao diện."); } 
             finally { btnSaveCover.innerText = "Cập nhật giao diện"; }
         });
 
-        // Xóa giao diện (Xóa ảnh bìa)
+        // NÚT XÓA GIAO DIỆN (ĐƯA VỀ MẶC ĐỊNH)
         btnDeleteTheme.addEventListener('click', async () => {
             if (!currentUser) return;
-            if (!confirm("Bạn có chắc chắn muốn xóa ảnh bìa và quay về mặc định?")) return;
+            if (!confirm("Hành động này sẽ xóa toàn bộ Ảnh bìa, Ảnh nền và Màu nền.\nBạn có chắc chắn muốn quay về mặc định?")) return;
             btnDeleteTheme.innerText = "Đang xóa...";
             try {
-                await updateDoc(doc(db, "users", currentUser.uid), { coverUrl: "" });
+                // Xóa data trên Firebase
+                await updateDoc(doc(db, "users", currentUser.uid), { 
+                    coverUrl: "", 
+                    bgUrl: "", 
+                    bgColor: "#e9eaed" 
+                });
+                
+                // Trả về mặc định trên màn hình
+                originalCoverUrl = ""; originalBgUrl = ""; originalBgColor = "#e9eaed";
+                pendingCoverBase64 = null; pendingBgBase64 = null; pendingBgColor = null;
+
                 mainCoverPhoto.style.backgroundImage = '';
-                coverEditorPanel.style.display = 'none';
-                pendingCoverBase64 = null; 
-                alert("Đã xóa ảnh bìa thành công!");
+                document.body.style.backgroundImage = '';
+                document.body.style.backgroundColor = '#e9eaed';
+                inputBgColor.value = '#e9eaed';
+
+                coverEditorPanel.style.display = 'none'; 
+                alert("Đã khôi phục giao diện mặc định!");
             } catch (error) { console.error(error); alert("Không thể xóa."); } 
             finally { btnDeleteTheme.innerText = "🗑 Xóa giao diện này"; }
         });
-
 
         // --- LOGIC CẮT ẢNH AVATAR ---
         const avatarFileInput = document.getElementById('avatar-file-input');
@@ -462,39 +589,29 @@
         const cropImage = document.getElementById('crop-image');
         const cropArea = document.getElementById('crop-area');
         const zoomSlider = document.getElementById('zoom-slider');
-        
-        let currentImgObj = new Image();
-        let scale = 1, translateX = 0, translateY = 0, isDragging = false, startX, startY;
+        let currentImgObj = new Image(), scale = 1, translateX = 0, translateY = 0, isDragging = false, startX, startY;
 
         document.getElementById('avatar-container').addEventListener('click', () => avatarFileInput.click());
         document.getElementById('btn-reselect').addEventListener('click', () => avatarFileInput.click());
         document.getElementById('close-modal-btn').addEventListener('click', () => cropModal.style.display = 'none');
 
         avatarFileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
+            const file = e.target.files[0]; if (!file) return;
+            const reader = new FileReader(); reader.readAsDataURL(file);
             reader.onload = () => {
-                cropImage.src = reader.result;
-                currentImgObj.src = reader.result;
-                currentImgObj.onload = () => {
-                    scale = 1; translateX = 0; translateY = 0; zoomSlider.value = 1;
-                    autoSize(); cropModal.style.display = 'flex';
-                };
+                cropImage.src = reader.result; currentImgObj.src = reader.result;
+                currentImgObj.onload = () => { scale = 1; translateX = 0; translateY = 0; zoomSlider.value = 1; autoSize(); cropModal.style.display = 'flex'; };
             };
         });
 
         function updateImageTransform() { cropImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`; }
-
         cropArea.addEventListener('mousedown', (e) => { isDragging = true; startX = e.clientX - translateX; startY = e.clientY - translateY; });
         window.addEventListener('mousemove', (e) => { if (!isDragging) return; translateX = e.clientX - startX; translateY = e.clientY - startY; updateImageTransform(); });
         window.addEventListener('mouseup', () => { isDragging = false; });
         zoomSlider.addEventListener('input', (e) => { scale = e.target.value; updateImageTransform(); });
 
         function autoSize() {
-            scale = Math.max(200 / currentImgObj.width, 200 / currentImgObj.height);
-            translateX = 0; translateY = 0;
+            scale = Math.max(200 / currentImgObj.width, 200 / currentImgObj.height); translateX = 0; translateY = 0;
             cropImage.style.width = currentImgObj.width + 'px'; cropImage.style.height = currentImgObj.height + 'px';
             cropImage.style.left = (200 - currentImgObj.width) / 2 + 'px'; cropImage.style.top = (200 - currentImgObj.height) / 2 + 'px';
             zoomSlider.value = scale; updateImageTransform();
@@ -519,13 +636,10 @@
             const name = document.getElementById('input-fullname').value.trim();
             try {
                 await updateDoc(doc(db, "users", currentUser.uid), {
-                    displayName: name,
-                    gender: document.getElementById('input-gender').value,
+                    displayName: name, gender: document.getElementById('input-gender').value,
                     dob: `${document.getElementById('input-dob-day').value}/${document.getElementById('input-dob-month').value}/${document.getElementById('input-dob-year').value}`,
-                    phone: document.getElementById('input-phone').value.trim(),
-                    cmnd: document.getElementById('input-cmnd').value.trim(),
-                    address: document.getElementById('input-address').value.trim(),
-                    email: document.getElementById('input-email').value.trim(),
+                    phone: document.getElementById('input-phone').value.trim(), cmnd: document.getElementById('input-cmnd').value.trim(),
+                    address: document.getElementById('input-address').value.trim(), email: document.getElementById('input-email').value.trim(),
                     bio: document.getElementById('input-bio').value.trim()
                 });
                 document.getElementById('display-fullname').innerText = name;
