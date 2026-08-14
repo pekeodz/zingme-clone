@@ -6,141 +6,162 @@
     <title>Trang cá nhân | Zing Me</title>
     <style>
         /* --- CSS CƠ BẢN VÀ BỐ CỤC --- */
-        body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #3878b3; color: #333; }
+        body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #e9eaed; color: #333; }
         a { text-decoration: none; color: #333; }
         
-        .navbar { background-color: #ffffff; height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 50px; border-bottom: 1px solid #ccc; position: sticky; top: 0; z-index: 100; }
+        .navbar { background-color: #2b2b2b; height: 45px; display: flex; align-items: center; justify-content: space-between; padding: 0 50px; border-bottom: 1px solid #111; position: sticky; top: 0; z-index: 100; }
         .nav-left { display: flex; align-items: center; gap: 30px; }
         .logo { font-size: 24px; font-weight: bold; text-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
-        .logo-zing { color: #2b78c5; }
+        .logo-zing { color: #ffffff; }
         .logo-m { color: #f2467d; }
         .logo-e { color: #9bc831; }
         
-        .search-box { background: #f0f0f0; border-radius: 20px; padding: 5px 15px; display: flex; align-items: center; width: 250px; }
+        .search-box { background: white; border-radius: 3px; padding: 3px 10px; display: flex; align-items: center; width: 250px; }
         .search-box input { border: none; background: transparent; outline: none; width: 100%; font-size: 13px; }
-        .nav-menu { display: flex; gap: 20px; font-weight: bold; font-size: 13px; color: #666; }
-        .nav-menu a { color: #666; }
-        .nav-menu a:hover { color: #2b78c5; }
+        .nav-menu { display: flex; gap: 20px; font-weight: bold; font-size: 12px; color: #ccc; }
+        .nav-menu a { color: #ccc; }
+        .nav-menu a:hover { color: white; }
         .nav-right { display: flex; align-items: center; gap: 15px; }
-        .nav-icon { color: #999; font-size: 18px; cursor: pointer; }
-        .btn-logout { background: #f0f0f0; border: none; padding: 5px 10px; font-size: 12px; cursor: pointer; border-radius: 3px; font-weight: bold; color: #666; }
-        .btn-logout:hover { background: #e0e0e0; }
+        .nav-icon { color: #ccc; font-size: 16px; cursor: pointer; }
+        .btn-logout { background: transparent; border: 1px solid #ccc; padding: 3px 8px; font-size: 11px; cursor: pointer; border-radius: 3px; font-weight: bold; color: #ccc; }
+        .btn-logout:hover { background: #444; color: white; }
 
-        .container { width: 980px; margin: 0 auto; background: white; min-height: 800px; box-shadow: 0 0 10px rgba(0,0,0,0.2); position: relative; }
+        .container { width: 980px; margin: 15px auto; background: transparent; min-height: 800px; position: relative; }
 
         /* --- BẢNG TÙY CHỈNH GIAO DIỆN MỚI --- */
-        #cover-editor-panel {
-            display: none; /* Mặc định ẩn */
-            background: #f7f9fa;
-            border-bottom: 1px solid #ddd;
-        }
-        .editor-header {
-            background-color: #243a4e; /* Màu xanh đen đậm */
-            height: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            color: #9ab4cc;
-            font-size: 13px;
-            font-weight: bold;
-        }
+        #cover-editor-panel { display: none; background: #f7f9fa; border: 1px solid #ddd; border-bottom: none; border-radius: 3px 3px 0 0; }
+        .editor-header { background-color: #243a4e; height: 40px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; color: #9ab4cc; font-size: 13px; font-weight: bold; border-radius: 3px 3px 0 0; }
         .editor-tabs { display: flex; height: 100%; }
         .editor-tabs div { padding: 0 20px; display: flex; align-items: center; cursor: pointer; position: relative; }
         .editor-tabs div.active { color: white; }
-        .editor-tabs div.active::after {
-            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            border-width: 6px; border-style: solid; border-color: transparent transparent #f7f9fa transparent;
-        }
+        .editor-tabs div.active::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); border-width: 6px; border-style: solid; border-color: transparent transparent #f7f9fa transparent; }
         .editor-close { font-size: 18px; cursor: pointer; color: #9ab4cc; }
         .editor-close:hover { color: white; }
-
         .editor-body { padding: 20px; display: flex; gap: 30px; }
         .editor-col { flex: 1; }
         .editor-col-title { font-size: 14px; color: #555; margin-bottom: 10px; font-weight: bold; }
         .editor-col-title span { color: #bbb; margin-right: 5px; }
-        
-        .upload-box {
-            height: 100px;
-            border: 2px dashed #ddd;
-            border-radius: 5px;
-            display: flex; justify-content: center; align-items: center;
-            background: white; cursor: pointer; transition: all 0.2s;
-        }
+        .upload-box { height: 100px; border: 2px dashed #ddd; border-radius: 5px; display: flex; justify-content: center; align-items: center; background: white; cursor: pointer; transition: all 0.2s; }
         .upload-box.green { border-color: #27ae60; }
         .upload-box.green:hover { background: #f0fdf4; }
-        
         .plus-circle { width: 36px; height: 36px; border: 2px solid #ddd; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; color: #ddd; font-weight: bold; }
         .upload-box.green .plus-circle { border-color: #27ae60; color: #27ae60; }
-
         .editor-note { font-size: 11px; color: #999; margin-top: 10px; line-height: 1.5; }
-        
-        /* Bảng màu */
         .color-palette { background: white; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
         .color-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 10px; }
         .color-item { height: 20px; border-radius: 3px; cursor: pointer; }
         .color-picker-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
         .color-picker-row input { border: 1px solid #ddd; padding: 3px; width: 60px; font-size: 12px; outline: none;}
-
         .editor-footer { padding: 15px 20px; display: flex; justify-content: flex-end; align-items: center; gap: 15px; border-top: 1px solid #eee; background: white; }
         .btn-delete-theme { background: transparent; border: none; color: #777; font-size: 13px; font-weight: bold; cursor: pointer; }
         .btn-update-theme { background: #2b78c5; color: white; border: none; padding: 7px 15px; border-radius: 3px; font-weight: bold; font-size: 13px; cursor: pointer; }
 
-        /* --- COVER PHOTO VÀ ICON CHỈNH SỬA --- */
+        /* --- LAYOUT HEADER MỚI CỦA ZING ME (AVATAR TRÁI) --- */
+        .profile-header-wrap {
+            background: white;
+            border: 1px solid #d3d6db;
+            border-radius: 3px;
+            margin-bottom: 15px;
+        }
+
         .cover-photo { 
-            height: 280px; 
-            background: linear-gradient(to bottom, #7b4397, #215f92); 
+            height: 250px; 
+            background: linear-gradient(to bottom, #d6e8f9, #f2f7fc); 
             background-size: cover;
             background-position: center;
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
+            display: block; /* Đổi về block để dễ định vị absolute */
+            border-bottom: 1px solid #d3d6db;
+            border-radius: 3px 3px 0 0;
             transition: background 0.3s;
         }
 
-        /* Icon hiện lên khi trỏ chuột vào Cover */
         .edit-cover-icon {
             position: absolute;
-            bottom: 20px; right: 20px;
+            top: 15px; right: 15px;
+            background: rgba(0,0,0,0.6);
             color: white;
-            font-size: 20px;
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 3px;
             cursor: pointer;
-            opacity: 0; /* Ẩn đi */
+            opacity: 0; 
             transition: opacity 0.2s;
+        }
+        .cover-photo:hover .edit-cover-icon { opacity: 1; }
+
+        .avatar-container { 
+            position: absolute; 
+            bottom: -40px; /* Nửa trong nửa ngoài cover */
+            left: 30px; 
+            width: 140px; 
+            height: 140px; 
+            cursor: pointer; 
+            z-index: 10;
+        }
+        .avatar { 
+            width: 100%; height: 100%; 
+            background-color: #0099ff; 
+            border: 4px solid white; 
+            border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; 
+            font-size: 50px; color: white; 
+            overflow: hidden; box-sizing: border-box; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2); 
+        }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .edit-avatar-btn {
+            position: absolute;
+            top: 10px; right: -20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 11px;
+            display: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .avatar-container:hover .edit-avatar-btn { display: block; }
+
+        .user-info-cover {
+            position: absolute;
+            bottom: 15px;
+            left: 190px;
+            color: white;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
-        .cover-photo:hover .edit-cover-icon { opacity: 1; /* Hiện ra khi hover */ }
+        .display-name { font-size: 24px; font-weight: bold; margin: 0; }
 
-        /* --- CÁC PHẦN CÒN LẠI (Avatar, Tabs, Body) --- */
-        .avatar-container { position: relative; margin-top: 20px; width: 120px; height: 120px; border-radius: 50%; cursor: pointer; }
-        .avatar { width: 100%; height: 100%; background-color: #f29c1f; border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 50px; color: white; overflow: hidden; box-sizing: border-box; }
-        .avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .avatar-overlay { position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; border-radius: 50%; background: rgba(0, 0, 0, 0.4); display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; }
-        .avatar-container:hover .avatar-overlay { opacity: 1; }
-        .camera-icon { width: 40px; height: 40px; background-color: #00965e; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        /* Vùng trắng chứa Stats và Tabs */
+        .profile-bottom-area {
+            padding-left: 190px;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .stats-row { margin-top: 10px; display: flex; align-items: center; gap: 10px; }
+        .level-badge { background: #1e7ec8; color: white; padding: 2px 5px; border-radius: 3px; font-weight: bold; font-size: 11px; }
 
-        .display-name { font-size: 22px; font-weight: bold; margin: 10px 0 0 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
-        .username-handle { font-size: 14px; color: #ddd; margin-top: 5px; }
+        .profile-tabs-container { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-right: 20px; }
+        .profile-tabs { display: flex; align-items: center; height: 35px; }
+        .profile-tabs a { padding: 0 20px 10px 0; display: flex; align-items: center; font-weight: bold; font-size: 14px; color: #555; border-bottom: 3px solid transparent; }
+        .profile-tabs a:hover { color: #1e7ec8; }
+        .profile-tabs a.active { border-bottom-color: #1e7ec8; color: #1e7ec8; }
+        
+        .tabs-right { font-size: 12px; font-weight: bold; }
+        .zm-coin { color: #d77f10; }
 
-        .profile-tabs { display: flex; justify-content: space-between; align-items: center; height: 50px; border-bottom: 1px solid #ddd; padding: 0 20px; }
-        .tabs-left { display: flex; height: 100%; }
-        .tabs-left a { padding: 0 20px; display: flex; align-items: center; font-weight: bold; font-size: 14px; color: #555; border-bottom: 3px solid transparent; }
-        .tabs-left a:hover { color: #2b78c5; }
-        .tabs-left a.active { border-bottom-color: #2b78c5; color: #2b78c5; }
-        .tabs-right { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: bold; }
-        .level-badge { background: #5bc0de; color: white; padding: 2px 5px; border-radius: 3px; }
-        .zm-coin { color: #f29c1f; }
-
-        .content-body { display: flex; padding: 30px 20px; gap: 40px; }
-        .col-left { width: 300px; text-align: center; font-size: 13px; color: #666; line-height: 1.5; border-right: 1px dashed #ccc; padding-right: 30px; }
+        /* --- BỐ CỤC NỘI DUNG FORM BÊN DƯỚI --- */
+        .content-body { display: flex; padding: 20px; gap: 20px; background: white; border: 1px solid #d3d6db; border-radius: 3px; }
+        .col-left { width: 300px; text-align: center; font-size: 13px; color: #666; line-height: 1.5; border-right: 1px dashed #ccc; padding-right: 20px; }
         .col-left strong { color: #f29c1f; font-size: 14px; }
         .illustration { margin-top: 20px; width: 100%; height: 250px; display: flex; align-items: center; justify-content: center; }
         .illustration img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        .col-right { flex: 1; }
+        .col-right { flex: 1; padding-left: 10px; }
         .section-title { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .section-title span { background: #555; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
         .form-row { display: flex; align-items: center; margin-bottom: 15px; }
@@ -151,7 +172,7 @@
 
         .btn-group { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
         .btn-cancel { background: #f0f0f0; border: 1px solid #ccc; padding: 8px 20px; font-weight: bold; color: #555; cursor: pointer; border-radius: 3px; }
-        .btn-save { background: #2b78c5; border: none; padding: 8px 25px; font-weight: bold; color: white; cursor: pointer; border-radius: 3px; }
+        .btn-save { background: #1e7ec8; border: none; padding: 8px 25px; font-weight: bold; color: white; cursor: pointer; border-radius: 3px; }
         
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 18px; font-weight: bold; color: #2b78c5; }
 
@@ -200,7 +221,7 @@
         <div class="nav-left">
             <div class="logo"><span class="logo-zing">Zing</span> <span class="logo-m">m</span><span class="logo-e">e</span></div>
             <div class="search-box"><input type="text" placeholder="Tìm game, bạn bè, ..."><span>🔍</span></div>
-            <div class="nav-menu"><a href="#">360 GAME</a><a href="#">APPSTORE</a><a href="#" style="color: #f2467d;">MEGIFT 🎁</a></div>
+            <div class="nav-menu"><a href="#">GAME</a><a href="#">NEWS</a><a href="#">MP3</a></div>
         </div>
         <div class="nav-right">
             <span class="nav-icon">🔔</span><span class="nav-icon">🏆</span><span class="nav-icon">💬</span>
@@ -221,7 +242,6 @@
             </div>
             
             <div class="editor-body">
-                <!-- Cột 1: Ảnh bìa -->
                 <div class="editor-col">
                     <div class="editor-col-title"><span>①</span> Ảnh bìa</div>
                     <div class="upload-box green" id="btn-upload-cover">
@@ -229,17 +249,11 @@
                     </div>
                     <div class="editor-note">Cho phép định dạng ảnh PNG, JPG.<br>Dung lượng tối đa 5 MB.<br>Kích thước tối thiểu 980 x 300.</div>
                 </div>
-
-                <!-- Cột 2: Ảnh nền (Trang trí cho giống bản gốc) -->
                 <div class="editor-col">
                     <div class="editor-col-title"><span>②</span> Ảnh nền</div>
-                    <div class="upload-box">
-                        <div class="plus-circle" style="color: #ddd; border-color: #ddd;">+</div>
-                    </div>
+                    <div class="upload-box"><div class="plus-circle" style="color: #ddd; border-color: #ddd;">+</div></div>
                     <div class="editor-note">Cho phép định dạng ảnh PNG, JPG.<br>Dung lượng tối đa 5 MB.<br>Kích thước tối thiểu 1000 x 300.</div>
                 </div>
-
-                <!-- Cột 3: Màu nền (Trang trí cho giống bản gốc) -->
                 <div class="editor-col">
                     <div class="editor-col-title"><span>③</span> Màu nền</div>
                     <div class="color-palette">
@@ -250,53 +264,60 @@
                             <div class="color-item" style="background: #9b59b6;"></div><div class="color-item" style="background: #34495e;"></div>
                             <div class="color-item" style="background: #1abc9c;"></div>
                         </div>
-                        <div class="color-picker-row">
-                            <span>Chọn màu bạn thích</span>
-                            <input type="text" value="#2b78c5">
-                        </div>
+                        <div class="color-picker-row"><span>Chọn màu bạn thích</span><input type="text" value="#2b78c5"></div>
                     </div>
                 </div>
             </div>
-            
             <div class="editor-footer">
                 <button class="btn-delete-theme">🗑 Xóa giao diện này</button>
                 <button class="btn-update-theme" id="btn-save-cover">Cập nhật giao diện</button>
             </div>
         </div>
 
-        <!-- KHU VỰC ẢNH BÌA CHÍNH -->
-        <div class="cover-photo" id="main-cover-photo">
-            
-            <!-- Icon Hình ảnh + Cây bút hiện lên khi Hover -->
-            <div class="edit-cover-icon" id="btn-open-editor" title="Đổi giao diện">
-                🖼️✏️
-            </div>
-            
-            <div class="avatar-container" id="avatar-container">
-                <div class="avatar" id="avatar-box">🎮</div>
-                <div class="avatar-overlay"><div class="camera-icon">📷</div></div>
-            </div>
+        <!-- NEW HEADER LAYOUT -->
+        <div class="profile-header-wrap">
+            <div class="cover-photo" id="main-cover-photo">
+                <div class="edit-cover-icon" id="btn-open-editor">📷 Sửa ảnh bìa</div>
+                
+                <div class="avatar-container" id="avatar-container">
+                    <div class="avatar" id="avatar-box">🎮</div>
+                    <div class="edit-avatar-btn">📷 Sửa avatar</div>
+                </div>
 
-            <h1 class="display-name" id="display-fullname">Đang tải...</h1>
-            <div class="username-handle" id="display-username">@dangtai...</div>
+                <div class="user-info-cover">
+                    <h1 class="display-name" id="display-fullname">Đang tải...</h1>
+                </div>
+            </div>
+            
+            <div class="profile-bottom-area">
+                <div class="stats-row">
+                    <span class="level-badge" id="display-level">LEVEL 1</span>
+                    <span style="font-size: 12px; color: #666;">Lượt xem: 2</span>
+                </div>
+                <div class="profile-tabs-container">
+                    <div class="profile-tabs">
+                        <a href="#">Tường nhà</a>
+                        <a href="#" class="active">Thông tin</a>
+                        <a href="#">Huy Chương</a>
+                        <a href="#">Bạn bè</a>
+                        <a href="#">Photo (0)</a>
+                        <a href="#">Blog (0)</a>
+                        <a href="#">Quan tâm (6)</a>
+                    </div>
+                    <div class="tabs-right">
+                        <strong class="zm-coin"><span id="display-zm">0</span> ZM</strong>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="profile-tabs">
-            <div class="tabs-left">
-                <a href="#">Tường nhà</a><a href="#" class="active">Thông tin</a><a href="#">Bạn bè</a><a href="#">Photo</a><a href="#">Blog</a><a href="#">Quan tâm</a>
-            </div>
-            <div class="tabs-right">
-                <span class="level-badge" id="display-level">LEVEL 1</span><strong class="zm-coin"><span id="display-zm">0</span> ZM</strong>
-            </div>
-        </div>
-
+        <!-- FORM CÁ NHÂN -->
         <div class="content-body">
             <div class="col-left">
                 <strong>Bạn nên nhập thông tin chính xác.</strong><br>Thông tin của bạn sẽ được bảo mật tuyệt đối...
-                <div class="illustration"><img src="profile.png" alt="Minh họa"></div>
+                <div class="illustration"><img src="https://i.imgur.com/V6336Uj.png" alt="Minh họa"></div>
             </div>
             <div class="col-right">
-                <!-- (Form nhập liệu giữ nguyên như bản trước) -->
                 <div class="section-title"><span>👤</span> Thông tin cơ bản</div>
                 <div class="form-row"><label>Họ tên</label><input type="text" id="input-fullname" value=""></div>
                 <div class="form-row"><label>Giới tính</label><select id="input-gender"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select></div>
@@ -352,16 +373,12 @@
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         document.getElementById('display-fullname').innerText = data.displayName || data.username;
-                        document.getElementById('display-username').innerText = "@" + data.username;
                         document.getElementById('display-level').innerText = "LEVEL " + (data.level || 1);
                         document.getElementById('display-zm').innerText = data.zm_coin || 0;
                         
-                        // Load Avatar
                         if (data.avatarUrl) {
                             document.getElementById('avatar-box').innerHTML = `<img src="${data.avatarUrl}">`;
                         }
-                        
-                        // Load Ảnh bìa (Cover)
                         if (data.coverUrl) {
                             document.getElementById('main-cover-photo').style.backgroundImage = `url(${data.coverUrl})`;
                         }
@@ -387,7 +404,7 @@
             }
         });
 
-        // --- XỬ LÝ ẢNH BÌA (COVER PHOTO) ---
+        // --- XỬ LÝ ẢNH BÌA ---
         const btnOpenEditor = document.getElementById('btn-open-editor');
         const btnCloseEditor = document.getElementById('btn-close-editor');
         const coverEditorPanel = document.getElementById('cover-editor-panel');
@@ -396,19 +413,12 @@
         const mainCoverPhoto = document.getElementById('main-cover-photo');
         const btnSaveCover = document.getElementById('btn-save-cover');
         
-        let pendingCoverBase64 = null; // Lưu tạm ảnh bìa trước khi bấm cập nhật
+        let pendingCoverBase64 = null; 
 
-        // Mở/Đóng Bảng tùy chỉnh
         btnOpenEditor.addEventListener('click', () => { coverEditorPanel.style.display = 'block'; });
-        btnCloseEditor.addEventListener('click', () => { 
-            coverEditorPanel.style.display = 'none'; 
-            pendingCoverBase64 = null; // Hủy ảnh tạm
-        });
-
-        // Kích hoạt chọn file ảnh bìa
+        btnCloseEditor.addEventListener('click', () => { coverEditorPanel.style.display = 'none'; pendingCoverBase64 = null; });
         btnUploadCover.addEventListener('click', () => { coverFileInput.click(); });
 
-        // Xem trước ảnh bìa
         coverFileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -416,32 +426,24 @@
             reader.readAsDataURL(file);
             reader.onload = () => {
                 pendingCoverBase64 = reader.result;
-                mainCoverPhoto.style.backgroundImage = `url(${pendingCoverBase64})`; // Xem trước
+                mainCoverPhoto.style.backgroundImage = `url(${pendingCoverBase64})`; 
             };
         });
 
-        // Nút Cập nhật giao diện (Lưu ảnh bìa lên Firebase)
         btnSaveCover.addEventListener('click', async () => {
-            if (!currentUser || !pendingCoverBase64) {
-                coverEditorPanel.style.display = 'none';
-                return;
-            }
+            if (!currentUser || !pendingCoverBase64) { coverEditorPanel.style.display = 'none'; return; }
             btnSaveCover.innerText = "Đang lưu...";
             try {
                 const userRef = doc(db, "users", currentUser.uid);
                 await updateDoc(userRef, { coverUrl: pendingCoverBase64 });
                 coverEditorPanel.style.display = 'none';
-                pendingCoverBase64 = null; // Reset
-            } catch (error) {
-                console.error("Lỗi lưu ảnh bìa:", error);
-                alert("Không thể lưu ảnh bìa.");
-            } finally {
-                btnSaveCover.innerText = "Cập nhật giao diện";
-            }
+                pendingCoverBase64 = null;
+            } catch (error) { console.error(error); alert("Không thể lưu ảnh bìa."); } 
+            finally { btnSaveCover.innerText = "Cập nhật giao diện"; }
         });
 
 
-        // --- LOGIC CẮT ẢNH AVATAR (Giữ nguyên) ---
+        // --- LOGIC CẮT ẢNH AVATAR ---
         const avatarFileInput = document.getElementById('avatar-file-input');
         const cropModal = document.getElementById('crop-modal');
         const cropImage = document.getElementById('crop-image');
