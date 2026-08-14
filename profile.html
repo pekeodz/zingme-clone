@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang cá nhân | Zing Me</title>
     <style>
-        /* CSS CƠ BẢN */
         body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #3878b3; color: #333; }
         a { text-decoration: none; color: #333; }
         
@@ -43,9 +42,67 @@
 
         .change-cover-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); color: white; border: none; padding: 5px 10px; border-radius: 3px; font-size: 12px; cursor: pointer; }
 
-        .avatar-container { position: relative; margin-top: 20px; }
-        .avatar { width: 120px; height: 120px; background-color: #f29c1f; border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 50px; color: white; }
-        .avatar-btn { position: absolute; bottom: 0; right: 0; background: #333; color: white; border: 2px solid white; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
+        /* --- HIỆU ỨNG HOVER AVATAR Y CHANG ẢNH GỐC --- */
+        .avatar-container { 
+            position: relative; 
+            margin-top: 20px; 
+            width: 120px; 
+            height: 120px; 
+            border-radius: 50%; 
+            cursor: pointer;
+        }
+
+        .avatar { 
+            width: 100%; 
+            height: 100%; 
+            background-color: #f29c1f; 
+            border: 4px solid rgba(255,255,255,0.3); 
+            border-radius: 50%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            font-size: 50px; 
+            color: white; 
+            overflow: hidden;
+            box-sizing: border-box;
+            transition: filter 0.2s ease;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Lớp phủ tối màu và icon máy ảnh khi trỏ chuột vào (Hover) */
+        .avatar-overlay {
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px; /* Khớp với viền 4px của avatar */
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .avatar-container:hover .avatar-overlay {
+            opacity: 1; /* Hiện lên khi hover */
+        }
+
+        /* Icon máy ảnh màu xanh tròn */
+        .camera-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #00965e; /* Xanh lá đặc trưng của nút camera */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
 
         .display-name { font-size: 22px; font-weight: bold; margin: 10px 0 0 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
         .username-handle { font-size: 14px; color: #ddd; margin-top: 5px; }
@@ -64,7 +121,8 @@
 
         .col-left { width: 300px; text-align: center; font-size: 13px; color: #666; line-height: 1.5; border-right: 1px dashed #ccc; padding-right: 30px; }
         .col-left strong { color: #f29c1f; font-size: 14px; }
-        .illustration { margin-top: 20px; width: 100%; height: 250px; background: #f9f9f9; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #999; }
+        .illustration { margin-top: 20px; width: 100%; height: 250px; display: flex; align-items: center; justify-content: center; }
+        .illustration img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
         .col-right { flex: 1; }
         .section-title { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
@@ -81,7 +139,7 @@
         .btn-cancel { background: #f0f0f0; border: 1px solid #ccc; padding: 8px 20px; font-weight: bold; color: #555; cursor: pointer; border-radius: 3px; }
         .btn-save { background: #2b78c5; border: none; padding: 8px 25px; font-weight: bold; color: white; cursor: pointer; border-radius: 3px; }
         .btn-save:hover { background: #1e5c99; }
-        .btn-save:disabled { background: #999; cursor: not-allowed; } /* CSS khi đang lưu */
+        .btn-save:disabled { background: #999; cursor: not-allowed; }
 
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 18px; font-weight: bold; color: #2b78c5; }
     </style>
@@ -117,10 +175,17 @@
         
         <div class="cover-photo">
             <button class="change-cover-btn">📷 Đổi ảnh bìa</button>
-            <div class="avatar-container">
-                <div class="avatar">🎮</div>
-                <button class="avatar-btn">📷</button>
+            
+            <!-- AVATAR CÓ HIỆU ỨNG HOVER CHỌN ẢNH -->
+            <div class="avatar-container" id="avatar-container">
+                <div class="avatar" id="avatar-box">🎮</div>
+                <div class="avatar-overlay">
+                    <div class="camera-icon">📷</div>
+                </div>
             </div>
+            <!-- Input chọn file ẩn đi, khi click vào avatar thì kích hoạt cái này -->
+            <input type="file" id="avatar-file-input" accept="image/*" style="display: none;">
+
             <h1 class="display-name" id="display-fullname">Đang tải...</h1>
             <div class="username-handle" id="display-username">@dangtai...</div>
         </div>
@@ -144,8 +209,8 @@
             <div class="col-left">
                 <strong>Bạn nên nhập thông tin chính xác.</strong><br>
                 Thông tin của bạn sẽ được bảo mật tuyệt đối và sẽ được sử dụng để nhận quà mà bạn quy đổi tại Zing Me shop.
-                <div class="illustration" style="border: none; background: transparent;">
-                    <img src="profile.png" alt="Zing Me Apps" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                <div class="illustration">
+                    <img src="https://i.imgur.com/V6336Uj.png" alt="Minh họa">
                 </div>
             </div>
 
@@ -170,7 +235,6 @@
                 </div>
                 <div class="form-row">
                     <label>Điện thoại</label>
-                    <!-- Thêm ID cho các input mới -->
                     <input type="text" id="input-phone" placeholder="Thêm số điện thoại...">
                 </div>
                 <div class="form-row">
@@ -212,7 +276,6 @@
         const currentYear = new Date().getFullYear();
         for (let i = currentYear; i >= 1950; i--) { yearSelect.innerHTML += `<option value="${i}">${i}</option>`; }
 
-        // Bổ sung thêm hàm updateDoc để lưu dữ liệu
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
@@ -232,9 +295,8 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         
-        let currentUser = null; // Biến lưu trữ người dùng hiện tại
+        let currentUser = null;
 
-        // --- HIỂN THỊ DỮ LIỆU KHI VÀO TRANG ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -245,17 +307,17 @@
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         
-                        // LOGIC QUAN TRỌNG: 
-                        // Nếu tài khoản đã từng sửa tên (có displayName) thì lấy tên đó.
-                        // Nếu chưa từng sửa (tài khoản mới), thì mặc định lấy Tên đăng nhập (username).
                         const displayTitle = data.displayName || data.username;
-
                         document.getElementById('display-fullname').innerText = displayTitle;
                         document.getElementById('display-username').innerText = "@" + data.username;
                         document.getElementById('display-level').innerText = "LEVEL " + (data.level || 1);
                         document.getElementById('display-zm').innerText = data.zm_coin || 0;
 
-                        // Ở trong Form: Hiển thị tên hiển thị hoặc gợi ý bằng tên thật lúc đăng ký Zing ID
+                        // Nếu user đã có avatar dạng ảnh lưu trữ, load vào luôn
+                        if (data.avatarUrl) {
+                            document.getElementById('avatar-box').innerHTML = `<img src="${data.avatarUrl}" alt="Avatar">`;
+                        }
+
                         document.getElementById('input-fullname').value = data.displayName || data.fullname || "";
                         document.getElementById('input-gender').value = data.gender || "Nam";
                         
@@ -266,7 +328,6 @@
                             document.getElementById('input-dob-year').value = dobParts[2];
                         }
                         
-                        // Load các trường phụ
                         document.getElementById('input-phone').value = data.phone || "";
                         document.getElementById('input-cmnd').value = data.cmnd || "";
                         document.getElementById('input-address').value = data.address || "";
@@ -277,22 +338,55 @@
                     }
                 } catch (error) {
                     console.error("Lỗi lấy dữ liệu:", error);
-                    alert("Có lỗi xảy ra khi tải thông tin!");
                 }
             } else {
                 window.location.href = "index.html";
             }
         });
 
+        // --- XỬ LÝ CHỌN ẢNH TỪ MÁY TÍNH KHI CLICK VÀO AVATAR ---
+        const avatarContainer = document.getElementById('avatar-container');
+        const avatarFileInput = document.getElementById('avatar-file-input');
+        const avatarBox = document.getElementById('avatar-box');
+
+        avatarContainer.addEventListener('click', () => {
+            avatarFileInput.click(); // Kích hoạt bảng chọn file của máy tính
+        });
+
+        avatarFileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Chuyển file ảnh thành định dạng Base64 để lưu trực tiếp gọn gàng vào Firestore
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async () => {
+                const base64Image = reader.result;
+                
+                // Hiển thị ảnh ngay lập tức ra màn hình
+                avatarBox.innerHTML = `<img src="${base64Image}" alt="Avatar">`;
+
+                // Lưu thẳng chuỗi ảnh Base64 này vào Firestore của user
+                if (currentUser) {
+                    try {
+                        const userRef = doc(db, "users", currentUser.uid);
+                        await updateDoc(userRef, { avatarUrl: base64Image });
+                        alert("Đổi ảnh đại diện thành công!");
+                    } catch (error) {
+                        console.error("Lỗi lưu ảnh:", error);
+                        alert("Không thể lưu ảnh lên cơ sở dữ liệu.");
+                    }
+                }
+            };
+        });
+
         // --- XỬ LÝ NÚT LƯU LẠI ---
         const saveBtn = document.getElementById('save-btn');
         saveBtn.addEventListener('click', async () => {
-            if (!currentUser) return; // Nếu chưa load xong user thì không cho bấm
-            
+            if (!currentUser) return;
             saveBtn.innerText = "Đang lưu...";
             saveBtn.disabled = true;
 
-            // Lấy toàn bộ dữ liệu mới từ form
             const newDisplayName = document.getElementById('input-fullname').value.trim();
             const newGender = document.getElementById('input-gender').value;
             const newDob = `${document.getElementById('input-dob-day').value}/${document.getElementById('input-dob-month').value}/${document.getElementById('input-dob-year').value}`;
@@ -310,7 +404,6 @@
             }
 
             try {
-                // Đẩy dữ liệu cập nhật lên Firestore
                 const userRef = doc(db, "users", currentUser.uid);
                 await updateDoc(userRef, {
                     displayName: newDisplayName,
@@ -323,9 +416,7 @@
                     bio: newBio
                 });
 
-                // Thành công -> Đổi tên to đùng ngoài Cover ngay lập tức
                 document.getElementById('display-fullname').innerText = newDisplayName;
-                
                 alert("Cập nhật thông tin thành công!");
             } catch (error) {
                 console.error("Lỗi khi lưu:", error);
@@ -336,7 +427,6 @@
             }
         });
 
-        // Chức năng Đăng xuất
         document.getElementById('logout-btn').addEventListener('click', () => {
             signOut(auth).then(() => {
                 window.location.href = "index.html";
