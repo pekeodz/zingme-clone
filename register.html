@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký tài khoản Zing Me</title>
     <style>
-        /* GIỮ NGUYÊN CSS NỀN */
         body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #ffffff; color: #333; }
         .header { background-color: #39a0d8; height: 50px; display: flex; justify-content: space-between; align-items: center; padding: 0 15%; color: white; border-bottom: 1px solid #2e8bc0; }
         .logo-zingid { font-size: 26px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); letter-spacing: -1px; }
@@ -25,27 +24,62 @@
         .note { font-size: 12px; color: #777; margin-top: 0; margin-bottom: 20px; }
         .req { color: #d12a27; font-weight: bold; font-size: 14px; }
         
-        /* CẬP NHẬT FORM GROUP & INPUT */
         .form-group { margin-bottom: 15px; position: relative; }
         .form-group input[type="text"], .form-group input[type="password"] { width: 100%; padding: 10px 12px; border: 1px solid #cfcfcf; border-radius: 2px; box-sizing: border-box; font-size: 14px; outline: none; color: #555; transition: border 0.2s; }
         .form-group input::placeholder { color: #999; }
         .form-group input:focus { border-color: #39a0d8; box-shadow: 0 0 3px rgba(57,160,216,0.3); }
         
-        /* Thiết kế cho nhóm có nút Kiểm tra */
-        .input-with-btn { display: flex; gap: 8px; }
-        .btn-check-username { background-color: #276495; color: white; border: none; padding: 0 15px; font-size: 13px; font-weight: bold; border-radius: 2px; cursor: pointer; white-space: nowrap; }
-        .btn-check-username:hover { background-color: #1e527d; }
-
         .input-icon-right { position: absolute; right: 12px; top: 10px; }
 
-        /* CẬP NHẬT TOOLTIP: ẨN MẶC ĐỊNH & HIỆU ỨNG */
+        /* --- CSS CHO ICON CHECK (TICK XANH / LỖI / LOADING) --- */
+        .status-icon {
+            position: absolute;
+            right: 12px;
+            top: 10px;
+            display: none; /* Mặc định ẩn */
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 18px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            z-index: 5;
+        }
+
+        .status-icon.success {
+            display: block;
+            background-color: #4ba64f; /* Màu xanh lá cây chuẩn */
+        }
+        .status-icon.success::after { content: '✔'; }
+
+        .status-icon.error {
+            display: block;
+            background-color: #d12a27; /* Màu đỏ báo lỗi (trùng) */
+        }
+        .status-icon.error::after { content: '✖'; }
+
+        .status-icon.loading {
+            display: block;
+            background-color: transparent;
+            border: 2px solid #ccc;
+            border-top-color: #39a0d8;
+            width: 14px;
+            height: 14px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+
+        /* CẬP NHẬT TOOLTIP */
         .tooltip { 
-            display: none; /* Ẩn đi mặc định */
+            display: none; 
             opacity: 0;
             position: absolute; 
             top: 40px; 
             right: -25px; 
-            background-color: #728ca6; /* Màu xanh xám chuẩn */
+            background-color: #728ca6; 
             color: white; 
             padding: 10px; 
             font-size: 11px; 
@@ -59,7 +93,6 @@
         
         .tooltip::before { content: ''; position: absolute; top: -12px; right: 40px; border-width: 6px; border-style: solid; border-color: transparent transparent #728ca6 transparent; }
         
-        /* HIỂN THỊ TOOLTIP KHI CLICK VÀO Ô NHẬP LIỆU (CSS MAGIC) */
         .form-group:focus-within .tooltip {
             display: block;
             opacity: 1;
@@ -71,7 +104,6 @@
             to { top: 40px; opacity: 1; }
         }
 
-        /* Group Ngày sinh, Giới tính, Nút bấm... */
         .dob-group { display: flex; gap: 12px; margin-bottom: 20px; }
         .dob-group select { padding: 7px; border: 1px solid #cfcfcf; border-radius: 2px; background: white; flex: 1; color: #555; outline: none; }
         .gender-group { font-size: 13px; color: #555; margin-bottom: 25px; display: flex; align-items: center; gap: 20px; }
@@ -111,18 +143,16 @@
 
             <div class="form-group">
                 <input type="text" id="fullname" placeholder="Họ tên đầy đủ">
-                <!-- Tooltip Họ tên -->
                 <div class="tooltip">
                     Vui lòng nhập họ tên thật và chính xác từ 2 đến 40 kí tự.
                 </div>
             </div>
 
+            <!-- CẬP NHẬT Ô TÊN ĐĂNG NHẬP -->
             <div class="form-group">
-                <div class="input-with-btn">
-                    <input type="text" id="username" placeholder="Tên đăng nhập">
-                    <button type="button" class="btn-check-username">Kiểm tra</button>
-                </div>
-                <!-- Tooltip Tên đăng nhập -->
+                <input type="text" id="username" placeholder="Tên đăng nhập" style="padding-right: 35px;">
+                <!-- Icon trạng thái (Tick xanh / Lỗi) -->
+                <span id="username-status" class="status-icon"></span>
                 <div class="tooltip">
                     Tài khoản có dấu chấm, dấu gạch dưới sẽ không đăng nhập được tất cả các Game
                 </div>
@@ -130,8 +160,7 @@
 
             <div class="form-group">
                 <input type="password" id="password" placeholder="Mật khẩu" style="padding-right: 30px;">
-                <span class="req input-icon-right">*</span>
-                <!-- Tooltip Mật khẩu -->
+                <span class="req input-icon-right" id="pass-req-star">*</span>
                 <div class="tooltip">
                     Mật khẩu phải có từ 6-32 ký tự.
                 </div>
@@ -140,7 +169,6 @@
             <div class="form-group">
                 <input type="password" placeholder="Xác nhận Mật khẩu" style="padding-right: 30px;">
                 <span class="req input-icon-right">*</span>
-                <!-- Tooltip Xác nhận Mật khẩu -->
                 <div class="tooltip">
                     Vui lòng nhập lại mật khẩu cho chính xác.
                 </div>
@@ -192,9 +220,10 @@
             yearSelect.innerHTML += `<option value="${i}" ${isSelected}>${i}</option>`;
         }
 
+        // Bổ sung import collection, query, where, getDocs để kiểm tra trùng username
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDeVcweMEYOi9t8_NyIXg6XRZ6I4LIgNBU",
@@ -211,8 +240,43 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const registerBtn = document.getElementById('register-btn');
+        // --- XỬ LÝ KIỂM TRA TRÙNG TÊN ĐĂNG NHẬP NGẦM ---
+        const usernameInput = document.getElementById('username');
+        const usernameStatus = document.getElementById('username-status');
+
+        usernameInput.addEventListener('blur', async () => {
+            const val = usernameInput.value.trim();
+            
+            // Nếu để trống thì ẩn icon
+            if(!val) {
+                usernameStatus.className = 'status-icon';
+                return;
+            }
+
+            // Hiển thị vòng quay loading trong lúc chờ check
+            usernameStatus.className = 'status-icon loading';
+
+            try {
+                // Truy vấn vào bảng users xem có ai trùng username này chưa
+                const usersRef = collection(db, "users");
+                const q = query(usersRef, where("username", "==", val));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    // Nếu empty (trống) nghĩa là chưa ai dùng -> Hiện Tick Xanh
+                    usernameStatus.className = 'status-icon success';
+                } else {
+                    // Đã có người dùng -> Hiện Dấu X Đỏ
+                    usernameStatus.className = 'status-icon error';
+                }
+            } catch (error) {
+                console.error("Lỗi khi kiểm tra username:", error);
+                usernameStatus.className = 'status-icon'; 
+            }
+        });
         
+        // --- XỬ LÝ NÚT ĐĂNG KÝ ---
+        const registerBtn = document.getElementById('register-btn');
         registerBtn.addEventListener('click', async () => {
             const fullname = document.getElementById('fullname').value;
             const username = document.getElementById('username').value;
@@ -227,6 +291,12 @@
 
             if(!fullname || !username || !password) {
                 alert("Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+            
+            // Chặn đăng ký nếu username đang báo đỏ (đã bị trùng)
+            if (usernameStatus.classList.contains('error')) {
+                alert("Tên đăng nhập đã được sử dụng. Vui lòng chọn tên khác!");
                 return;
             }
 
