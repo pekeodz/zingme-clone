@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zing Me - Thêm bạn thêm vui</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            /* Tạo màu nền bầu trời xanh gradient */
+            background: linear-gradient(to bottom, #2b78c5 0%, #7db9e8 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .login-wrapper {
+            display: flex;
+            width: 700px;
+            align-items: center;
+        }
+
+        /* Phần Logo bên trái */
+        .left-col {
+            flex: 1;
+            text-align: right;
+            padding-right: 40px;
+            border-right: 2px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .logo {
+            font-size: 55px;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: -2px;
+        }
+
+        .logo-zing { color: #ffffff; }
+        .logo-m { color: #ff0066; } /* Màu hồng đặc trưng */
+        .logo-e { color: #99cc00; } /* Màu xanh lá đặc trưng */
+
+        .slogan {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Phần Form bên phải */
+        .right-col {
+            flex: 1;
+            padding-left: 40px;
+        }
+
+        .right-col h3 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label {
+            width: 80px;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 200px;
+            padding: 7px;
+            border: 1px solid #a0c3d9;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .actions {
+            margin-left: 80px;
+            font-size: 12px;
+            color: #e0f0ff;
+        }
+
+        .actions a {
+            color: #e0f0ff;
+            text-decoration: none;
+        }
+
+        .actions a:hover {
+            text-decoration: underline;
+        }
+
+        /* Nút bấm */
+        .btn-group {
+            margin-top: 15px;
+            margin-left: 80px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-login {
+            background: linear-gradient(to bottom, #5b8fd6, #3660a5);
+        }
+
+        .btn-register {
+            background: linear-gradient(to bottom, #f3b136, #d77f10);
+            margin-left: 10px;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+            font-size: 11px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-wrapper">
+        <div class="left-col">
+            <h1 class="logo">
+                <span class="logo-zing">Zing</span> <span class="logo-m">m</span><span class="logo-e">e</span>
+            </h1>
+            <div class="slogan">Thêm bạn thêm vui</div>
+        </div>
+
+        <div class="right-col">
+            <h3>Đăng nhập</h3>
+            <div class="form-group">
+                <label>Tài khoản:</label>
+                <input type="text" placeholder="">
+            </div>
+            <div class="form-group">
+                <label>Mật khẩu:</label>
+                <input type="password" placeholder="">
+            </div>
+            
+            <div class="actions">
+                <input type="checkbox" id="remember">
+                <label for="remember">Ghi nhớ đăng nhập</label> | 
+                <a href="#">Quên mật khẩu</a>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-login">Đăng nhập</button>
+                <button class="btn btn-register">Đăng ký</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

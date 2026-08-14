@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>taivuadotkich - Zing Me</title>
+    <style>
+        /* CSS Cơ bản */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #e9eaed; /* Màu nền xám nhạt đặc trưng */
+            color: #333;
+        }
+
+        a { text-decoration: none; color: #1e7ec8; }
+        
+        /* 1. Thanh điều hướng trên cùng (Navbar) */
+        .navbar {
+            background-color: #2b2b2b;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            color: white;
+        }
+        
+        .nav-left { display: flex; align-items: center; gap: 20px; }
+        .logo { font-size: 24px; font-weight: bold; }
+        .logo-zing { color: #fff; }
+        .logo-m { color: #ff0066; }
+        .logo-e { color: #99cc00; }
+        
+        .search-box {
+            display: flex;
+            background: white;
+            padding: 2px;
+            border-radius: 3px;
+        }
+        .search-box input {
+            border: none;
+            padding: 5px 10px;
+            width: 250px;
+            outline: none;
+        }
+        .search-box button {
+            background-color: #1e7ec8;
+            border: none;
+            color: white;
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+
+        .nav-menu { display: flex; gap: 15px; font-weight: bold; font-size: 13px; }
+        .nav-menu a { color: #ccc; }
+        .nav-menu a:hover { color: white; }
+
+        /* 2. Container chính */
+        .container {
+            width: 980px;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        /* 3. Phần Header Trang cá nhân */
+        .profile-header {
+            background: white;
+            border: 1px solid #d3d6db;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .cover-photo {
+            height: 250px;
+            background: linear-gradient(to bottom, #d6e8f9, #f2f7fc);
+            border-bottom: 1px solid #d3d6db;
+            position: relative;
+        }
+
+        .edit-cover-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        /* Avatar và Thông tin đè lên Cover */
+        .avatar-section {
+            position: absolute;
+            bottom: -30px;
+            left: 20px;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            background-color: #0099ff;
+            border: 4px solid white;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .user-info {
+            margin-bottom: 40px;
+            margin-left: 15px;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        }
+
+        .username { font-size: 24px; font-weight: bold; margin: 0; }
+        .level-stats { font-size: 12px; margin-top: 5px; font-weight: normal; }
+
+        /* Menu Tabs dưới Avatar */
+        .profile-tabs {
+            display: flex;
+            padding-left: 180px; /* Chừa chỗ cho avatar */
+            height: 45px;
+            align-items: center;
+        }
+
+        .profile-tabs a {
+            padding: 0 15px;
+            color: #4a4a4a;
+            font-weight: bold;
+            font-size: 14px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            border-bottom: 3px solid transparent;
+        }
+
+        .profile-tabs a.active {
+            border-bottom-color: #1e7ec8;
+            color: #1e7ec8;
+        }
+
+        /* 4. Bố cục Nội dung 2 cột */
+        .content-body {
+            display: flex;
+            gap: 15px;
+        }
+
+        .main-col { flex: 1; } /* Chiếm phần lớn diện tích (Cột trái) */
+        .side-col { width: 300px; } /* Cột phải cố định 300px */
+
+        /* Hộp Trạng thái (Status Box) */
+        .card {
+            background: white;
+            border: 1px solid #d3d6db;
+            border-radius: 3px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .status-input textarea {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .status-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-share {
+            background-color: #1e7ec8;
+            color: white;
+            border: none;
+            padding: 6px 20px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        /* Bảng Tin (Feed) */
+        .feed-item {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .feed-avatar { width: 40px; height: 40px; background: #0099ff; border-radius: 50%; }
+        .feed-content h4 { margin: 0; font-size: 14px; color: #1e7ec8; }
+        .feed-time { font-size: 11px; color: #999; margin-bottom: 5px; }
+        .feed-text { font-size: 13px; line-height: 1.5; }
+
+        /* Cột bên phải (Widgets) */
+        .widget-title {
+            font-size: 12px;
+            color: #999;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Thanh Điều Hướng -->
+    <div class="navbar">
+        <div class="nav-left">
+            <div class="logo"><span class="logo-zing">Zing</span> <span class="logo-m">m</span><span class="logo-e">e</span></div>
+            <div class="search-box">
+                <input type="text" placeholder="Tìm game, ứng dụng hoặc ai đó...">
+                <button>🔍</button>
+            </div>
+        </div>
+        <div class="nav-menu">
+            <a href="#">GAME</a>
+            <a href="#">NEWS</a>
+            <a href="#">MP3</a>
+        </div>
+    </div>
+
+    <!-- Container Nội Dung -->
+    <div class="container">
+        
+        <!-- Header Giao Diện Cá Nhân -->
+        <div class="profile-header">
+            <div class="cover-photo">
+                <div class="edit-cover-btn">📷 Sửa ảnh bìa</div>
+                
+                <div class="avatar-section">
+                    <div class="avatar"></div>
+                    <div class="user-info">
+                        <h2 class="username">taivuadotkich</h2>
+                        <div class="level-stats"><span style="background:#1e7ec8; padding:2px 5px; border-radius:3px;">LEVEL 1</span> Lượt xem: 2</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-tabs">
+                <a href="#" class="active">Tường nhà</a>
+                <a href="#">Thông tin</a>
+                <a href="#">Huy Chương</a>
+                <a href="#">Bạn bè</a>
+                <a href="#">Photo (0)</a>
+                <a href="#">Blog (0)</a>
+                <a href="#">Quan tâm (6)</a>
+            </div>
+        </div>
+
+        <!-- Bố Cục 2 Cột -->
+        <div class="content-body">
+            
+            <!-- Cột Trái (Main) -->
+            <div class="main-col">
+                <div class="card status-box">
+                    <div class="status-input">
+                        <textarea placeholder="Bạn đang nghĩ gì?"></textarea>
+                    </div>
+                    <div class="status-actions">
+                        <div class="tools">
+                            📷 📎 ⭐
+                        </div>
+                        <div>
+                            <input type="checkbox" id="share-fb"> <label for="share-fb" style="font-size:12px; color:#666;">Chia sẻ lên Facebook</label>
+                            <button class="btn-share">Chia sẻ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lọc Bảng Tin -->
+                <div style="border-bottom: 2px solid #1e7ec8; margin-bottom: 15px; display:inline-block; padding-bottom:5px;">
+                    <strong style="color: #1e7ec8; font-size:13px;">TIN MỚI TỪ TÔI</strong>
+                </div>
+
+                <div class="card feed-item">
+                    <div class="feed-avatar"></div>
+                    <div class="feed-content">
+                        <h4>taivuadotkich</h4>
+                        <div class="feed-time">vừa cập nhật trạng thái - 10 giây trước</div>
+                        <div class="feed-text">Rất vui được làm quen với các bạn!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột Phải (Sidebar) -->
+            <div class="side-col">
+                <div class="card widget">
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <div class="feed-avatar" style="width:50px; height:50px;"></div>
+                        <div>
+                            <div style="font-size:12px; font-weight:bold; color:#666;">VÀNG CỦA TAIVUADOTKICH</div>
+                            <div style="color:#d77f10; font-weight:bold; font-size:18px;">0 <span style="font-size:12px;">ZM</span></div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px; font-size: 10px; color:#1e7ec8; display:flex; justify-content:space-between;">
+                        <span>LEVEL 1</span> <span>LEVEL 2</span>
+                    </div>
+                    <div style="background:#eee; height:10px; border-radius:5px; margin-top:5px; overflow:hidden;">
+                        <div style="background:#1e7ec8; width:3%; height:100%;"></div>
+                    </div>
+                    <div style="font-size:12px; margin-top:5px; color:#1e7ec8; font-weight:bold;">1 / 30</div>
+                </div>
+
+                <div class="card widget">
+                    <div class="widget-title">Tài sản của tôi</div>
+                    <div style="font-size: 13px; margin-bottom:10px;">
+                        <strong style="border-bottom:2px solid #333; padding-bottom:3px; margin-right:10px;">Gara</strong>
+                        <span style="color:#999;">Vườn hoa</span>
+                    </div>
+                    <div style="background:#f9f9f9; height:100px; display:flex; align-items:center; justify-content:center; border:1px dashed #ccc; color:#999; font-size:12px;">
+                        [ Hình ảnh Gara Game ]
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
