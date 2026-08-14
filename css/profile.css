@@ -68,10 +68,10 @@
 		    background: white; 
 		    border: 1px solid #d3d6db; 
 		    border-radius: 3px; 
-		    margin-bottom: 15px; 
+		    margin-bottom: 15px; /* Trả lại khoảng cách chuẩn cho Tường nhà */
 		    transition: margin 0.2s; 
 		}
-
+		
 		/* Thêm class này để nối liền với Form Thông tin */
 		.profile-header-wrap.no-gap { 
 		    border-bottom: none; 
