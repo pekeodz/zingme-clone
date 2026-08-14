@@ -87,6 +87,9 @@
             cursor: pointer;
             opacity: 0; 
             transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         .cover-photo:hover .edit-cover-icon { opacity: 1; }
 
@@ -122,7 +125,11 @@
             display: none;
             box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
-        .avatar-container:hover .edit-avatar-btn { display: block; }
+        .avatar-container:hover .edit-avatar-btn { 
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
         .user-info-cover {
             position: absolute;
@@ -277,12 +284,16 @@
         <!-- NEW HEADER LAYOUT -->
         <div class="profile-header-wrap">
             <div class="cover-photo" id="main-cover-photo">
-                <div class="edit-cover-icon" id="btn-open-editor">📷 Sửa ảnh bìa</div>
+                <div class="edit-cover-icon" id="btn-open-editor">
+                    <img src="photo_editing.png" width="14" height="14" style="object-fit: contain;"> Sửa ảnh bìa
+                </div>
                 
                 <div class="avatar-container" id="avatar-container">
-                    <div class="avatar" id="avatar-box">🎮</div>
-                    <div class="edit-avatar-btn">📷 Sửa avatar</div>
+                <div class="avatar" id="avatar-box">🎮</div>
+                <div class="edit-avatar-btn">
+                    <img src="photo_editing.png" width="14" height="14" style="object-fit: contain;"> Sửa avatar
                 </div>
+            </div>
 
                 <div class="user-info-cover">
                     <h1 class="display-name" id="display-fullname">Đang tải...</h1>
