@@ -31,12 +31,11 @@
         
         .input-icon-right { position: absolute; right: 12px; top: 10px; }
 
-        /* --- CSS CHO ICON CHECK (TICK XANH / LỖI / LOADING) --- */
         .status-icon {
             position: absolute;
             right: 12px;
             top: 10px;
-            display: none; /* Mặc định ẩn */
+            display: none; 
             width: 18px;
             height: 18px;
             border-radius: 50%;
@@ -48,18 +47,10 @@
             z-index: 5;
         }
 
-        .status-icon.success {
-            display: block;
-            background-color: #4ba64f; /* Màu xanh lá cây chuẩn */
-        }
+        .status-icon.success { display: block; background-color: #4ba64f; }
         .status-icon.success::after { content: '✔'; }
-
-        .status-icon.error {
-            display: block;
-            background-color: #d12a27; /* Màu đỏ báo lỗi (trùng) */
-        }
+        .status-icon.error { display: block; background-color: #d12a27; }
         .status-icon.error::after { content: '✖'; }
-
         .status-icon.loading {
             display: block;
             background-color: transparent;
@@ -71,8 +62,6 @@
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-
-        /* CẬP NHẬT TOOLTIP */
         .tooltip { 
             display: none; 
             opacity: 0;
@@ -90,7 +79,6 @@
             z-index: 10; 
             transition: opacity 0.2s ease-in-out;
         }
-        
         .tooltip::before { content: ''; position: absolute; top: -12px; right: 40px; border-width: 6px; border-style: solid; border-color: transparent transparent #728ca6 transparent; }
         
         .form-group:focus-within .tooltip {
@@ -103,6 +91,11 @@
             from { top: 45px; opacity: 0; }
             to { top: 40px; opacity: 1; }
         }
+
+        /* CÁC CLASS ÉP ẨN/HIỆN TOOLTIP BẰNG JAVASCRIPT */
+        .tooltip.force-hide { display: none !important; }
+        .tooltip.force-show { display: block !important; opacity: 1 !important; top: 40px !important; animation: none !important; background-color: #d12a27; }
+        .tooltip.force-show::before { border-bottom-color: #d12a27; }
 
         .dob-group { display: flex; gap: 12px; margin-bottom: 20px; }
         .dob-group select { padding: 7px; border: 1px solid #cfcfcf; border-radius: 2px; background: white; flex: 1; color: #555; outline: none; }
@@ -148,19 +141,18 @@
                 </div>
             </div>
 
-            <!-- CẬP NHẬT Ô TÊN ĐĂNG NHẬP -->
+            <!-- Ô TÊN ĐĂNG NHẬP (Đã thêm ID cho Tooltip) -->
             <div class="form-group">
                 <input type="text" id="username" placeholder="Tên đăng nhập" style="padding-right: 35px;">
-                <!-- Icon trạng thái (Tick xanh / Lỗi) -->
                 <span id="username-status" class="status-icon"></span>
-                <div class="tooltip">
-                    Tên đăng nhập hiện đã có người sử dụng
+                <div class="tooltip" id="username-tooltip">
+                    Tài khoản có dấu chấm, dấu gạch dưới sẽ không đăng nhập được tất cả các Game
                 </div>
             </div>
 
             <div class="form-group">
                 <input type="password" id="password" placeholder="Mật khẩu" style="padding-right: 30px;">
-                <span class="req input-icon-right" id="pass-req-star">*</span>
+                <span class="req input-icon-right">*</span>
                 <div class="tooltip">
                     Mật khẩu phải có từ 6-32 ký tự.
                 </div>
@@ -220,7 +212,6 @@
             yearSelect.innerHTML += `<option value="${i}" ${isSelected}>${i}</option>`;
         }
 
-        // Bổ sung import collection, query, where, getDocs để kiểm tra trùng username
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
@@ -240,39 +231,48 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // --- XỬ LÝ KIỂM TRA TRÙNG TÊN ĐĂNG NHẬP NGẦM ---
+        // --- XỬ LÝ KIỂM TRA TRÙNG TÊN ĐĂNG NHẬP NGẦM KHI ĐANG GÕ ---
         const usernameInput = document.getElementById('username');
         const usernameStatus = document.getElementById('username-status');
+        const usernameTooltip = document.getElementById('username-tooltip');
+        let typingTimer;
 
-        usernameInput.addEventListener('blur', async () => {
+        usernameInput.addEventListener('input', () => {
+            clearTimeout(typingTimer);
             const val = usernameInput.value.trim();
             
-            // Nếu để trống thì ẩn icon
-            if(!val) {
-                usernameStatus.className = 'status-icon';
-                return;
-            }
+            // Xóa các class ép buộc và trả tooltip về mặc định mỗi khi người dùng gõ phím
+            usernameStatus.className = 'status-icon';
+            usernameTooltip.innerText = "Tài khoản có dấu chấm, dấu gạch dưới sẽ không đăng nhập được tất cả các Game";
+            usernameTooltip.classList.remove('force-hide', 'force-show');
 
-            // Hiển thị vòng quay loading trong lúc chờ check
+            if(!val) return;
+
+            // Đang gõ thì hiện loading vòng quay
             usernameStatus.className = 'status-icon loading';
 
-            try {
-                // Truy vấn vào bảng users xem có ai trùng username này chưa
-                const usersRef = collection(db, "users");
-                const q = query(usersRef, where("username", "==", val));
-                const querySnapshot = await getDocs(q);
+            // Đợi 600ms sau khi ngừng gõ phím mới truy vấn Firebase
+            typingTimer = setTimeout(async () => {
+                try {
+                    const usersRef = collection(db, "users");
+                    const q = query(usersRef, where("username", "==", val));
+                    const querySnapshot = await getDocs(q);
 
-                if (querySnapshot.empty) {
-                    // Nếu empty (trống) nghĩa là chưa ai dùng -> Hiện Tick Xanh
-                    usernameStatus.className = 'status-icon success';
-                } else {
-                    // Đã có người dùng -> Hiện Dấu X Đỏ
-                    usernameStatus.className = 'status-icon error';
+                    if (querySnapshot.empty) {
+                        // Tên đăng nhập trống (hợp lệ) -> Hiện tick xanh, Ẩn luôn tooltip
+                        usernameStatus.className = 'status-icon success';
+                        usernameTooltip.classList.add('force-hide');
+                    } else {
+                        // Trùng lặp -> Hiện X đỏ, Đổi chữ và Ép hiện tooltip màu đỏ
+                        usernameStatus.className = 'status-icon error';
+                        usernameTooltip.innerText = "Tên đăng nhập đã có người sử dụng";
+                        usernameTooltip.classList.add('force-show');
+                    }
+                } catch (error) {
+                    console.error("Lỗi kiểm tra username:", error);
+                    usernameStatus.className = 'status-icon'; 
                 }
-            } catch (error) {
-                console.error("Lỗi khi kiểm tra username:", error);
-                usernameStatus.className = 'status-icon'; 
-            }
+            }, 600);
         });
         
         // --- XỬ LÝ NÚT ĐĂNG KÝ ---
@@ -294,7 +294,6 @@
                 return;
             }
             
-            // Chặn đăng ký nếu username đang báo đỏ (đã bị trùng)
             if (usernameStatus.classList.contains('error')) {
                 alert("Tên đăng nhập đã được sử dụng. Vui lòng chọn tên khác!");
                 return;
