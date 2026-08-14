@@ -254,17 +254,27 @@
         const mainTabThongTin = document.getElementById('main-tab-thongtin');
         const mainContentTuongNha = document.getElementById('main-content-tuongnha');
         const mainContentThongTin = document.getElementById('main-content-thongtin');
-
+        const headerWrap = document.querySelector('.profile-header-wrap');
+        
         mainTabTuongNha.addEventListener('click', (e) => {
             e.preventDefault();
-            mainTabTuongNha.classList.add('active'); mainTabThongTin.classList.remove('active');
-            mainContentTuongNha.style.display = 'flex'; mainContentThongTin.style.display = 'none';
+            mainTabTuongNha.classList.add('active'); 
+            mainTabThongTin.classList.remove('active');
+            mainContentTuongNha.style.display = 'flex'; 
+            mainContentThongTin.style.display = 'none';
+            
+            headerWrap.classList.remove('no-gap'); 
         });
-
+        
         mainTabThongTin.addEventListener('click', (e) => {
             e.preventDefault();
-            mainTabThongTin.classList.add('active'); mainTabTuongNha.classList.remove('active');
-            mainContentThongTin.style.display = 'flex'; mainContentTuongNha.style.display = 'none';
+            mainTabThongTin.classList.add('active'); 
+            mainTabTuongNha.classList.remove('active');
+            mainContentThongTin.style.display = 'flex'; 
+            mainContentTuongNha.style.display = 'none';
+            
+            // Mở đáy Header ra để dính liền với Form bên dưới
+            headerWrap.classList.add('no-gap'); 
         });
 
         // --- LOAD DỮ LIỆU TÀI KHOẢN ---
