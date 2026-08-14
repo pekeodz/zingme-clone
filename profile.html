@@ -9,7 +9,6 @@
         body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #3878b3; color: #333; }
         a { text-decoration: none; color: #333; }
         
-        /* 1. THANH NAVBAR MÀU TRẮNG TRÊN CÙNG */
         .navbar { background-color: #ffffff; height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 50px; border-bottom: 1px solid #ccc; position: sticky; top: 0; z-index: 100; }
         .nav-left { display: flex; align-items: center; gap: 30px; }
         .logo { font-size: 24px; font-weight: bold; text-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
@@ -29,13 +28,10 @@
         .btn-logout { background: #f0f0f0; border: none; padding: 5px 10px; font-size: 12px; cursor: pointer; border-radius: 3px; font-weight: bold; color: #666; }
         .btn-logout:hover { background: #e0e0e0; }
 
-        /* 2. CONTAINER CHÍNH */
         .container { width: 980px; margin: 0 auto; background: white; min-height: 800px; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
 
-        /* 3. COVER VÀ AVATAR (Giao diện Vũ trụ) */
         .cover-photo { 
             height: 280px; 
-            /* Gradient giả lập nền vũ trụ */
             background: linear-gradient(to bottom, #7b4397, #215f92); 
             position: relative;
             display: flex;
@@ -45,7 +41,6 @@
             color: white;
         }
 
-        /* Nút đổi ảnh đại diện */
         .change-cover-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); color: white; border: none; padding: 5px 10px; border-radius: 3px; font-size: 12px; cursor: pointer; }
 
         .avatar-container { position: relative; margin-top: 20px; }
@@ -55,7 +50,6 @@
         .display-name { font-size: 22px; font-weight: bold; margin: 10px 0 0 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
         .username-handle { font-size: 14px; color: #ddd; margin-top: 5px; }
 
-        /* 4. THANH MENU TABS */
         .profile-tabs { display: flex; justify-content: space-between; align-items: center; height: 50px; border-bottom: 1px solid #ddd; padding: 0 20px; }
         .tabs-left { display: flex; height: 100%; }
         .tabs-left a { padding: 0 20px; display: flex; align-items: center; font-weight: bold; font-size: 14px; color: #555; border-bottom: 3px solid transparent; }
@@ -66,15 +60,12 @@
         .level-badge { background: #5bc0de; color: white; padding: 2px 5px; border-radius: 3px; }
         .zm-coin { color: #f29c1f; }
 
-        /* 5. KHU VỰC NỘI DUNG (TAB THÔNG TIN) */
         .content-body { display: flex; padding: 30px 20px; gap: 40px; }
 
-        /* Cột trái (Minh họa) */
         .col-left { width: 300px; text-align: center; font-size: 13px; color: #666; line-height: 1.5; border-right: 1px dashed #ccc; padding-right: 30px; }
         .col-left strong { color: #f29c1f; font-size: 14px; }
         .illustration { margin-top: 20px; width: 100%; height: 250px; background: #f9f9f9; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #999; }
 
-        /* Cột phải (Form nhập liệu) */
         .col-right { flex: 1; }
         .section-title { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .section-title span { background: #555; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
@@ -83,28 +74,24 @@
         .form-row label { width: 120px; font-size: 13px; color: #666; font-weight: bold; }
         .form-row input[type="text"] { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 3px; font-size: 13px; outline: none; }
         .form-row input:focus, .form-row textarea:focus { border-color: #2b78c5; }
-        
         .form-row select { padding: 7px; border: 1px solid #ccc; border-radius: 3px; outline: none; margin-right: 10px; }
-        
         .form-row textarea { flex: 1; height: 100px; padding: 8px; border: 1px solid #ccc; border-radius: 3px; font-size: 13px; outline: none; resize: none; font-family: inherit; }
 
         .btn-group { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
         .btn-cancel { background: #f0f0f0; border: 1px solid #ccc; padding: 8px 20px; font-weight: bold; color: #555; cursor: pointer; border-radius: 3px; }
         .btn-save { background: #2b78c5; border: none; padding: 8px 25px; font-weight: bold; color: white; cursor: pointer; border-radius: 3px; }
         .btn-save:hover { background: #1e5c99; }
+        .btn-save:disabled { background: #999; cursor: not-allowed; } /* CSS khi đang lưu */
 
-        /* Màn hình chờ Load dữ liệu */
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 18px; font-weight: bold; color: #2b78c5; }
     </style>
 </head>
 <body>
 
-    <!-- Màn hình Loading che lại trong lúc gọi lên Firebase -->
     <div id="loading-screen">
         Đang tải thông tin cá nhân...
     </div>
 
-    <!-- Thanh Điều Hướng Trên Cùng -->
     <div class="navbar">
         <div class="nav-left">
             <div class="logo"><span class="logo-zing">Zing</span> <span class="logo-m">m</span><span class="logo-e">e</span></div>
@@ -126,24 +113,18 @@
         </div>
     </div>
 
-    <!-- Container Nội Dung -->
     <div class="container">
         
-        <!-- Ảnh bìa và Avatar -->
         <div class="cover-photo">
             <button class="change-cover-btn">📷 Đổi ảnh bìa</button>
-            
             <div class="avatar-container">
                 <div class="avatar">🎮</div>
                 <button class="avatar-btn">📷</button>
             </div>
-            
-            <!-- Các ID này để JS nhét dữ liệu vào -->
             <h1 class="display-name" id="display-fullname">Đang tải...</h1>
             <div class="username-handle" id="display-username">@dangtai...</div>
         </div>
 
-        <!-- Menu Tabs -->
         <div class="profile-tabs">
             <div class="tabs-left">
                 <a href="#">Tường nhà</a>
@@ -159,28 +140,21 @@
             </div>
         </div>
 
-        <!-- Nội dung Tab Thông tin -->
         <div class="content-body">
-            
-            <!-- Cột Trái -->
             <div class="col-left">
                 <strong>Bạn nên nhập thông tin chính xác.</strong><br>
                 Thông tin của bạn sẽ được bảo mật tuyệt đối và sẽ được sử dụng để nhận quà mà bạn quy đổi tại Zing Me shop.
                 <div class="illustration">
-                    [ Hình minh họa kết nối Mạng xã hội ]
+                    [ Hình minh họa ]
                 </div>
             </div>
 
-            <!-- Cột Phải (Form) -->
             <div class="col-right">
-                
                 <div class="section-title"><span>👤</span> Thông tin cơ bản</div>
-                
                 <div class="form-row">
                     <label>Họ tên</label>
                     <input type="text" id="input-fullname" value="">
                 </div>
-                
                 <div class="form-row">
                     <label>Giới tính</label>
                     <select id="input-gender">
@@ -188,32 +162,30 @@
                         <option value="Nữ">Nữ</option>
                     </select>
                 </div>
-                
                 <div class="form-row">
                     <label>Sinh nhật</label>
                     <select id="input-dob-day"></select>
                     <select id="input-dob-month"></select>
                     <select id="input-dob-year"></select>
                 </div>
-
                 <div class="form-row">
                     <label>Điện thoại</label>
-                    <input type="text" placeholder="Thêm số điện thoại...">
+                    <!-- Thêm ID cho các input mới -->
+                    <input type="text" id="input-phone" placeholder="Thêm số điện thoại...">
                 </div>
-
                 <div class="form-row">
                     <label>Số CMND</label>
-                    <input type="text" placeholder="Thêm số CMND...">
+                    <input type="text" id="input-cmnd" placeholder="Thêm số CMND...">
                 </div>
 
                 <div class="section-title" style="margin-top: 40px;"><span>@</span> Thông tin liên hệ</div>
                 <div class="form-row">
                     <label>Địa chỉ</label>
-                    <input type="text" placeholder="Thêm địa chỉ...">
+                    <input type="text" id="input-address" placeholder="Thêm địa chỉ...">
                 </div>
                 <div class="form-row">
                     <label>Email</label>
-                    <input type="text" placeholder="Thêm email...">
+                    <input type="text" id="input-email" placeholder="Thêm email...">
                 </div>
 
                 <div class="section-title" style="margin-top: 40px;"><span>📝</span> Tự bạch</div>
@@ -225,14 +197,12 @@
                     <button class="btn-cancel">Hủy bỏ</button>
                     <button class="btn-save" id="save-btn">Lưu lại</button>
                 </div>
-
             </div>
         </div>
     </div>
 
     <!-- SCRIPT FIREBASE -->
     <script type="module">
-        // 1. Tự động sinh Ngày Tháng Năm cho Form
         const daySelect = document.getElementById('input-dob-day');
         const monthSelect = document.getElementById('input-dob-month');
         const yearSelect = document.getElementById('input-dob-year');
@@ -242,10 +212,10 @@
         const currentYear = new Date().getFullYear();
         for (let i = currentYear; i >= 1950; i--) { yearSelect.innerHTML += `<option value="${i}">${i}</option>`; }
 
-        // 2. Tích hợp Firebase
+        // Bổ sung thêm hàm updateDoc để lưu dữ liệu
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDeVcweMEYOi9t8_NyIXg6XRZ6I4LIgNBU",
@@ -261,11 +231,13 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        
+        let currentUser = null; // Biến lưu trữ người dùng hiện tại
 
-        // 3. Kiểm tra đăng nhập khi vừa vào trang
+        // --- HIỂN THỊ DỮ LIỆU KHI VÀO TRANG ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // Đã đăng nhập -> Kéo dữ liệu từ Firestore xuống
+                currentUser = user;
                 try {
                     const docRef = doc(db, "users", user.uid);
                     const docSnap = await getDoc(docRef);
@@ -273,17 +245,20 @@
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         
-                        // Đổ dữ liệu ra Cover
-                        document.getElementById('display-fullname').innerText = data.fullname;
+                        // LOGIC QUAN TRỌNG: 
+                        // Nếu tài khoản đã từng sửa tên (có displayName) thì lấy tên đó.
+                        // Nếu chưa từng sửa (tài khoản mới), thì mặc định lấy Tên đăng nhập (username).
+                        const displayTitle = data.displayName || data.username;
+
+                        document.getElementById('display-fullname').innerText = displayTitle;
                         document.getElementById('display-username').innerText = "@" + data.username;
                         document.getElementById('display-level').innerText = "LEVEL " + (data.level || 1);
                         document.getElementById('display-zm').innerText = data.zm_coin || 0;
 
-                        // Đổ dữ liệu vào Form
-                        document.getElementById('input-fullname').value = data.fullname;
-                        document.getElementById('input-gender').value = data.gender;
+                        // Ở trong Form: Hiển thị tên hiển thị hoặc gợi ý bằng tên thật lúc đăng ký Zing ID
+                        document.getElementById('input-fullname').value = data.displayName || data.fullname || "";
+                        document.getElementById('input-gender').value = data.gender || "Nam";
                         
-                        // Tách ngày sinh (vd: "1/1/1995" -> mảng ["1", "1", "1995"])
                         if(data.dob) {
                             const dobParts = data.dob.split('/');
                             document.getElementById('input-dob-day').value = dobParts[0];
@@ -291,31 +266,82 @@
                             document.getElementById('input-dob-year').value = dobParts[2];
                         }
                         
-                        // Ẩn màn hình loading
+                        // Load các trường phụ
+                        document.getElementById('input-phone').value = data.phone || "";
+                        document.getElementById('input-cmnd').value = data.cmnd || "";
+                        document.getElementById('input-address').value = data.address || "";
+                        document.getElementById('input-email').value = data.email || "";
+                        document.getElementById('input-bio').value = data.bio || "";
+                        
                         document.getElementById('loading-screen').style.display = 'none';
-                    } else {
-                        console.log("Không tìm thấy dữ liệu user trên Firestore");
                     }
                 } catch (error) {
                     console.error("Lỗi lấy dữ liệu:", error);
                     alert("Có lỗi xảy ra khi tải thông tin!");
                 }
             } else {
-                // Nếu CHƯA đăng nhập, đá văng về trang index (login)
                 window.location.href = "index.html";
             }
         });
 
-        // 4. Chức năng Đăng xuất
+        // --- XỬ LÝ NÚT LƯU LẠI ---
+        const saveBtn = document.getElementById('save-btn');
+        saveBtn.addEventListener('click', async () => {
+            if (!currentUser) return; // Nếu chưa load xong user thì không cho bấm
+            
+            saveBtn.innerText = "Đang lưu...";
+            saveBtn.disabled = true;
+
+            // Lấy toàn bộ dữ liệu mới từ form
+            const newDisplayName = document.getElementById('input-fullname').value.trim();
+            const newGender = document.getElementById('input-gender').value;
+            const newDob = `${document.getElementById('input-dob-day').value}/${document.getElementById('input-dob-month').value}/${document.getElementById('input-dob-year').value}`;
+            const newPhone = document.getElementById('input-phone').value.trim();
+            const newCmnd = document.getElementById('input-cmnd').value.trim();
+            const newAddress = document.getElementById('input-address').value.trim();
+            const newEmail = document.getElementById('input-email').value.trim();
+            const newBio = document.getElementById('input-bio').value.trim();
+
+            if(!newDisplayName) {
+                alert("Họ tên hiển thị không được để trống!");
+                saveBtn.innerText = "Lưu lại";
+                saveBtn.disabled = false;
+                return;
+            }
+
+            try {
+                // Đẩy dữ liệu cập nhật lên Firestore
+                const userRef = doc(db, "users", currentUser.uid);
+                await updateDoc(userRef, {
+                    displayName: newDisplayName,
+                    gender: newGender,
+                    dob: newDob,
+                    phone: newPhone,
+                    cmnd: newCmnd,
+                    address: newAddress,
+                    email: newEmail,
+                    bio: newBio
+                });
+
+                // Thành công -> Đổi tên to đùng ngoài Cover ngay lập tức
+                document.getElementById('display-fullname').innerText = newDisplayName;
+                
+                alert("Cập nhật thông tin thành công!");
+            } catch (error) {
+                console.error("Lỗi khi lưu:", error);
+                alert("Có lỗi xảy ra khi lưu thông tin.");
+            } finally {
+                saveBtn.innerText = "Lưu lại";
+                saveBtn.disabled = false;
+            }
+        });
+
+        // Chức năng Đăng xuất
         document.getElementById('logout-btn').addEventListener('click', () => {
             signOut(auth).then(() => {
                 window.location.href = "index.html";
-            }).catch((error) => {
-                console.error("Lỗi đăng xuất:", error);
             });
         });
-        
-        // (Gợi ý: Nút "Lưu lại" hiện tại chưa có code lưu ngược lên Firebase, chúng ta sẽ làm ở bước sau nhé!)
     </script>
 </body>
 </html>
