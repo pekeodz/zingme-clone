@@ -250,6 +250,7 @@
         let originalCoverUrl = ""; let originalBgUrl = ""; let originalBgColor = "#e9eaed";
 
         // --- XỬ LÝ CHUYỂN TAB CHÍNH (TƯỜNG NHÀ <-> THÔNG TIN) ---
+        // --- XỬ LÝ CHUYỂN TAB CHÍNH (TƯỜNG NHÀ <-> THÔNG TIN) ---
         const mainTabTuongNha = document.getElementById('main-tab-tuongnha');
         const mainTabThongTin = document.getElementById('main-tab-thongtin');
         const mainContentTuongNha = document.getElementById('main-content-tuongnha');
@@ -263,10 +264,12 @@
             e.preventDefault();
             mainTabTuongNha.classList.add('active'); 
             mainTabThongTin.classList.remove('active');
+            
+            // HIỆN Tường nhà, ẨN Thông tin
             mainContentTuongNha.style.display = 'flex'; 
             mainContentThongTin.style.display = 'none';
             
-            // Đóng viền Header lại, tạo khoảng cách xám giữa Header và Bảng tin
+            // Đóng viền Header lại, tạo khoảng cách xám chuẩn cho Tường nhà
             headerWrap.classList.remove('no-gap'); 
         });
 
@@ -275,10 +278,12 @@
             e.preventDefault();
             mainTabThongTin.classList.add('active'); 
             mainTabTuongNha.classList.remove('active');
+            
+            // ẨN Tường nhà, HIỆN Thông tin
             mainContentThongTin.style.display = 'flex'; 
             mainContentTuongNha.style.display = 'none';
             
-            // Mở đáy Header ra để dính liền thành 1 khối với Form bên dưới
+            // Mở đáy Header ra để dính liền thành 1 khối với Form Thông tin bên dưới
             headerWrap.classList.add('no-gap'); 
         });
 
