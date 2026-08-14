@@ -3,75 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zing Me - Thêm bạn thêm vui</title>
+    <title>Đăng ký tài khoản Zing Me</title>
     <style>
-        body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: linear-gradient(to bottom, #2b78c5 0%, #7db9e8 100%); height: 100vh; display: flex; justify-content: center; align-items: center; color: white; }
-        .login-wrapper { display: flex; width: 700px; align-items: center; }
-        .left-col { flex: 1; text-align: right; padding-right: 40px; border-right: 2px solid rgba(255, 255, 255, 0.4); }
-        .logo { font-size: 55px; font-weight: bold; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); letter-spacing: -2px; }
-        .logo-zing { color: #ffffff; }
-        .logo-m { color: #ff0066; }
-        .logo-e { color: #99cc00; }
-        .slogan { font-size: 16px; font-weight: bold; margin-top: 10px; }
-        .right-col { flex: 1; padding-left: 40px; }
-        .right-col h3 { margin-top: 0; font-size: 18px; }
-        .form-group { margin-bottom: 15px; display: flex; align-items: center; }
-        .form-group label { width: 80px; font-size: 14px; }
-        .form-group input[type="text"], .form-group input[type="password"] { width: 200px; padding: 7px; border: 1px solid #a0c3d9; border-radius: 3px; outline: none; }
-        .actions { margin-left: 80px; font-size: 12px; color: #e0f0ff; }
-        .actions a { color: #e0f0ff; text-decoration: none; }
-        .actions a:hover { text-decoration: underline; }
-        .btn-group { margin-top: 15px; margin-left: 80px; }
-        .btn { padding: 8px 20px; border: none; border-radius: 15px; color: white; font-weight: bold; cursor: pointer; box-shadow: 1px 2px 4px rgba(0,0,0,0.2); }
-        .btn-login { background: linear-gradient(to bottom, #5b8fd6, #3660a5); }
-        .btn-login:disabled { background: #999; cursor: not-allowed; }
-        .btn-register { background: linear-gradient(to bottom, #f3b136, #d77f10); margin-left: 10px; }
+        /* GIỮ NGUYÊN CSS NHƯ CŨ */
+        body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #ffffff; color: #333; }
+        .header { background-color: #39a0d8; height: 50px; display: flex; justify-content: space-between; align-items: center; padding: 0 15%; color: white; border-bottom: 1px solid #2e8bc0; }
+        .logo-zingid { font-size: 26px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); letter-spacing: -1px; }
+        .logo-zingid span.zing { color: #ffffff; }
+        .logo-zingid span.i { color: #f2467d; }
+        .logo-zingid span.d { color: #9bc831; }
+        .header-right { display: flex; align-items: center; gap: 10px; }
+        .app-info { text-align: right; line-height: 1.2; }
+        .app-info-title { font-size: 11px; font-weight: normal; color: #eef7fc; }
+        .app-info-name { font-weight: bold; font-size: 14px; letter-spacing: 0.5px; }
+        .zing-logo-circle { width: 30px; height: 30px; border-radius: 50%; background: conic-gradient(#4ba64f 0deg 90deg, #f29c1f 90deg 180deg, #e35a9d 180deg 270deg, #3da5e0 270deg 360deg); display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 18px; box-shadow: inset 0 0 3px rgba(0,0,0,0.2); position: relative; }
+        .zing-logo-circle::after { content: "Z"; position: absolute; font-family: Arial; text-shadow: 1px 1px 1px rgba(0,0,0,0.3); }
+        .main-container { width: 480px; margin: 30px auto; }
+        h2.title { text-align: center; color: #555; font-weight: normal; font-size: 21px; margin-bottom: 20px; }
+        .register-box { background-color: #f3f3f3; border: 1px solid #e1e1e1; border-bottom: 2px dotted #cccccc; padding: 25px 30px; position: relative; }
+        .note { font-size: 12px; color: #777; margin-top: 0; margin-bottom: 20px; }
+        .req { color: #d12a27; font-weight: bold; font-size: 14px; }
+        .form-group { margin-bottom: 15px; position: relative; }
+        .form-group input[type="text"], .form-group input[type="password"] { width: 100%; padding: 10px 12px; border: 1px solid #cfcfcf; border-radius: 2px; box-sizing: border-box; font-size: 14px; outline: none; color: #555; }
+        .form-group input::placeholder { color: #999; }
+        .form-group input:focus { border-color: #39a0d8; box-shadow: 0 0 3px rgba(57,160,216,0.3); }
+        .input-icon-right { position: absolute; right: 12px; top: 10px; }
+        .tooltip { position: absolute; top: 30px; right: -25px; background-color: #637d9b; color: white; padding: 10px; font-size: 11px; width: 220px; border-radius: 2px; box-shadow: 2px 2px 5px rgba(0,0,0,0.15); line-height: 1.4; z-index: 10; }
+        .tooltip::before { content: ''; position: absolute; top: -12px; right: 40px; border-width: 6px; border-style: solid; border-color: transparent transparent #637d9b transparent; }
+        .dob-group { display: flex; gap: 12px; margin-bottom: 20px; }
+        .dob-group select { padding: 7px; border: 1px solid #cfcfcf; border-radius: 2px; background: white; flex: 1; color: #555; outline: none; }
+        .gender-group { font-size: 13px; color: #555; margin-bottom: 25px; display: flex; align-items: center; gap: 20px; }
+        .gender-group input { margin-right: 5px; cursor: pointer; }
+        .submit-group { display: flex; justify-content: space-between; align-items: center; }
+        .terms { font-size: 11px; color: #777; line-height: 1.5; }
+        .terms a { color: #1e7ec8; text-decoration: none; font-weight: bold; }
+        .terms a:hover { text-decoration: underline; }
+        .btn-submit { background-color: #317ec7; color: white; border: none; padding: 9px 22px; font-size: 14px; font-weight: bold; border-radius: 2px; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+        .btn-submit:hover { background-color: #24639e; }
+        .btn-submit:disabled { background-color: #999; cursor: not-allowed; }
+        .login-redirect { display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; font-size: 13px; color: #777; }
+        .btn-login { background-color: #4ba64f; color: white; text-decoration: none; padding: 9px 30px; border-radius: 2px; font-weight: bold; font-size: 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+        .btn-login:hover { background-color: #3e8c41; }
     </style>
 </head>
 <body>
 
-    <div class="login-wrapper">
-        <div class="left-col">
-            <h1 class="logo">
-                <span class="logo-zing">Zing</span> <span class="logo-m">m</span><span class="logo-e">e</span>
-            </h1>
-            <div class="slogan">Thêm bạn thêm vui</div>
+    <div class="header">
+        <div class="logo-zingid">
+            <span class="zing">Zing</span><span class="i">i</span><span class="d">d</span>
         </div>
-
-        <div class="right-col">
-            <h3>Đăng nhập</h3>
-            <div class="form-group">
-                <label>Tài khoản:</label>
-                <!-- Thêm id để lấy dữ liệu -->
-                <input type="text" id="login-username">
+        <div class="header-right">
+            <div class="app-info">
+                <div class="app-info-title">Đăng nhập ứng dụng</div>
+                <div class="app-info-name">ZING ME</div>
             </div>
-            <div class="form-group">
-                <label>Mật khẩu:</label>
-                <!-- Thêm id để lấy dữ liệu -->
-                <input type="password" id="login-password">
-            </div>
-            
-            <div class="actions">
-                <input type="checkbox" id="remember">
-                <label for="remember">Ghi nhớ đăng nhập</label> | 
-                <a href="#">Quên mật khẩu</a>
-            </div>
-
-            <div class="btn-group">
-                <!-- Thêm id cho nút đăng nhập -->
-                <button class="btn btn-login" id="login-btn">Đăng nhập</button>
-                <!-- Thêm sự kiện chuyển sang trang đăng ký -->
-                <button class="btn btn-register" onclick="window.location.href='register.html'">Đăng ký</button>
-            </div>
+            <div class="zing-logo-circle"></div>
         </div>
     </div>
 
-    <!-- ===== TÍCH HỢP FIREBASE ĐỂ ĐĂNG NHẬP ===== -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+    <div class="main-container">
+        <h2 class="title">ĐĂNG KÝ TÀI KHOẢN ZING ME</h2>
+        
+        <div class="register-box">
+            <p class="note">Những thông tin có đánh dấu <span class="req">*</span> là bắt buộc nhập.</p>
 
-        // Cấu hình Firebase của bạn
+            <div class="form-group">
+                <input type="text" id="fullname" placeholder="Họ tên đầy đủ">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="username" placeholder="Tên đăng nhập">
+            </div>
+
+            <div class="form-group">
+                <input type="password" id="password" placeholder="Mật khẩu" style="padding-right: 30px;">
+                <span class="req input-icon-right">*</span>
+            </div>
+
+            <div class="form-group">
+                <input type="password" placeholder="Xác nhận Mật khẩu" style="padding-right: 30px;">
+                <span class="req input-icon-right">*</span>
+            </div>
+
+            <!-- Bổ sung id cho Ngày/Tháng/Năm -->
+            <div class="dob-group">
+                <select id="dob-day"></select>
+                <select id="dob-month"></select>
+                <select id="dob-year"></select>
+            </div>
+
+            <div class="gender-group">
+                Giới tính: 
+                <label><input type="radio" name="gender" value="Nam" checked> Nam</label>
+                <label><input type="radio" name="gender" value="Nữ"> Nữ</label>
+            </div>
+
+            <div class="submit-group">
+                <div class="terms">
+                    Bằng việc click vào các nút <strong>Đăng ký</strong> bạn đã đồng ý<br>
+                    <a href="#">Điều khoản sử dụng</a>
+                </div>
+                <button class="btn-submit" id="register-btn">Đăng ký</button>
+            </div>
+        </div> 
+
+        <div class="login-redirect">
+            <span>Nếu bạn đã có tài khoản Zing Me,</span>
+            <a href="index.html" class="btn-login">Đăng nhập</a>
+        </div>
+            
+    </div>
+
+    <!-- SCRIPT TỰ ĐỘNG SINH NGÀY THÁNG & FIREBASE -->
+    <script type="module">
+        // --- 1. Tự động sinh Ngày, Tháng, Năm ---
+        const daySelect = document.getElementById('dob-day');
+        const monthSelect = document.getElementById('dob-month');
+        const yearSelect = document.getElementById('dob-year');
+
+        // Sinh 31 ngày
+        for (let i = 1; i <= 31; i++) {
+            daySelect.innerHTML += `<option value="${i}">${i}</option>`;
+        }
+        // Sinh 12 tháng
+        for (let i = 1; i <= 12; i++) {
+            monthSelect.innerHTML += `<option value="${i}">Tháng ${i}</option>`;
+        }
+        // Sinh năm từ hiện tại lùi về 1950 (Mặc định chọn 1995 cho giống Zing xưa)
+        const currentYear = new Date().getFullYear();
+        for (let i = currentYear; i >= 1950; i--) {
+            let isSelected = (i === 1995) ? "selected" : "";
+            yearSelect.innerHTML += `<option value="${i}" ${isSelected}>${i}</option>`;
+        }
+
+
+        // --- 2. Xử lý Firebase ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyDeVcweMEYOi9t8_NyIXg6XRZ6I4LIgNBU",
             authDomain: "zingme-clone.firebaseapp.com",
@@ -85,41 +155,62 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
         
-        loginBtn.addEventListener('click', async () => {
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
+        registerBtn.addEventListener('click', async () => {
+            const fullname = document.getElementById('fullname').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Lấy thông tin ngày sinh và giới tính
+            const day = document.getElementById('dob-day').value;
+            const month = document.getElementById('dob-month').value;
+            const year = document.getElementById('dob-year').value;
+            const dob = `${day}/${month}/${year}`;
+            
+            const gender = document.querySelector('input[name="gender"]:checked').value;
 
-            if(!username || !password) {
-                alert("Vui lòng nhập tài khoản và mật khẩu!");
+            if(!fullname || !username || !password) {
+                alert("Vui lòng điền đầy đủ thông tin!");
                 return;
             }
 
-            loginBtn.innerText = "Đang vào...";
-            loginBtn.disabled = true;
+            registerBtn.innerText = "Đang xử lý...";
+            registerBtn.disabled = true;
 
             try {
-                // Zing Me dùng tài khoản, nhưng Firebase cần Email -> Ta dùng lại mẹo nối đuôi @zingme.vn
                 const fakeEmail = username + "@zingme.vn";
-                
-                // Hàm đăng nhập của Firebase
-                await signInWithEmailAndPassword(auth, fakeEmail, password);
-                
-                // Đăng nhập thành công, chuyển sang trang cá nhân
-                window.location.href = "profile.html";
+                const userCredential = await createUserWithEmailAndPassword(auth, fakeEmail, password);
+                const user = userCredential.user;
+
+                // Cập nhật lưu thêm Ngày sinh và Giới tính vào Database
+                await setDoc(doc(db, "users", user.uid), {
+                    fullname: fullname,
+                    username: username,
+                    dob: dob,
+                    gender: gender,
+                    level: 1,
+                    zm_coin: 0,
+                    createdAt: new Date()
+                });
+
+                alert("Đăng ký tài khoản Zing ID thành công!");
+                window.location.href = "index.html"; 
 
             } catch (error) {
                 console.error(error);
-                if (error.code === 'auth/invalid-credential') {
-                    alert("Sai tên đăng nhập hoặc mật khẩu!");
+                if(error.code === 'auth/email-already-in-use') {
+                    alert("Lỗi: Tên đăng nhập này đã có người sử dụng!");
+                } else if(error.code === 'auth/weak-password') {
+                    alert("Lỗi: Mật khẩu phải có ít nhất 6 ký tự!");
                 } else {
                     alert("Đã xảy ra lỗi: " + error.message);
                 }
             } finally {
-                loginBtn.innerText = "Đăng nhập";
-                loginBtn.disabled = false;
+                registerBtn.innerText = "Đăng ký";
+                registerBtn.disabled = false;
             }
         });
     </script>
