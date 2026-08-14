@@ -92,7 +92,6 @@
             to { top: 40px; opacity: 1; }
         }
 
-        /* CÁC CLASS ÉP ẨN/HIỆN TOOLTIP BẰNG JAVASCRIPT */
         .tooltip.force-hide { display: none !important; }
         .tooltip.force-show { display: block !important; opacity: 1 !important; top: 40px !important; animation: none !important; background-color: #d12a27; }
         .tooltip.force-show::before { border-bottom-color: #d12a27; }
@@ -141,7 +140,6 @@
                 </div>
             </div>
 
-            <!-- Ô TÊN ĐĂNG NHẬP (Đã thêm ID cho Tooltip) -->
             <div class="form-group">
                 <input type="text" id="username" placeholder="Tên đăng nhập" style="padding-right: 35px;">
                 <span id="username-status" class="status-icon"></span>
@@ -159,7 +157,8 @@
             </div>
 
             <div class="form-group">
-                <input type="password" placeholder="Xác nhận Mật khẩu" style="padding-right: 30px;">
+                <!-- Đã bổ sung id="confirm-password" vào đây -->
+                <input type="password" id="confirm-password" placeholder="Xác nhận Mật khẩu" style="padding-right: 30px;">
                 <span class="req input-icon-right">*</span>
                 <div class="tooltip">
                     Vui lòng nhập lại mật khẩu cho chính xác.
@@ -231,7 +230,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // --- XỬ LÝ KIỂM TRA TRÙNG TÊN ĐĂNG NHẬP NGẦM KHI ĐANG GÕ ---
+        // --- XỬ LÝ KIỂM TRA TRÙNG TÊN ĐĂNG NHẬP ---
         const usernameInput = document.getElementById('username');
         const usernameStatus = document.getElementById('username-status');
         const usernameTooltip = document.getElementById('username-tooltip');
@@ -241,17 +240,14 @@
             clearTimeout(typingTimer);
             const val = usernameInput.value.trim();
             
-            // Xóa các class ép buộc và trả tooltip về mặc định mỗi khi người dùng gõ phím
             usernameStatus.className = 'status-icon';
             usernameTooltip.innerText = "Tài khoản có dấu chấm, dấu gạch dưới sẽ không đăng nhập được tất cả các Game";
             usernameTooltip.classList.remove('force-hide', 'force-show');
 
             if(!val) return;
 
-            // Đang gõ thì hiện loading vòng quay
             usernameStatus.className = 'status-icon loading';
 
-            // Đợi 600ms sau khi ngừng gõ phím mới truy vấn Firebase
             typingTimer = setTimeout(async () => {
                 try {
                     const usersRef = collection(db, "users");
@@ -259,11 +255,9 @@
                     const querySnapshot = await getDocs(q);
 
                     if (querySnapshot.empty) {
-                        // Tên đăng nhập trống (hợp lệ) -> Hiện tick xanh, Ẩn luôn tooltip
                         usernameStatus.className = 'status-icon success';
                         usernameTooltip.classList.add('force-hide');
                     } else {
-                        // Trùng lặp -> Hiện X đỏ, Đổi chữ và Ép hiện tooltip màu đỏ
                         usernameStatus.className = 'status-icon error';
                         usernameTooltip.innerText = "Tên đăng nhập đã có người sử dụng";
                         usernameTooltip.classList.add('force-show');
@@ -282,6 +276,9 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
+            // Lấy giá trị của ô Xác nhận Mật khẩu
+            const confirmPassword = document.getElementById('confirm-password').value; 
+            
             const day = document.getElementById('dob-day').value;
             const month = document.getElementById('dob-month').value;
             const year = document.getElementById('dob-year').value;
@@ -289,8 +286,15 @@
             
             const gender = document.querySelector('input[name="gender"]:checked').value;
 
-            if(!fullname || !username || !password) {
+            // Bổ sung confirmPassword vào câu điều kiện kiểm tra rỗng
+            if(!fullname || !username || !password || !confirmPassword) {
                 alert("Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+            
+            // THÊM ĐOẠN KIỂM TRA MẬT KHẨU KHỚP NHAU
+            if(password !== confirmPassword) {
+                alert("Mật khẩu xác nhận không khớp. Vui lòng nhập lại!");
                 return;
             }
             
