@@ -254,8 +254,11 @@
         const mainTabThongTin = document.getElementById('main-tab-thongtin');
         const mainContentTuongNha = document.getElementById('main-content-tuongnha');
         const mainContentThongTin = document.getElementById('main-content-thongtin');
-        const headerWrap = document.querySelector('.profile-header-wrap');
         
+        // Chọn phần Header để thay đổi viền
+        const headerWrap = document.querySelector('.profile-header-wrap');
+
+        // Khi bấm vào Tường nhà
         mainTabTuongNha.addEventListener('click', (e) => {
             e.preventDefault();
             mainTabTuongNha.classList.add('active'); 
@@ -263,9 +266,11 @@
             mainContentTuongNha.style.display = 'flex'; 
             mainContentThongTin.style.display = 'none';
             
+            // Đóng viền Header lại, tạo khoảng cách xám giữa Header và Bảng tin
             headerWrap.classList.remove('no-gap'); 
         });
-        
+
+        // Khi bấm vào Thông tin
         mainTabThongTin.addEventListener('click', (e) => {
             e.preventDefault();
             mainTabThongTin.classList.add('active'); 
@@ -273,7 +278,7 @@
             mainContentThongTin.style.display = 'flex'; 
             mainContentTuongNha.style.display = 'none';
             
-            // Mở đáy Header ra để dính liền với Form bên dưới
+            // Mở đáy Header ra để dính liền thành 1 khối với Form bên dưới
             headerWrap.classList.add('no-gap'); 
         });
 
