@@ -67,17 +67,11 @@
         .profile-header-wrap { 
 		    background: white; 
 		    border: 1px solid #d3d6db; 
-		    border-radius: 3px; 
-		    margin-bottom: 15px; /* Trả lại khoảng cách chuẩn cho Tường nhà */
-		    transition: margin 0.2s; 
+		    border-radius: 3px 3px 0 0; /* Chỉ bo tròn góc trên */
+		    border-bottom: none; /* Bỏ hẳn viền dưới để nối liền */
+		    margin-bottom: 0; /* Luôn dính sát vào nội dung bên dưới */
 		}
 		
-		/* Thêm class này để nối liền với Form Thông tin */
-		.profile-header-wrap.no-gap { 
-		    border-bottom: none; 
-		    border-radius: 3px 3px 0 0; 
-		    margin-bottom: 0; 
-		}
         .cover-photo { height: 250px; background: linear-gradient(to bottom, #d6e8f9, #f2f7fc); background-size: cover; background-position: center; position: relative; display: block; border-bottom: 1px solid #d3d6db; border-radius: 3px 3px 0 0; transition: background 0.3s; }
         .edit-cover-icon { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; padding: 6px 12px; font-size: 12px; border-radius: 3px; cursor: pointer; opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; gap: 5px; }
         .cover-photo:hover .edit-cover-icon { opacity: 1; }
@@ -127,7 +121,12 @@
         /* --- 2. TAB TƯỜNG NHÀ (NEWSFEED) --- */
         .feed-container { 
 		    display: flex; 
-		    gap: 15px; 
+		    gap: 20px; 
+		    padding: 20px; /* Thêm padding để nội dung không chạm sát viền */
+		    background: white; /* ĐỔ NỀN TRẮNG CHO TOÀN BỘ TƯỜNG NHÀ */
+		    border: 1px solid #d3d6db; 
+		    border-top: none; /* Bỏ viền trên để dính chặt vào Header */
+		    border-radius: 0 0 3px 3px; /* Bo tròn góc dưới */
 		    margin-top: 0; 
 		}
         .feed-main { flex: 1; }
