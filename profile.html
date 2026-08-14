@@ -28,7 +28,7 @@
 
         .container { width: 980px; margin: 15px auto; background: transparent; min-height: 800px; position: relative; }
 
-        /* --- BẢNG TÙY CHỈNH GIAO DIỆN --- */
+        /* --- BẢNG TÙY CHỈNH GIAO DIỆN MỚI --- */
         #cover-editor-panel { display: none; background: #f7f9fa; border: 1px solid #ddd; border-bottom: none; border-radius: 3px 3px 0 0; }
         .editor-header { background-color: #243a4e; height: 40px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; color: #9ab4cc; font-size: 13px; font-weight: bold; border-radius: 3px 3px 0 0; }
         .editor-tabs { display: flex; height: 100%; }
@@ -38,7 +38,6 @@
         .editor-close { font-size: 18px; cursor: pointer; color: #9ab4cc; }
         .editor-close:hover { color: white; }
         
-        /* CỘT TÙY CHỈNH TỪ MÁY TÍNH */
         .editor-body { padding: 20px; display: flex; gap: 30px; }
         .editor-col { flex: 1; }
         .editor-col-title { font-size: 14px; color: #555; margin-bottom: 10px; font-weight: bold; }
@@ -54,57 +53,17 @@
         .color-item { height: 20px; border-radius: 3px; cursor: pointer; }
         .color-picker-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
         .color-picker-row input { border: 1px solid #ddd; padding: 3px; width: 60px; font-size: 12px; outline: none;}
-        
-        /* FOOTER CHUNG */
         .editor-footer { padding: 15px 20px; display: flex; justify-content: flex-end; align-items: center; gap: 15px; border-top: 1px solid #eee; background: white; }
         .btn-delete-theme { background: transparent; border: none; color: #777; font-size: 13px; font-weight: bold; cursor: pointer; }
-        .btn-update-theme { background: #1e7ec8; color: white; border: none; padding: 7px 15px; border-radius: 3px; font-weight: bold; font-size: 13px; cursor: pointer; }
+        .btn-update-theme { background: #2b78c5; color: white; border: none; padding: 7px 15px; border-radius: 3px; font-weight: bold; font-size: 13px; cursor: pointer; }
 
-        /* --- CSS MỚI: TAB THƯ VIỆN HÌNH NỀN --- */
-        #tab-content-library { display: none; padding: 15px 20px 20px 20px; background: white; }
-        
-        .library-categories {
-            display: flex;
-            gap: 15px;
-            border-bottom: 1px solid #e1e8ed;
-            margin-bottom: 15px;
-        }
-        .library-categories a {
-            font-size: 11px;
-            font-weight: bold;
-            color: #39a0d8;
-            padding-bottom: 8px;
-            text-transform: uppercase;
-            border-bottom: 2px solid transparent;
-        }
-        .library-categories a.active {
-            color: #1e7ec8;
-            border-bottom-color: #1e7ec8;
-        }
-        .library-categories a:hover { color: #1e7ec8; }
+        /* --- CSS MỚI CHO TAB THƯ VIỆN HÌNH NỀN --- */
+        #tab-content-library { display: none; padding: 20px; background: white; }
+        .theme-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; width: 100%; max-height: 250px; overflow-y: auto; padding-right: 10px; }
+        .theme-thumbnail { width: 100%; height: 90px; object-fit: cover; border-radius: 3px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .theme-thumbnail:hover { border-color: #2b78c5; }
 
-        .theme-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-        .theme-box {
-            background: #ffffff;
-            border: 1px solid #e1e8ed;
-            height: 75px; /* Chiều cao cố định cho khung */
-            padding: 3px;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-        .theme-box:hover { border-color: #1e7ec8; }
-        .theme-thumbnail {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block; /* Tránh khoảng trắng bên dưới thẻ img */
-        }
-
-        /* --- LAYOUT HEADER CỦA ZING ME (AVATAR TRÁI) --- */
+        /* --- LAYOUT HEADER MỚI CỦA ZING ME (AVATAR TRÁI) --- */
         .profile-header-wrap { background: white; border: 1px solid #d3d6db; border-radius: 3px; margin-bottom: 15px; }
 
         .cover-photo { height: 250px; background: linear-gradient(to bottom, #d6e8f9, #f2f7fc); background-size: cover; background-position: center; position: relative; display: block; border-bottom: 1px solid #d3d6db; border-radius: 3px 3px 0 0; transition: background 0.3s; }
@@ -195,6 +154,7 @@
     <input type="file" id="avatar-file-input" accept="image/*" style="display: none;">
     <input type="file" id="cover-file-input" accept="image/png, image/jpeg" style="display: none;">
 
+
     <div class="navbar">
         <div class="nav-left">
             <div class="logo"><span class="logo-zing">Zing</span> <span class="logo-m">m</span><span class="logo-e">e</span></div>
@@ -213,6 +173,7 @@
         <div id="cover-editor-panel">
             <div class="editor-header">
                 <div class="editor-tabs">
+                    <!-- Đã gán ID để xử lý sự kiện Tab -->
                     <div id="tab-btn-library">Thư viện hình nền</div>
                     <div class="active" id="tab-btn-custom">Tùy chỉnh giao diện</div>
                 </div>
@@ -221,36 +182,17 @@
             
             <!-- NỘI DUNG TAB 1: THƯ VIỆN HÌNH NỀN -->
             <div id="tab-content-library">
-                <!-- Sub Menu Categories -->
-                <div class="library-categories">
-                    <a href="#" class="active">CẢM XÚC</a>
-                    <a href="#">ĐƠN GIẢN</a>
-                    <a href="#">THIÊN NHIÊN</a>
-                    <a href="#">KIẾN TRÚC</a>
-                    <a href="#">HOẠT HÌNH</a>
-                    <a href="#">GAME</a>
-                    <a href="#">SHOWBIZ</a>
-                    <a href="#">NGHỆ THUẬT</a>
-                    <a href="#">ZING ME</a>
-                    <a href="#">TRUNG THU</a>
-                </div>
-
+                <div style="margin-bottom: 15px; font-size: 13px; color: #666;">Chọn một hình nền có sẵn dưới đây để thay đổi diện mạo trang cá nhân của bạn.</div>
                 <div class="theme-grid">
-                    <!-- Bạn chỉ cần thay tên ảnh vào src="..." -->
-                    <!-- Ô trống -->
-                    <div class="theme-box"></div>
-                    <div class="theme-box"></div>
-                    <div class="theme-box"></div>
-                    
-                    <!-- Ô chứa ảnh mẫu (Hình trái tim) -->
-                    <div class="theme-box">
-                        <img src="heart-cover.jpg" class="theme-thumbnail" alt="Theme">
-                    </div>
-                    
-                    <div class="theme-box"></div>
-                    <div class="theme-box"></div>
-                    <div class="theme-box"></div>
-                    <div class="theme-box"></div>
+                    <!-- Bạn thay đổi src="" thành tên các file ảnh bạn đã tải về nhé -->
+                    <img src="https://i.imgur.com/vHq4Fm9.jpg" class="theme-thumbnail" alt="Theme 1">
+                    <img src="https://i.imgur.com/K5tGk8x.jpg" class="theme-thumbnail" alt="Theme 2">
+                    <img src="https://i.imgur.com/8Q9lQy3.jpg" class="theme-thumbnail" alt="Theme 3">
+                    <img src="https://i.imgur.com/2s4JmY4.jpg" class="theme-thumbnail" alt="Theme 4">
+                    <img src="https://i.imgur.com/a9rZ9qQ.jpg" class="theme-thumbnail" alt="Theme 5">
+                    <img src="https://i.imgur.com/6X2pYxX.jpg" class="theme-thumbnail" alt="Theme 6">
+                    <img src="https://i.imgur.com/4q6wB3h.jpg" class="theme-thumbnail" alt="Theme 7">
+                    <img src="https://i.imgur.com/1gH2wFj.jpg" class="theme-thumbnail" alt="Theme 8">
                 </div>
             </div>
 
@@ -285,7 +227,7 @@
 
             <!-- NÚT LƯU CHUNG -->
             <div class="editor-footer">
-                <button class="btn-delete-theme" id="btn-delete-theme">🗑 Xóa giao diện này</button>
+                <button class="btn-delete-theme">🗑 Xóa giao diện này</button>
                 <button class="btn-update-theme" id="btn-save-cover">Cập nhật giao diện</button>
             </div>
         </div>
@@ -435,11 +377,11 @@
         const coverFileInput = document.getElementById('cover-file-input');
         const mainCoverPhoto = document.getElementById('main-cover-photo');
         const btnSaveCover = document.getElementById('btn-save-cover');
-        const btnDeleteTheme = document.getElementById('btn-delete-theme');
+        const btnDeleteTheme = document.querySelector('.btn-delete-theme');
         
         let pendingCoverBase64 = null; 
 
-        // Xử lý Tabs Thư Viện / Tùy Chỉnh
+        // Xử lý Tabs
         const tabBtnLibrary = document.getElementById('tab-btn-library');
         const tabBtnCustom = document.getElementById('tab-btn-custom');
         const tabContentLibrary = document.getElementById('tab-content-library');
@@ -450,8 +392,6 @@
             tabBtnCustom.classList.remove('active');
             tabContentLibrary.style.display = 'block';
             tabContentCustom.style.display = 'none';
-            // Ẩn nút Xóa giao diện khi qua tab Thư Viện
-            btnDeleteTheme.style.visibility = 'hidden'; 
         });
 
         tabBtnCustom.addEventListener('click', () => {
@@ -459,11 +399,9 @@
             tabBtnLibrary.classList.remove('active');
             tabContentCustom.style.display = 'flex';
             tabContentLibrary.style.display = 'none';
-            // Hiện lại nút Xóa giao diện khi ở tab Tùy chỉnh
-            btnDeleteTheme.style.visibility = 'visible';
         });
 
-        // Xử lý chọn ảnh từ Thư viện
+        // Xử lý chọn ảnh từ Thư viện (MỚI)
         const themeThumbnails = document.querySelectorAll('.theme-thumbnail');
         themeThumbnails.forEach(thumb => {
             thumb.addEventListener('click', () => {
@@ -489,7 +427,7 @@
             };
         });
 
-        // Nút Lưu cập nhật giao diện
+        // Nút Lưu cập nhật giao diện (Hoạt động cho cả tải lên & Thư viện)
         btnSaveCover.addEventListener('click', async () => {
             if (!currentUser || !pendingCoverBase64) { coverEditorPanel.style.display = 'none'; return; }
             btnSaveCover.innerText = "Đang lưu...";
@@ -502,7 +440,7 @@
             finally { btnSaveCover.innerText = "Cập nhật giao diện"; }
         });
 
-        // --- XÓA ẢNH BÌA ---
+        // Xóa giao diện (Xóa ảnh bìa)
         btnDeleteTheme.addEventListener('click', async () => {
             if (!currentUser) return;
             if (!confirm("Bạn có chắc chắn muốn xóa ảnh bìa và quay về mặc định?")) return;
