@@ -122,18 +122,80 @@ const daySelect = document.getElementById('input-dob-day');
         const inputPostContent = document.getElementById('input-post-content');
         const feedStream = document.getElementById('feed-stream');
 
-        // Hàm render giao diện bài viết
-        function renderPostHTML(content, authorName, timeString, avatarUrl) {
-            const defaultAvatar = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='; // 1x1 transparent
+        // MỚI: Các biến xử lý tải ảnh lên bài viết
+        const btnUploadPostImage = document.getElementById('btn-upload-post-image');
+        const postImageFile = document.getElementById('post-image-file');
+        const postImagePreview = document.getElementById('post-image-preview');
+        let pendingPostImageBase64 = ''; // Lưu trữ ảnh tạm thời trước khi ấn Chia sẻ
+
+        // Khi bấm vào icon 🖼️
+        if(btnUploadPostImage) {
+            btnUploadPostImage.addEventListener('click', () => { postImageFile.click(); });
+        }
+
+        // Đọc ảnh và hiển thị xem trước
+        if(postImageFile) {
+            postImageFile.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    pendingPostImageBase64 = reader.result;
+                    postImagePreview.src = pendingPostImageBase64;
+                    postImagePreview.style.display = 'block';
+                };
+            });
+        }
+
+        // Cập nhật hàm render giao diện bài viết (Có Thích, Bình luận, Ảnh)
+        function renderPostHTML(content, authorName, timeString, avatarUrl, postImageUrl = '') {
+            const defaultAvatar = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='; 
+            
+            // Xử lý hiển thị ảnh đính kèm (nếu có)
+            const imageHtml = postImageUrl ? `<img src="${postImageUrl}" class="post-attached-image" alt="Ảnh bài viết">` : '';
+
             const html = `
-                <div class="post-item">
-                    <img src="${avatarUrl || defaultAvatar}" class="post-avatar" alt="Avatar">
-                    <div class="post-content">
-                        <div class="post-header">
-                            <a href="#" class="post-author">${authorName}</a>
-                            <span class="post-time">${timeString}</span>
+                <div class="post-item" style="flex-direction: column;">
+                    <div style="display: flex; gap: 15px;">
+                        <img src="${avatarUrl || defaultAvatar}" class="post-avatar" alt="Avatar">
+                        <div class="post-content">
+                            <div class="post-header">
+                                <a href="#" class="post-author">${authorName}</a>
+                                <span class="post-time">${timeString}</span>
+                            </div>
+                            <div class="post-text">${content}</div>
+                            ${imageHtml}
                         </div>
-                        <div class="post-text">${content}</div>
+                    </div>
+                    
+                    <!-- Nút hành động: Thích / Bình luận -->
+                    <div class="post-actions-bar">
+                        <div class="post-action-btn">👍 Thích</div>
+                        <div class="post-action-btn">💬 Bình luận</div>
+                        <div class="post-action-btn">↪️ Chia sẻ</div>
+                    </div>
+
+                    <!-- Khu vực Bình luận -->
+                    <div class="post-comments-area">
+                        <div class="comment-stats">👍 1 người thích điều này</div>
+                        
+                        <div class="comment-item">
+                            <img src="https://i.imgur.com/K5tGk8x.jpg" class="comment-avatar">
+                            <div class="comment-content-box">
+                                <div class="comment-text-box">
+                                    <span class="comment-author">Thánh Soi</span>
+                                    <span>Đỉnh quá bạn ơi! 😍</span>
+                                </div>
+                                <div class="comment-actions">Thích · Trả lời · Vừa xong</div>
+                            </div>
+                        </div>
+
+                        <!-- Khung nhập bình luận -->
+                        <div class="comment-input-box">
+                            <img src="${document.getElementById('avatar-box').querySelector('img')?.src || defaultAvatar}" class="comment-avatar">
+                            <input type="text" placeholder="Viết bình luận...">
+                        </div>
                     </div>
                 </div>
             `;
@@ -145,11 +207,12 @@ const daySelect = document.getElementById('input-dob-day');
             try {
                 const q = query(collection(db, "posts"), orderBy("timestamp", "asc"));
                 const querySnapshot = await getDocs(q);
-                feedStream.innerHTML = ''; // Clear loading state
+                feedStream.innerHTML = ''; 
                 querySnapshot.forEach((doc) => {
                     const p = doc.data();
                     const timeStr = new Date(p.timestamp).toLocaleString('vi-VN');
-                    renderPostHTML(p.content, p.authorName, timeStr, p.avatarUrl);
+                    // Render kèm link ảnh
+                    renderPostHTML(p.content, p.authorName, timeStr, p.avatarUrl, p.postImageUrl);
                 });
             } catch (e) { console.error("Lỗi load bài viết:", e); }
         }
@@ -157,7 +220,10 @@ const daySelect = document.getElementById('input-dob-day');
         // Khi bấm nút Chia sẻ
         btnSharePost.addEventListener('click', async () => {
             const content = inputPostContent.value.trim();
-            if(!content || !currentUser) return;
+            
+            // Nếu không có chữ VÀ không có ảnh thì không cho đăng
+            if(!content && !pendingPostImageBase64) return;
+            if(!currentUser) return;
             
             btnSharePost.innerText = "...";
             btnSharePost.disabled = true;
@@ -167,18 +233,27 @@ const daySelect = document.getElementById('input-dob-day');
             const now = new Date().getTime();
 
             try {
-                // Đăng lên Firebase
+                // Đăng lên Firebase (kèm ảnh Base64)
                 await addDoc(collection(db, "posts"), {
                     uid: currentUser.uid,
                     content: content,
                     authorName: authorName,
                     avatarUrl: avatarUrl,
+                    postImageUrl: pendingPostImageBase64, // Lưu ảnh
                     timestamp: now
                 });
 
                 // Hiển thị ngay lên màn hình
-                renderPostHTML(content, authorName, "Vừa xong", avatarUrl);
+                renderPostHTML(content, authorName, "Vừa xong", avatarUrl, pendingPostImageBase64);
+                
+                // Dọn dẹp ô nhập sau khi đăng xong
                 inputPostContent.value = '';
+                pendingPostImageBase64 = '';
+                if(postImagePreview) {
+                    postImagePreview.src = '';
+                    postImagePreview.style.display = 'none';
+                }
+
             } catch(e) { 
                 console.error("Lỗi đăng bài:", e); 
                 alert("Không thể đăng bài viết lúc này.");
