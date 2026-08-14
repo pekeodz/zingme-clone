@@ -5,129 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zing Me - Thêm bạn thêm vui</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            /* Tạo màu nền bầu trời xanh gradient */
-            background: linear-gradient(to bottom, #2b78c5 0%, #7db9e8 100%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
-
-        .login-wrapper {
-            display: flex;
-            width: 700px;
-            align-items: center;
-        }
-
-        /* Phần Logo bên trái */
-        .left-col {
-            flex: 1;
-            text-align: right;
-            padding-right: 40px;
-            border-right: 2px solid rgba(255, 255, 255, 0.4);
-        }
-
-        .logo {
-            font-size: 55px;
-            font-weight: bold;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            letter-spacing: -2px;
-        }
-
+        body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: linear-gradient(to bottom, #2b78c5 0%, #7db9e8 100%); height: 100vh; display: flex; justify-content: center; align-items: center; color: white; }
+        .login-wrapper { display: flex; width: 700px; align-items: center; }
+        .left-col { flex: 1; text-align: right; padding-right: 40px; border-right: 2px solid rgba(255, 255, 255, 0.4); }
+        .logo { font-size: 55px; font-weight: bold; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); letter-spacing: -2px; }
         .logo-zing { color: #ffffff; }
-        .logo-m { color: #ff0066; } /* Màu hồng đặc trưng */
-        .logo-e { color: #99cc00; } /* Màu xanh lá đặc trưng */
-
-        .slogan {
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        /* Phần Form bên phải */
-        .right-col {
-            flex: 1;
-            padding-left: 40px;
-        }
-
-        .right-col h3 {
-            margin-top: 0;
-            font-size: 18px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .form-group label {
-            width: 80px;
-            font-size: 14px;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="password"] {
-            width: 200px;
-            padding: 7px;
-            border: 1px solid #a0c3d9;
-            border-radius: 3px;
-            outline: none;
-        }
-
-        .actions {
-            margin-left: 80px;
-            font-size: 12px;
-            color: #e0f0ff;
-        }
-
-        .actions a {
-            color: #e0f0ff;
-            text-decoration: none;
-        }
-
-        .actions a:hover {
-            text-decoration: underline;
-        }
-
-        /* Nút bấm */
-        .btn-group {
-            margin-top: 15px;
-            margin-left: 80px;
-        }
-
-        .btn {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 15px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .btn-login {
-            background: linear-gradient(to bottom, #5b8fd6, #3660a5);
-        }
-
-        .btn-register {
-            background: linear-gradient(to bottom, #f3b136, #d77f10);
-            margin-left: 10px;
-        }
-        
-        .footer {
-            position: absolute;
-            bottom: 10px;
-            left: 20px;
-            font-size: 11px;
-            color: #333;
-        }
+        .logo-m { color: #ff0066; }
+        .logo-e { color: #99cc00; }
+        .slogan { font-size: 16px; font-weight: bold; margin-top: 10px; }
+        .right-col { flex: 1; padding-left: 40px; }
+        .right-col h3 { margin-top: 0; font-size: 18px; }
+        .form-group { margin-bottom: 15px; display: flex; align-items: center; }
+        .form-group label { width: 80px; font-size: 14px; }
+        .form-group input[type="text"], .form-group input[type="password"] { width: 200px; padding: 7px; border: 1px solid #a0c3d9; border-radius: 3px; outline: none; }
+        .actions { margin-left: 80px; font-size: 12px; color: #e0f0ff; }
+        .actions a { color: #e0f0ff; text-decoration: none; }
+        .actions a:hover { text-decoration: underline; }
+        .btn-group { margin-top: 15px; margin-left: 80px; }
+        .btn { padding: 8px 20px; border: none; border-radius: 15px; color: white; font-weight: bold; cursor: pointer; box-shadow: 1px 2px 4px rgba(0,0,0,0.2); }
+        .btn-login { background: linear-gradient(to bottom, #5b8fd6, #3660a5); }
+        .btn-login:disabled { background: #999; cursor: not-allowed; }
+        .btn-register { background: linear-gradient(to bottom, #f3b136, #d77f10); margin-left: 10px; }
     </style>
 </head>
 <body>
@@ -144,11 +42,13 @@
             <h3>Đăng nhập</h3>
             <div class="form-group">
                 <label>Tài khoản:</label>
-                <input type="text" placeholder="">
+                <!-- Thêm id để lấy dữ liệu -->
+                <input type="text" id="login-username">
             </div>
             <div class="form-group">
                 <label>Mật khẩu:</label>
-                <input type="password" placeholder="">
+                <!-- Thêm id để lấy dữ liệu -->
+                <input type="password" id="login-password">
             </div>
             
             <div class="actions">
@@ -158,11 +58,70 @@
             </div>
 
             <div class="btn-group">
-                <button class="btn btn-login">Đăng nhập</button>
-                <button class="btn btn-register">Đăng ký</button>
+                <!-- Thêm id cho nút đăng nhập -->
+                <button class="btn btn-login" id="login-btn">Đăng nhập</button>
+                <!-- Thêm sự kiện chuyển sang trang đăng ký -->
+                <button class="btn btn-register" onclick="window.location.href='register.html'">Đăng ký</button>
             </div>
         </div>
     </div>
 
+    <!-- ===== TÍCH HỢP FIREBASE ĐỂ ĐĂNG NHẬP ===== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+
+        // Cấu hình Firebase của bạn
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeVcweMEYOi9t8_NyIXg6XRZ6I4LIgNBU",
+            authDomain: "zingme-clone.firebaseapp.com",
+            databaseURL: "https://zingme-clone-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "zingme-clone",
+            storageBucket: "zingme-clone.firebasestorage.app",
+            messagingSenderId: "121550062824",
+            appId: "1:121550062824:web:35257485755932ef91755d",
+            measurementId: "G-LXNNVVEKKQ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const loginBtn = document.getElementById('login-btn');
+        
+        loginBtn.addEventListener('click', async () => {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            if(!username || !password) {
+                alert("Vui lòng nhập tài khoản và mật khẩu!");
+                return;
+            }
+
+            loginBtn.innerText = "Đang vào...";
+            loginBtn.disabled = true;
+
+            try {
+                // Zing Me dùng tài khoản, nhưng Firebase cần Email -> Ta dùng lại mẹo nối đuôi @zingme.vn
+                const fakeEmail = username + "@zingme.vn";
+                
+                // Hàm đăng nhập của Firebase
+                await signInWithEmailAndPassword(auth, fakeEmail, password);
+                
+                // Đăng nhập thành công, chuyển sang trang cá nhân
+                window.location.href = "profile.html";
+
+            } catch (error) {
+                console.error(error);
+                if (error.code === 'auth/invalid-credential') {
+                    alert("Sai tên đăng nhập hoặc mật khẩu!");
+                } else {
+                    alert("Đã xảy ra lỗi: " + error.message);
+                }
+            } finally {
+                loginBtn.innerText = "Đăng nhập";
+                loginBtn.disabled = false;
+            }
+        });
+    </script>
 </body>
 </html>
