@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang cá nhân | Zing Me</title>
     <style>
-        /* --- CSS CƠ BẢN VÀ BỐ CỤC (Giữ nguyên) --- */
+        /* --- CSS CƠ BẢN VÀ BỐ CỤC --- */
         body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #3878b3; color: #333; }
         a { text-decoration: none; color: #333; }
         
@@ -97,7 +97,6 @@
             margin-bottom: 20px;
         }
 
-        /* Nút phụ */
         .crop-btn {
             background: #e4e6eb;
             color: #333;
@@ -110,11 +109,10 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .crop-btn.primary {
-            background: #23895e; /* Màu xanh lá Zing */
+            background: #23895e; 
             color: white;
         }
 
-        /* Khung tròn nét đứt */
         .crop-circle-wrapper {
             position: relative;
             width: 200px;
@@ -123,22 +121,18 @@
             border-radius: 50%;
             overflow: hidden;
             background: #111;
-            /* Giúp con trỏ chuột thành hình bàn tay để kéo */
             cursor: grab;
         }
         .crop-circle-wrapper:active { cursor: grabbing; }
 
-        /* Ảnh bên trong khung */
         #crop-image {
             position: absolute;
             top: 0; left: 0;
             transform-origin: center;
-            /* Tránh lỗi chọn ảnh khi kéo thả */
             user-select: none;
             -webkit-user-drag: none; 
         }
 
-        /* Thanh Zoom */
         .zoom-controls {
             display: flex;
             align-items: center;
@@ -153,7 +147,6 @@
         }
         .zoom-controls span { font-size: 18px; font-weight: bold; }
         
-        /* Chỉnh thanh range (slider) */
         input[type="range"] {
             -webkit-appearance: none;
             width: 150px;
@@ -185,27 +178,6 @@
             cursor: pointer;
         }
         
-        /* Tooltip đen hướng dẫn */
-        .crop-tooltip {
-            position: absolute;
-            top: -20px;
-            right: 0;
-            background: black;
-            color: white;
-            padding: 5px 10px;
-            font-size: 12px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        .crop-tooltip::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 20px;
-            border-width: 5px 5px 0 5px;
-            border-style: solid;
-            border-color: black transparent transparent transparent;
-        }
         .close-modal {
             position: absolute;
             top: -50px;
@@ -231,7 +203,7 @@
                 <button class="crop-btn" id="btn-reselect">📷 Đổi ảnh</button>
                 
                 <div style="position: relative;">
-                    <div class="crop-tooltip">Hãy chọn ảnh để bắt đầu.</div>
+                    <!-- Đã xóa bỏ tooltip hướng dẫn ở đây -->
                     <div class="crop-circle-wrapper" id="crop-area">
                         <img id="crop-image" src="" alt="Ảnh tải lên">
                     </div>
@@ -309,7 +281,7 @@
                 <strong>Bạn nên nhập thông tin chính xác.</strong><br>
                 Thông tin của bạn sẽ được bảo mật tuyệt đối và sẽ được sử dụng để nhận quà mà bạn quy đổi tại Zing Me shop.
                 <div class="illustration">
-                    <img src="https://i.imgur.com/V6336Uj.png" alt="Minh họa">
+                    <img src="profile.png" alt="Minh họa">
                 </div>
             </div>
 
@@ -424,12 +396,10 @@
         let isDragging = false;
         let startX, startY;
 
-        // Bật cửa sổ chọn file
         document.getElementById('avatar-container').addEventListener('click', () => fileInput.click());
         document.getElementById('btn-reselect').addEventListener('click', () => fileInput.click());
         document.getElementById('close-modal-btn').addEventListener('click', () => cropModal.style.display = 'none');
 
-        // Khi file được chọn
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -439,23 +409,18 @@
                 cropImage.src = reader.result;
                 currentImgObj.src = reader.result;
                 currentImgObj.onload = () => {
-                    // Reset thông số khi đổi ảnh mới
                     scale = 1; translateX = 0; translateY = 0;
                     zoomSlider.value = 1;
-                    
-                    // Căn chỉnh ảnh vừa vặn ban đầu (Lấy kích thước tự động)
                     autoSize();
                     cropModal.style.display = 'flex';
                 };
             };
         });
 
-        // Cập nhật vị trí và zoom ảnh bằng CSS Transform
         function updateImageTransform() {
             cropImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
         }
 
-        // Kéo thả ảnh (Drag)
         cropArea.addEventListener('mousedown', (e) => {
             isDragging = true;
             startX = e.clientX - translateX;
@@ -469,21 +434,18 @@
         });
         window.addEventListener('mouseup', () => { isDragging = false; });
 
-        // Phóng to thu nhỏ (Zoom)
         zoomSlider.addEventListener('input', (e) => {
             scale = e.target.value;
             updateImageTransform();
         });
 
-        // Nút lấy kích thước tự động (Fit vừa khung)
         function autoSize() {
             const ratioW = 200 / currentImgObj.width;
             const ratioH = 200 / currentImgObj.height;
-            scale = Math.max(ratioW, ratioH); // Cover kín vòng tròn
+            scale = Math.max(ratioW, ratioH);
             translateX = 0;
             translateY = 0;
             
-            // Căn giữa ảnh bằng cách đặt kích thước tĩnh và translate
             cropImage.style.width = currentImgObj.width + 'px';
             cropImage.style.height = currentImgObj.height + 'px';
             cropImage.style.left = (200 - currentImgObj.width) / 2 + 'px';
@@ -494,15 +456,12 @@
         }
         document.getElementById('btn-auto-size').addEventListener('click', autoSize);
 
-        // Nút ĐỒNG Ý -> Vẽ ảnh lên Canvas để lấy phần đã crop và lưu lại
         document.getElementById('btn-confirm-crop').addEventListener('click', async () => {
-            // Tạo một khung vẽ ảo (canvas) 200x200 pixel
             const canvas = document.createElement('canvas');
             canvas.width = 200;
             canvas.height = 200;
             const ctx = canvas.getContext('2d');
 
-            // Tính toán vị trí vẽ ảnh dựa trên các thông số drag & zoom
             const drawX = (200 - currentImgObj.width * scale) / 2 + translateX;
             const drawY = (200 - currentImgObj.height * scale) / 2 + translateY;
             const drawW = currentImgObj.width * scale;
@@ -510,19 +469,15 @@
 
             ctx.drawImage(currentImgObj, drawX, drawY, drawW, drawH);
             
-            // Xuất ra dạng Base64
             const croppedBase64 = canvas.toDataURL('image/jpeg', 0.9);
 
-            // Cập nhật giao diện bên ngoài
             document.getElementById('avatar-box').innerHTML = `<img src="${croppedBase64}">`;
             cropModal.style.display = 'none';
 
-            // Lưu lên Firebase
             if (currentUser) {
                 try {
                     const userRef = doc(db, "users", currentUser.uid);
                     await updateDoc(userRef, { avatarUrl: croppedBase64 });
-                    // Không cần alert thành công để trải nghiệm mượt mà hơn
                 } catch (error) {
                     console.error("Lỗi lưu ảnh:", error);
                 }
