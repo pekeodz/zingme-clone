@@ -27,6 +27,7 @@ const db = getFirestore(app);
 
 let currentUser = null;
 let originalCoverUrl = ""; let originalBgUrl = ""; let originalBgColor = "#e9eaed";
+let myName = ""; let myAvatar = "";
 
 // Lấy ID người dùng từ trên thanh URL (Nếu đang xem trang người khác)
 const urlParams = new URLSearchParams(window.location.search);
@@ -51,17 +52,27 @@ onAuthStateChanged(auth, async (user) => {
         
         // Xác định xem đang xem trang của mình hay trang của ai đó
         targetUid = viewUid ? viewUid : currentUser.uid;
+        
         if (targetUid !== currentUser.uid) {
             isMyProfile = false;
             // Ẩn các nút chỉnh sửa vì đây không phải trang của mình
-            document.getElementById('btn-open-editor').style.display = 'none';
-            document.querySelector('.edit-avatar-btn').style.display = 'none';
-            document.querySelector('.post-box').style.display = 'none'; 
-            document.getElementById('main-tab-thongtin').style.display = 'none'; 
+            if(document.getElementById('btn-open-editor')) document.getElementById('btn-open-editor').style.display = 'none';
+            if(document.querySelector('.edit-avatar-btn')) document.querySelector('.edit-avatar-btn').style.display = 'none';
+            if(document.querySelector('.post-box')) document.querySelector('.post-box').style.display = 'none'; 
+            if(document.getElementById('main-tab-thongtin')) document.getElementById('main-tab-thongtin').style.display = 'none'; 
         }
 
-        try {
-            const docRef = doc(db, "users", targetUid); // Load dữ liệu của targetUid
+        try {  
+            const myDocSnap = await getDoc(doc(db, "users", currentUser.uid));
+            if (myDocSnap.exists()) {
+                myName = myDocSnap.data().displayName || myDocSnap.data().fullname || "Khách";
+                myAvatar = myDocSnap.data().avatarUrl || '';
+            }
+
+            // ==========================================
+            // Load dữ liệu của CHỦ TƯỜNG NHÀ (để hiển thị lên màn hình)
+            // ==========================================
+            const docRef = doc(db, "users", targetUid); 
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 const data = docSnap.data();
@@ -188,7 +199,7 @@ function renderPostHTML(postId, post) {
                 ${commentsHtml}
                 
                 <div class="comment-input-box">
-                    <img src="${document.getElementById('avatar-box').querySelector('img')?.src || defaultAvatar}" class="comment-avatar">
+                    <img src="${myAvatar || defaultAvatar}" class="comment-avatar">
                     <input type="text" class="comment-input" data-post-id="${postId}" placeholder="Viết bình luận và nhấn Enter...">
                 </div>
             </div>
