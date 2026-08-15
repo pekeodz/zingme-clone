@@ -163,32 +163,38 @@
 
         <!-- TAB 2: TƯỜNG NHÀ (Hiển thị mặc định) -->
         <div class="feed-container" id="main-content-tuongnha">
-            <!-- Cột trái: Đăng bài & Bảng tin -->
             <div class="feed-main">
                 <div class="post-box">
-                    <textarea id="input-post-content" placeholder="Chia sẻ với bạn bè: Tâm trạng bạn thế nào?"></textarea>
-                    
-                    <!-- Hiện ảnh xem trước khi người dùng chọn ảnh -->
+                    <div class="post-input-wrapper">
+                        <span class="post-icon-left">📝</span> 
+                        
+                        <textarea id="input-post-content" placeholder="Chia sẻ với bạn bè: Tâm trạng bạn thế nào?"></textarea>
+                        
+                        <span class="post-icon-right" style="color: #27ae60;">😀</span>
+                    </div>
                     <img id="post-image-preview" src="">
-                    <!-- Input file ẩn dùng để chọn ảnh -->
+                    
                     <input type="file" id="post-image-file" accept="image/*" style="display: none;">
                 
                     <div class="post-actions">
                         <div class="post-icons">
                             <span id="btn-upload-post-image" title="Thêm ảnh">🖼️</span> 
                             <span title="Thêm liên kết">🔗</span> 
-                            <span title="Sự kiện">⭐</span> 
-                            <span title="Khác">🔽</span>
                         </div>
                         <div class="post-btn-group">
-                            <label><input type="checkbox"> Chia sẻ lên FB</label>
+                            <label class="fb-share-label"><input type="checkbox"> Chia sẻ lên FB</label>
                             <button class="btn-share" id="btn-share-post">Chia sẻ</button>
                         </div>
                     </div>
                 </div>
+
+                <!-- Menu Hoạt động (Trái) & Phân loại tin (Phải) -->
                 <div class="feed-tabs">
-                    <a href="#" class="active">TIN MỚI TỪ TÔI</a>
-                    <a href="#">NHẮC ĐẾN TÔI</a>
+                    <div class="feed-tab-title">Hoạt động</div>
+                    <div class="feed-tab-links">
+                        <a href="#" class="active">Tin mới từ tôi</a>
+                        <a href="#">Nhắc đến tôi</a>
+                    </div>
                 </div>
 
                 <!-- Nơi chứa các bài viết -->
