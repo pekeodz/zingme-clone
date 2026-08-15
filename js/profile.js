@@ -267,6 +267,7 @@ feedStream.addEventListener('keypress', async (e) => {
 });
 
 // --- XỬ LÝ ĐĂNG BÀI MỚI ---
+// --- XỬ LÝ ĐĂNG BÀI MỚI (CÓ NÉN ẢNH VÀ EMOJI) ---
 const btnSharePost = document.getElementById('btn-share-post');
 const inputPostContent = document.getElementById('input-post-content');
 const btnUploadPostImage = document.getElementById('btn-upload-post-image');
@@ -274,42 +275,114 @@ const postImageFile = document.getElementById('post-image-file');
 const postImagePreview = document.getElementById('post-image-preview');
 let pendingPostImageBase64 = '';
 
-if(btnUploadPostImage) { btnUploadPostImage.addEventListener('click', () => { postImageFile.click(); }); }
-if(postImageFile) {
-    postImageFile.addEventListener('change', (e) => {
-        const file = e.target.files[0]; if (!file) return;
-        const reader = new FileReader(); reader.readAsDataURL(file);
-        reader.onload = () => { pendingPostImageBase64 = reader.result; postImagePreview.src = pendingPostImageBase64; postImagePreview.style.display = 'block'; };
+// 1. Xử lý Emoji (Mặt cười)
+const btnEmoji = document.getElementById('btn-emoji');
+const emojiPicker = document.getElementById('emoji-picker');
+
+if(btnEmoji && emojiPicker) {
+    // Bật/tắt bảng mặt cười
+    btnEmoji.addEventListener('click', () => {
+        emojiPicker.style.display = emojiPicker.style.display === 'flex' ? 'none' : 'flex';
+    });
+    
+    // Khi bấm vào 1 icon mặt cười
+    emojiPicker.addEventListener('click', (e) => {
+        if(e.target.tagName === 'SPAN') {
+            inputPostContent.value += e.target.innerText; // Thêm vào khung chat
+            inputPostContent.focus(); // Nháy chuột lại vào ô nhập
+        }
+    });
+    
+    // Tự động ẩn bảng emoji khi click ra ngoài
+    document.addEventListener('click', (e) => {
+        if(!e.target.closest('#btn-emoji') && !e.target.closest('#emoji-picker')) {
+            emojiPicker.style.display = 'none';
+        }
     });
 }
 
+// 2. Thuật toán Nén ảnh trước khi đăng
+if(btnUploadPostImage) btnUploadPostImage.addEventListener('click', () => { postImageFile.click(); });
+if(postImageFile) {
+    postImageFile.addEventListener('change', (e) => {
+        const file = e.target.files[0]; 
+        if (!file) return;
+        
+        const reader = new FileReader(); 
+        reader.readAsDataURL(file);
+        
+        reader.onload = (event) => { 
+            const img = new Image();
+            img.onload = () => {
+                // Tạo Canvas để nén ảnh
+                const canvas = document.createElement('canvas');
+                let width = img.width; let height = img.height;
+                const MAX_SIZE = 800; // Giới hạn kích thước tối đa 800px
+                
+                if (width > height && width > MAX_SIZE) { 
+                    height *= MAX_SIZE / width; width = MAX_SIZE; 
+                } else if (height > MAX_SIZE) { 
+                    width *= MAX_SIZE / height; height = MAX_SIZE; 
+                }
+                
+                canvas.width = width; canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // Nén thành JPEG chất lượng 70% để vượt qua giới hạn 1MB của Firebase
+                pendingPostImageBase64 = canvas.toDataURL('image/jpeg', 0.7); 
+                postImagePreview.src = pendingPostImageBase64; 
+                postImagePreview.style.display = 'block'; 
+            };
+            img.src = event.target.result;
+        };
+    });
+}
+
+// 3. Khi bấm nút Chia sẻ lên Firebase
 if(btnSharePost) {
     btnSharePost.addEventListener('click', async () => {
         const content = inputPostContent.value.trim();
+        // Không có chữ và không có ảnh thì không cho đăng
         if(!content && !pendingPostImageBase64) return;
         if(!currentUser) return;
         
-        btnSharePost.innerText = "..."; btnSharePost.disabled = true;
-        const authorName = document.getElementById('display-fullname').innerText;
-        const avatarUrl = document.getElementById('avatar-box').querySelector('img')?.src || '';
+        btnSharePost.innerText = "..."; 
+        btnSharePost.disabled = true;
+        
+        // Xác định tên và avatar hiện tại để đăng
+        let authorToPost = typeof myName !== 'undefined' ? myName : document.getElementById('display-fullname').innerText;
+        let avatarToPost = typeof myAvatar !== 'undefined' ? myAvatar : (document.getElementById('avatar-box').querySelector('img')?.src || '');
 
         try {
             await addDoc(collection(db, "posts"), {
                 uid: currentUser.uid,
                 content: content,
-                authorName: authorName,
-                avatarUrl: avatarUrl,
+                authorName: authorToPost,
+                avatarUrl: avatarToPost,
                 postImageUrl: pendingPostImageBase64,
-                likes: [],       // Mảng chứa UID người Like
-                comments: [],    // Mảng chứa các object Bình luận
+                likes: [], 
+                comments: [],
                 timestamp: new Date().getTime()
             });
 
-            inputPostContent.value = ''; pendingPostImageBase64 = '';
-            if(postImagePreview) { postImagePreview.src = ''; postImagePreview.style.display = 'none'; }
-            loadPosts();
-        } catch(e) { alert("Không thể đăng bài viết lúc này."); } 
-        finally { btnSharePost.innerText = "Chia sẻ"; btnSharePost.disabled = false; }
+            // Dọn dẹp form sau khi đăng thành công
+            inputPostContent.value = ''; 
+            pendingPostImageBase64 = '';
+            if(postImagePreview) { 
+                postImagePreview.src = ''; 
+                postImagePreview.style.display = 'none'; 
+            }
+            if (emojiPicker) emojiPicker.style.display = 'none';
+            
+            loadPosts(); // Tải lại bảng tin
+        } catch(e) { 
+            console.error(e);
+            alert("Lỗi đăng bài! Vui lòng thử lại."); 
+        } finally { 
+            btnSharePost.innerText = "Chia sẻ"; 
+            btnSharePost.disabled = false; 
+        }
     });
 }
 
