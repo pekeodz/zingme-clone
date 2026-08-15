@@ -256,9 +256,8 @@ feedStream.addEventListener('keypress', async (e) => {
         
         const newComment = {
             uid: currentUser.uid,
-            authorName: document.getElementById('display-fullname').innerText, // Tên mình
-            avatarUrl: document.getElementById('avatar-box').querySelector('img')?.src || '', // Avatar của mình
-            content: content,
+            authorName: myName, 
+            avatarUrl: myAvatar, 
             timestamp: new Date().getTime()
         };
 
