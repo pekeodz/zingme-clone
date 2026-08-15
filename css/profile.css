@@ -222,3 +222,37 @@
 		.comment-input-box { display: flex; gap: 10px; margin-top: 15px; align-items: center; }
 		.comment-input-box input { flex: 1; padding: 8px 15px; border: 1px solid #ccc; border-radius: 15px; font-size: 12px; outline: none; }
 		.comment-input-box input:focus { border-color: #1e7ec8; }
+
+		/* --- CSS CHO TÌM KIẾM BẠN BÈ --- */
+		.search-box { position: relative; }
+		.search-results {
+		    position: absolute; top: 100%; left: 0; width: 100%; background: white;
+		    border: 1px solid #ccc; border-radius: 3px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+		    display: none; flex-direction: column; z-index: 1000; max-height: 300px; overflow-y: auto;
+		}
+		.search-result-item { display: flex; align-items: center; gap: 10px; padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; }
+		.search-result-item:hover { background: #f5f6f7; }
+		.search-result-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; background: #0099ff; }
+		.search-result-name { font-size: 13px; font-weight: bold; color: #333; }
+		
+		/* --- CSS CHO BÀI VIẾT (LIKE, BÌNH LUẬN, ẢNH) --- */
+		#post-image-preview { max-width: 150px; display: none; margin: 0 15px 10px 15px; border-radius: 3px; border: 1px solid #ccc; }
+		.post-attached-image { width: 100%; margin-top: 10px; border-radius: 3px; border: 1px solid #eee; display: block; }
+		.post-actions-bar { margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; display: flex; gap: 20px; font-size: 12px; font-weight: bold; color: #1e7ec8; }
+		.post-action-btn { cursor: pointer; display: flex; align-items: center; gap: 5px; }
+		.post-action-btn:hover { text-decoration: underline; }
+		.post-action-btn.liked { color: #f2467d; } 
+		
+		/* Khu vực Bình luận */
+		.post-comments-area { background: #f5f6f7; padding: 10px 15px; margin-top: 10px; border-radius: 3px; }
+		.comment-stats { font-size: 11px; color: #777; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+		.comment-item { display: flex; gap: 10px; margin-bottom: 10px; font-size: 12px; }
+		.comment-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; background: #ccc; }
+		.comment-content-box { flex: 1; }
+		.comment-text-box { background: white; padding: 8px 12px; border-radius: 12px; border: 1px solid #ddd; display: inline-block; }
+		.comment-author { font-weight: bold; color: #1e7ec8; margin-right: 5px; }
+		.comment-actions { font-size: 11px; color: #999; margin-top: 3px; margin-left: 10px; font-weight: bold; cursor: pointer; }
+		.comment-input-box { display: flex; gap: 10px; margin-top: 15px; align-items: center; }
+		.comment-input-box input { flex: 1; padding: 8px 15px; border: 1px solid #ccc; border-radius: 15px; font-size: 12px; outline: none; }
+		.comment-input-box input:focus { border-color: #1e7ec8; }
+		
