@@ -166,7 +166,7 @@ function renderPostHTML(postId, post) {
                 <div class="comment-content-box">
                     <div class="comment-text-box">
                         <a href="profile.html?id=${c.uid}" class="comment-author">${c.authorName}</a>
-                        <span>${c.content}</span>
+                        <span>${c.content || "Bình luận bị lỗi nội dung"}</span>
                     </div>
                 </div>
             </div>
@@ -224,7 +224,6 @@ async function loadPosts() {
     } catch (e) { console.error("Lỗi load bài viết:", e); }
 }
 
-// Lắng nghe sự kiện Like và Comment trên toàn bộ feed (Event Delegation)
 feedStream.addEventListener('click', async (e) => {
     if (e.target.classList.contains('like-btn')) {
         if (!currentUser) return;
@@ -239,7 +238,7 @@ feedStream.addEventListener('click', async (e) => {
             } else {
                 await updateDoc(postRef, { likes: arrayUnion(currentUser.uid) });
             }
-            loadPosts(); // Tải lại để cập nhật UI
+            loadPosts(); 
         }
     }
 });
@@ -258,6 +257,7 @@ feedStream.addEventListener('keypress', async (e) => {
             uid: currentUser.uid,
             authorName: myName, 
             avatarUrl: myAvatar, 
+            content: content, 
             timestamp: new Date().getTime()
         };
 
