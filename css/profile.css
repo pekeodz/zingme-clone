@@ -313,6 +313,15 @@
 		.user-dropdown a:last-child { border-bottom: none; }
 		.user-dropdown a:hover { background-color: #f5f6f7; }
 		
-		/* Hiệu ứng: Khi rê chuột (hover) vào cụm menu thì hiển thị bảng dropdown */
 		.user-menu-container:hover .user-dropdown { display: block; }
-				
+
+		
+		.user-dropdown::before {
+		    content: "";
+		    position: absolute;
+		    top: -15px; 
+		    left: 0;
+		    width: 100%;
+		    height: 15px;
+		    background: transparent; 
+		}
