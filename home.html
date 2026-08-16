@@ -4,72 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zing Me | Khám phá</title>
-    <style>
-        /* --- CSS RESET VÀ BỐ CỤC CHÍNH --- */
-        body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #f0f2f5; color: #333; }
-        a { text-decoration: none; color: #1e7ec8; }
-        
-        /* NAVBAR */
-        .navbar { background-color: #2b2b2b; height: 45px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #111; }
-        .nav-left { display: flex; align-items: center; gap: 20px; }
-        .menu-bar-icon { color: white; font-size: 24px; cursor: pointer; }
-        .logo { font-size: 22px; font-weight: bold; text-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
-        .logo-zing { color: #ffffff; } .logo-m { color: #f2467d; } .logo-e { color: #9bc831; }
-        
-        /* Khung Search chuẩn hình */
-        .search-container { display: flex; align-items: center; }
-        .search-input { width: 300px; height: 26px; border: none; padding: 0 10px; outline: none; font-size: 13px; color: #333; }
-        .search-btn { background-color: #0084ff; border: none; height: 26px; width: 40px; color: white; cursor: pointer; font-size: 14px; }
-        
-        .nav-links { display: flex; gap: 15px; font-size: 12px; font-weight: bold; color: #ccc; margin-left: 20px; }
-        .nav-links a { color: #ccc; } .nav-links a:hover { color: white; }
-        
-        .nav-right { display: flex; align-items: center; gap: 15px; color: #ccc; font-size: 16px; }
-        .nav-right-icon { cursor: pointer; }
-        .user-avatar-small { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #555; cursor: pointer; background: #0084ff; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; }
-
-        /* BỐ CỤC 2 CỘT */
-        .app-container { display: flex; min-height: calc(100vh - 45px); }
-        
-        /* CỘT TRÁI (SIDEBAR ICON) */
-        .sidebar { width: 60px; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; align-items: center; padding-top: 10px; position: sticky; top: 45px; height: calc(100vh - 45px); overflow-y: auto; }
-        .side-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 18px; margin-bottom: 12px; cursor: pointer; transition: transform 0.1s; }
-        .side-icon:hover { transform: scale(1.1); }
-        .side-icon.active { border: 2px solid #ddd; background-color: white !important; color: #9bc831; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); }
-        
-        .game-hot-text { font-size: 10px; font-weight: bold; color: #555; margin: 15px 0 10px 0; border-top: 1px solid #eee; width: 100%; text-align: center; padding-top: 10px; }
-        .game-hot-avatar { width: 36px; height: 36px; border-radius: 5px; margin-bottom: 8px; cursor: pointer; object-fit: cover; }
-
-        /* CỘT PHẢI (MAIN CONTENT) */
-        .main-content { flex: 1; padding: 20px 40px; }
-        .greeting-text { font-size: 20px; color: #555; margin-bottom: 25px; }
-        
-        /* Card Section (Chơi Game / Quan Tâm) */
-        .section-card { background: white; border-radius: 5px; border: 1px solid #ddd; padding: 20px; margin-bottom: 25px; }
-        .section-header { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; position: relative; }
-        .section-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 20px; }
-        .section-title h3 { margin: 0 0 5px 0; font-size: 18px; color: #333; }
-        .section-title p { margin: 0; font-size: 13px; color: #777; }
-        .btn-minimize { position: absolute; right: 0; top: 0; width: 24px; height: 24px; border: 1px solid #ccc; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #999; cursor: pointer; }
-
-        /* Tabs */
-        .tabs { display: flex; gap: 20px; border-bottom: 1px solid #eee; margin-bottom: 20px; padding-bottom: 10px; }
-        .tab-item { font-size: 14px; font-weight: bold; color: #777; cursor: pointer; }
-        .tab-item.active { color: #1e7ec8; border-bottom: 2px solid #1e7ec8; padding-bottom: 10px; margin-bottom: -11px; }
-
-        /* Game Grid */
-        .game-grid { display: flex; gap: 20px; }
-        .game-card { width: 130px; display: flex; flex-direction: column; position: relative; }
-        .game-img { width: 100%; height: 130px; border-radius: 8px; object-fit: cover; border: 1px solid #eee; margin-bottom: 10px; }
-        .game-hot-tag { position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 3px; transform: rotate(15deg); }
-        .game-name { font-size: 14px; font-weight: bold; color: #1e7ec8; margin-bottom: 3px; text-decoration: none; }
-        .game-category, .game-players { font-size: 11px; color: #777; margin-bottom: 3px; }
-        .btn-play { background: #1e7ec8; color: white; border: none; padding: 6px; border-radius: 3px; font-weight: bold; cursor: pointer; margin-top: 5px; }
-        .btn-play:hover { background: #1664a5; }
-
-        /* Footer Chat box */
-        .chat-bar { position: fixed; bottom: 0; right: 20px; background: white; border: 1px solid #ccc; border-bottom: none; border-radius: 3px 3px 0 0; padding: 5px 15px; font-size: 12px; font-weight: bold; color: #555; display: flex; align-items: center; gap: 10px; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); cursor: pointer; }
-    </style>
+    <!-- Nhúng file CSS -->
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
 
@@ -218,44 +154,7 @@
         <span>💬 Đang online (0)</span>
     </div>
 
-    <!-- SCRIPT ĐỂ HIỂN THỊ TÊN TỪ FIREBASE -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDeVcweMEYOi9t8_NyIXg6XRZ6I4LIgNBU",
-            authDomain: "zingme-clone.firebaseapp.com",
-            databaseURL: "https://zingme-clone-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "zingme-clone",
-            storageBucket: "zingme-clone.firebasestorage.app",
-            messagingSenderId: "121550062824",
-            appId: "1:121550062824:web:35257485755932ef91755d",
-            measurementId: "G-LXNNVVEKKQ"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Đổi lời chào thành tên thật của bạn
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                try {
-                    const docSnap = await getDoc(doc(db, "users", user.uid));
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        document.getElementById('welcome-name').innerText = data.displayName || data.fullname || "bạn";
-                        if(data.avatarUrl) {
-                            document.getElementById('nav-avatar').innerHTML = `<img src="${data.avatarUrl}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-                        }
-                    }
-                } catch (e) { console.error(e); }
-            } else {
-                window.location.href = "index.html";
-            }
-        });
-    </script>
+    <!-- Nhúng file JS -->
+    <script type="module" src="js/home.js"></script>
 </body>
 </html>
