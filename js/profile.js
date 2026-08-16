@@ -89,6 +89,10 @@ onAuthStateChanged(auth, async (user) => {
                 if (data.avatarUrl) {
                     document.getElementById('avatar-box').innerHTML = `<img src="${data.avatarUrl}">`;
                     document.getElementById('sidebar-avatar').innerHTML = `<img src="${data.avatarUrl}">`;
+                    
+                    if(document.getElementById('nav-user-avatar')) {
+                        document.getElementById('nav-user-avatar').innerHTML = `<img src="${data.avatarUrl}">`;
+                    }
                 }
                 
                 if (data.coverUrl) { originalCoverUrl = data.coverUrl; document.getElementById('main-cover-photo').style.backgroundImage = `url(${data.coverUrl})`; }
