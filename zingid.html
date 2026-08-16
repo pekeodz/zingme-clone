@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zing ID - Quản lý tài khoản</title>
+    <link rel="stylesheet" href="css/zingid.css">
+</head>
+<body>
+    <!-- Header xanh dương đặc trưng -->
+    <div class="zingid-header">
+        <div class="header-container">
+            <div class="logo">Zing <span>id</span></div>
+            <div class="user-greeting">
+                Chào <span id="header-username">Đang tải...</span><br>
+                <a href="#" id="btn-logout">THOÁT</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sub-header xám -->
+    <div class="sub-header">
+        <div class="container">
+            Tài khoản (Zing ID): <strong id="sub-email">...</strong> | Mã số tài khoản: <span id="sub-uid">...</span>
+        </div>
+    </div>
+
+    <!-- Nội dung chính -->
+    <div class="main-container">
+        <!-- Cột trái: Menu cài đặt -->
+        <div class="sidebar">
+            <div class="menu-item active">
+                <div class="menu-icon" style="background: #f39c12;">👤</div>
+                <div class="menu-text">
+                    <strong>Thông tin đăng nhập</strong>
+                    <span>Quản lý thông tin dùng để đăng nhập</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon" style="background: #3498db;">≡</div>
+                <div class="menu-text">
+                    <strong>Thông tin chung</strong>
+                    <span>Xem và cập nhật thông tin cá nhân</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon" style="background: #2ecc71;">🔗</div>
+                <div class="menu-text">
+                    <strong>Thông tin kết nối</strong>
+                    <span>Kết nối tài khoản ZingID với Facebook</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon" style="background: #e74c3c;">🛡️</div>
+                <div class="menu-text">
+                    <strong>Bảo vệ tài khoản</strong>
+                    <span>Chức năng hỗ trợ bảo vệ tài khoản</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon" style="background: #e67e22;">🎮</div>
+                <div class="menu-text">
+                    <strong>Có gì mới</strong>
+                    <span>Game online đang dẫn đầu hiện nay</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột phải: Form thông tin -->
+        <div class="content-area">
+            <h2 class="section-title">⚙️ THÔNG TIN ĐĂNG NHẬP</h2>
+            
+            <div class="info-table">
+                <div class="info-row">
+                    <div class="info-label">Tên đăng nhập:</div>
+                    <div class="info-value"><strong id="display-username">Đang tải...</strong></div>
+                    <div class="info-action"></div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Email đăng nhập:</div>
+                    <div class="info-value" id="display-email">(Chưa có thông tin)</div>
+                    <div class="info-action"><a href="#">Cập nhật</a></div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">SĐT đăng nhập:</div>
+                    <div class="info-value" id="display-phone">(Chưa có thông tin)</div>
+                    <div class="info-action"><a href="#">Cập nhật</a></div>
+                </div>
+                <div class="info-row" style="border-bottom: none;">
+                    <div class="info-label">Mật khẩu:</div>
+                    <div class="info-value">********</div>
+                    <div class="info-action"><a href="#" id="btn-show-change-pass">Đổi mật khẩu</a></div>
+                </div>
+                
+                <!-- Khu vực nhập mật khẩu mới (Mặc định ẩn) -->
+                <div class="change-pass-box" id="change-pass-box">
+                    <input type="password" id="input-new-pass" placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)">
+                    <button id="btn-confirm-change">Xác nhận đổi</button>
+                    <button id="btn-cancel-change" style="background: #ccc;">Hủy</button>
+                </div>
+            </div>
+
+            <!-- Banner quảng cáo y hệt ảnh -->
+            <div class="banner-ads">
+                <img src="https://i.imgur.com/K5tGk8x.jpg" alt="VIP 360 Quảng Cáo">
+                <div class="banner-text">CỔNG HỖ TRỢ KHÁCH HÀNG VIP 360</div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="js/zingid.js"></script>
+</body>
+</html>
