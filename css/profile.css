@@ -282,4 +282,37 @@
 		}
 		.emoji-picker span { cursor: pointer; font-size: 20px; transition: transform 0.1s; user-select: none; }
 		.emoji-picker span:hover { transform: scale(1.3); }
+
+		.user-menu-container { 
+		    position: relative; 
+		    display: inline-block; 
+		    cursor: pointer; 
+		    margin-left: 10px; 
+		}
 		
+		.user-avatar-small { 
+		    width: 30px; height: 30px; 
+		    border-radius: 50%; border: 1px solid #555; 
+		    background: #0084ff; display: flex; align-items: center; justify-content: center; 
+		    color: white; font-size: 16px; overflow: hidden; 
+		}
+		.user-avatar-small img { width: 100%; height: 100%; object-fit: cover; }
+		
+		.user-dropdown { 
+		    display: none; position: absolute; right: 0; top: 40px; 
+		    background-color: white; min-width: 160px; 
+		    box-shadow: 0px 4px 10px rgba(0,0,0,0.2); 
+		    z-index: 1000; border-radius: 3px; border: 1px solid #ccc;
+		}
+		
+		.user-dropdown a { 
+		    color: #1e7ec8; padding: 10px 15px; text-decoration: none; 
+		    display: block; font-size: 13px; border-bottom: 1px solid #eee; 
+		}
+		
+		.user-dropdown a:last-child { border-bottom: none; }
+		.user-dropdown a:hover { background-color: #f5f6f7; }
+		
+		/* Hiệu ứng: Khi rê chuột (hover) vào cụm menu thì hiển thị bảng dropdown */
+		.user-menu-container:hover .user-dropdown { display: block; }
+				
