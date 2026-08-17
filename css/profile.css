@@ -353,10 +353,10 @@
 		}
 
 		.nav-logo-img {
-		    height: 28px; /* Ép chiều cao xuống 28px cho vừa với thanh menu */
-		    width: auto;
-		    object-fit: contain;
-		    cursor: pointer;
+		    height: 30px !important; 
+		    width: auto !important;
+		    object-fit: contain !important;
+		    margin-top: 5px; 
 		}
 		.nav-logo-img:hover {
 		    opacity: 0.9;
