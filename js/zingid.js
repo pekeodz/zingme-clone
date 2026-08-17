@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut, updatePassword } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -64,23 +64,63 @@ btnCancel.addEventListener('click', () => {
     document.getElementById('input-new-pass').value = '';
 });
 
-// 4. Xử lý Đổi mật khẩu
+// 4. Xử lý Đổi mật khẩu (Chuẩn bảo mật Firebase)
 document.getElementById('btn-confirm-change').addEventListener('click', async () => {
+    // Lấy dữ liệu từ các ô nhập
+    const oldPass = document.getElementById('input-old-pass').value;
     const newPass = document.getElementById('input-new-pass').value;
-    if (newPass.length < 6) {
-        alert("Mật khẩu phải từ 6 ký tự trở lên!"); return;
+    const confirmPass = document.getElementById('input-confirm-pass').value;
+    const captcha = document.getElementById('input-captcha').value;
+
+    // A. KIỂM TRA ĐIỀU KIỆN (VALIDATION)
+    if (!oldPass || !newPass || !confirmPass || !captcha) {
+        alert("Vui lòng nhập đầy đủ thông tin!"); return;
     }
-    
+    if (newPass.length < 6) {
+        alert("Mật khẩu mới phải từ 6 ký tự trở lên!"); return;
+    }
+    if (newPass !== confirmPass) {
+        alert("Mật khẩu mới và Xác nhận mật khẩu không khớp nhau!"); return;
+    }
+    // Mã captcha giả lập dựa theo hình ảnh (XMEFH3)
+    if (captcha.toUpperCase() !== "XMEFH3") {
+        alert("Mã kiểm tra không chính xác!"); return;
+    }
+
+    // B. TIẾN HÀNH ĐỔI MẬT KHẨU TRÊN FIREBASE
     try {
+        // Bước 1: Xác thực lại bằng mật khẩu cũ (Bắt buộc của Firebase)
+        const credential = EmailAuthProvider.credential(currentUser.email, oldPass);
+        await reauthenticateWithCredential(currentUser, credential);
+
+        // Bước 2: Tiến hành cập nhật mật khẩu mới
         await updatePassword(currentUser, newPass);
-        alert("Đổi mật khẩu thành công! Lần sau hãy đăng nhập bằng mật khẩu mới nhé.");
-        passBox.style.display = 'none';
+        
+        // Thành công!
+        alert("Cập nhật thành công! Mật khẩu Zing ID của bạn đã được thay đổi.");
+        
+        // Đóng form và dọn dẹp các ô nhập liệu
+        document.getElementById('change-pass-box').style.display = 'none';
+        document.getElementById('input-old-pass').value = '';
         document.getElementById('input-new-pass').value = '';
+        document.getElementById('input-confirm-pass').value = '';
+        document.getElementById('input-captcha').value = '';
+
     } catch (error) {
-        if (error.code === 'auth/requires-recent-login') {
-            alert("Bảo mật Zing ID: Tài khoản đã đăng nhập quá lâu. Vui lòng Thoát ra và đăng nhập lại để đổi mật khẩu!");
+        // Xử lý các lỗi trả về từ Firebase
+        if (error.code === 'auth/invalid-credential') {
+            alert("Mật khẩu hiện tại không đúng, vui lòng kiểm tra lại!");
         } else {
-            alert("Lỗi: " + error.message);
+            alert("Đã xảy ra lỗi: " + error.message);
         }
     }
+});
+
+// Nút Bỏ qua (Xóa dữ liệu khi tắt)
+document.getElementById('btn-cancel-change').addEventListener('click', () => {
+    document.getElementById('change-pass-box').style.display = 'none';
+    document.getElementById('input-old-pass').value = '';
+    document.getElementById('input-new-pass').value = '';
+    document.getElementById('input-confirm-pass').value = '';
+    document.getElementById('input-captcha').value = '';
 });
