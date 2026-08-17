@@ -62,3 +62,18 @@ a { text-decoration: none; color: #1e7ec8; }
 
 /* Footer Chat box */
 .chat-bar { position: fixed; bottom: 0; right: 20px; background: white; border: 1px solid #ccc; border-bottom: none; border-radius: 3px 3px 0 0; padding: 5px 15px; font-size: 12px; font-weight: bold; color: #555; display: flex; align-items: center; gap: 10px; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); cursor: pointer; }
+
+.logo-link {
+    display: block !important;
+    height: 45px; 
+    width: 120px; 
+    overflow: hidden; 
+    position: relative;
+    margin-right: 15px; 
+}
+
+.nav-logo-img {
+    width: 100% !important; 
+    height: auto !important; 
+    margin-top: -38px; 
+}
