@@ -92,42 +92,42 @@
 
         const loginBtn = document.getElementById('login-btn');
         
-        loginBtn.addEventListener('click', async () => {
-            const username = document.getElementById('login-username').value;[cite: 1]
-            const password = document.getElementById('login-password').value;[cite: 1]
+        loginBtn.addEventListener('click', async (e) => {
+            if (e) e.preventDefault();
 
-            if(!username || !password) {[cite: 1]
-                alert("Vui lòng nhập tài khoản và mật khẩu!");[cite: 1]
-                return;[cite: 1]
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            if(!username || !password) {
+                alert("Vui lòng nhập tài khoản và mật khẩu!");
+                return;
             }
-
-            
             const customLoader = document.getElementById('custom-loader');
             if(customLoader) customLoader.style.display = 'flex';
 
-            loginBtn.innerText = "Đang vào...";[cite: 1]
-            loginBtn.disabled = true;[cite: 1]
+            loginBtn.innerText = "Đang vào...";
+            loginBtn.disabled = true;
 
             try {
-                const fakeEmail = username + "@zingme.vn";[cite: 1]
+                const fakeEmail = username + "@zingme.vn";
                 
-                await signInWithEmailAndPassword(auth, fakeEmail, password);[cite: 1]
+                await signInWithEmailAndPassword(auth, fakeEmail, password);
                 
                 window.location.href = "home.html";
 
             } catch (error) {
-                console.error(error);[cite: 1]
-                if (error.code === 'auth/invalid-credential') {[cite: 1]
-                    alert("Sai tên đăng nhập hoặc mật khẩu!");[cite: 1]
+                console.error(error);
+                if (error.code === 'auth/invalid-credential') {
+                    alert("Sai tên đăng nhập hoặc mật khẩu!");
                 } else {
-                    alert("Đã xảy ra lỗi: " + error.message);[cite: 1]
+                    alert("Đã xảy ra lỗi: " + error.message);
                 }
                 
                 if(customLoader) customLoader.style.display = 'none';
                 
             } finally {
-                loginBtn.innerText = "Đăng nhập";[cite: 1]
-                loginBtn.disabled = false;[cite: 1]
+                loginBtn.innerText = "Đăng nhập";
+                loginBtn.disabled = false;
             }
         });
     </script>
