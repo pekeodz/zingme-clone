@@ -1,10 +1,8 @@
-/* --- CSS RESET VÀ BỐ CỤC CHÍNH --- */
 body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #f0f2f5; color: #333; }
 a { text-decoration: none; color: #1e7ec8; }
 
-/* NAVBAR */
-.navbar { background-color: #2b2b2b; height: 45px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #111; }
-.nav-left { display: flex; align-items: center; gap: 20px; }
+.navbar { background-color: #2b2b2b; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 50px; border-bottom: 1px solid #111; position: sticky; top: 0; z-index: 100; }
+.nav-left { display: flex; align-items: center; gap: 30px; }
 .menu-bar-icon { color: white; font-size: 24px; cursor: pointer; }
 .logo { font-size: 22px; font-weight: bold; text-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
 .logo-zing { color: #ffffff; } .logo-m { color: #f2467d; } .logo-e { color: #9bc831; }
