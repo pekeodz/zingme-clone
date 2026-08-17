@@ -361,7 +361,8 @@
 		}
 		
 		.nav-logo-img {
-		    width: 100% !important; /* Phóng ảnh rộng bằng khung 120px */
-		    height: auto !important; /* Tự động tính chiều cao để không méo ảnh */
-		    margin-top: -20px; /* KÉO ẢNH LÊN TRÊN: Số âm càng lớn thì ảnh càng xích lên */
+		    width: 100% !important; 
+		    height: auto !important; 
+		
+		    margin-top: -45px; 
 		}
