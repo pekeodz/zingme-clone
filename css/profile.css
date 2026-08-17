@@ -351,3 +351,13 @@
 		    font-weight: bold;
 		    color: #1e7ec8;
 		}
+
+		.nav-logo-img {
+		    height: 28px; /* Ép chiều cao xuống 28px cho vừa với thanh menu */
+		    width: auto;
+		    object-fit: contain;
+		    cursor: pointer;
+		}
+		.nav-logo-img:hover {
+		    opacity: 0.9;
+		}
