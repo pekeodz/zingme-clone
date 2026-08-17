@@ -93,10 +93,46 @@
                 </div>
                 
                 <!-- Khu vực nhập mật khẩu mới (Mặc định ẩn) -->
+                <!-- Khu vực nhập mật khẩu mới (Giao diện chi tiết) -->
                 <div class="change-pass-box" id="change-pass-box">
-                    <input type="password" id="input-new-pass" placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)">
-                    <button id="btn-confirm-change">Xác nhận đổi</button>
-                    <button id="btn-cancel-change" style="background: #ccc;">Hủy</button>
+                    <div class="cp-row">
+                        <label>Mật khẩu hiện tại:</label>
+                        <div class="cp-input-group"><input type="password"></div>
+                    </div>
+                    <div class="cp-row">
+                        <label>Mật khẩu mới:</label>
+                        <div class="cp-input-group">
+                            <input type="password" id="input-new-pass">
+                            <div class="security-level">
+                                Mức độ bảo mật 
+                                <span class="sec-box"></span><span class="sec-box"></span><span class="sec-box"></span><span class="sec-box"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cp-row">
+                        <label>Xác nhận mật khẩu:</label>
+                        <div class="cp-input-group"><input type="password"></div>
+                    </div>
+                    <div class="cp-row">
+                        <label>Mã kiểm tra:</label>
+                        <div class="cp-input-group captcha-group">
+                           
+                            <img src="https://i.imgur.com/8Q5g36r.png" alt="Captcha" class="captcha-img"> 
+                            <span class="refresh-captcha">🔄</span>
+                        </div>
+                    </div>
+                    <div class="cp-row">
+                        <label>Nhập mã kiểm tra:</label>
+                        <div class="cp-input-group"><input type="text"></div>
+                    </div>
+                    
+                    <div class="cp-actions">
+                        <a href="#" class="forgot-pass">Quên mật khẩu ?</a>
+                        <div class="cp-btns">
+                            <button id="btn-confirm-change" class="btn-blue">Cập nhật</button>
+                            <button id="btn-cancel-change" class="btn-grey">Bỏ qua</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
