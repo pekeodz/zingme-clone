@@ -352,12 +352,16 @@
 		    color: #1e7ec8;
 		}
 
-		.nav-logo-img {
-		    height: 30px !important; 
-		    width: auto !important;
-		    object-fit: contain !important;
-		    margin-top: 5px; 
+		.logo-link {
+		    display: block !important;
+		    height: 35px; /* Khóa cứng chiều cao khung bấm (bằng đúng thanh đen) */
+		    width: 120px; /* Khóa độ rộng vừa đủ chữ Zing me */
+		    overflow: hidden; /* Cắt bỏ hoàn toàn mọi thứ lòi ra ngoài khung này */
+		    position: relative;
 		}
-		.nav-logo-img:hover {
-		    opacity: 0.9;
+		
+		.nav-logo-img {
+		    width: 100% !important; /* Phóng ảnh rộng bằng khung 120px */
+		    height: auto !important; /* Tự động tính chiều cao để không méo ảnh */
+		    margin-top: -20px; /* KÉO ẢNH LÊN TRÊN: Số âm càng lớn thì ảnh càng xích lên */
 		}
