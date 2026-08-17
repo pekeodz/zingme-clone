@@ -353,16 +353,15 @@
 		}
 
 		.logo-link {
-		    display: block !important;
-		    height: 35px; /* Khóa cứng chiều cao khung bấm (bằng đúng thanh đen) */
-		    width: 120px; /* Khóa độ rộng vừa đủ chữ Zing me */
-		    overflow: hidden; /* Cắt bỏ hoàn toàn mọi thứ lòi ra ngoài khung này */
-		    position: relative;
-		}
-		
-		.nav-logo-img {
-		    width: 100% !important; 
-		    height: auto !important; 
-		
-		    margin-top: -40px; 
-		}
+    display: block !important;
+    height: 42px; 
+    width: 120px; 
+    overflow: hidden; 
+    position: relative;
+}
+
+.nav-logo-img {
+    width: 100% !important; 
+    height: auto !important; 
+    margin-top: -38px; 
+}
