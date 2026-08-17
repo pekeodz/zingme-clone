@@ -347,14 +347,16 @@ if(postImageFile) {
 if(btnSharePost) {
     btnSharePost.addEventListener('click', async () => {
         const content = inputPostContent.value.trim();
-        // Không có chữ và không có ảnh thì không cho đăng
+    
         if(!content && !pendingPostImageBase64) return;
         if(!currentUser) return;
+        
+        const customLoader = document.getElementById('custom-loader');
+        if(customLoader) customLoader.style.display = 'flex';
         
         btnSharePost.innerText = "..."; 
         btnSharePost.disabled = true;
         
-        // Xác định tên và avatar hiện tại để đăng
         let authorToPost = typeof myName !== 'undefined' ? myName : document.getElementById('display-fullname').innerText;
         let avatarToPost = typeof myAvatar !== 'undefined' ? myAvatar : (document.getElementById('avatar-box').querySelector('img')?.src || '');
 
@@ -370,22 +372,23 @@ if(btnSharePost) {
                 timestamp: new Date().getTime()
             });
 
-            // Dọn dẹp form sau khi đăng thành công
             inputPostContent.value = ''; 
             pendingPostImageBase64 = '';
             if(postImagePreview) { 
                 postImagePreview.src = ''; 
                 postImagePreview.style.display = 'none'; 
             }
-            if (emojiPicker) emojiPicker.style.display = 'none';
+            if (typeof emojiPicker !== 'undefined' && emojiPicker) emojiPicker.style.display = 'none';
             
-            loadPosts(); // Tải lại bảng tin
+            loadPosts(); 
         } catch(e) { 
             console.error(e);
             alert("Lỗi đăng bài! Vui lòng thử lại."); 
         } finally { 
             btnSharePost.innerText = "Chia sẻ"; 
             btnSharePost.disabled = false; 
+    
+            if(customLoader) customLoader.style.display = 'none';
         }
     });
 }
