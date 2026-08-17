@@ -29,7 +29,11 @@
     </style>
 </head>
 <body>
-
+    <div id="custom-loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;">
+        <img src="gif/loading.gif" alt="Loading" style="width: 60px; height: 60px; object-fit: contain;">
+        <div style="margin-top: 15px; font-size: 14px; font-weight: bold; color: #1e7ec8;">Đang xử lý, vui lòng chờ...</div>
+    </div>
+    
     <div class="login-wrapper">
         <div class="left-col">
             <h1 class="logo">
@@ -89,37 +93,41 @@
         const loginBtn = document.getElementById('login-btn');
         
         loginBtn.addEventListener('click', async () => {
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
+            const username = document.getElementById('login-username').value;[cite: 1]
+            const password = document.getElementById('login-password').value;[cite: 1]
 
-            if(!username || !password) {
-                alert("Vui lòng nhập tài khoản và mật khẩu!");
-                return;
+            if(!username || !password) {[cite: 1]
+                alert("Vui lòng nhập tài khoản và mật khẩu!");[cite: 1]
+                return;[cite: 1]
             }
 
-            loginBtn.innerText = "Đang vào...";
-            loginBtn.disabled = true;
+            
+            const customLoader = document.getElementById('custom-loader');
+            if(customLoader) customLoader.style.display = 'flex';
+
+            loginBtn.innerText = "Đang vào...";[cite: 1]
+            loginBtn.disabled = true;[cite: 1]
 
             try {
-                // Zing Me dùng tài khoản, nhưng Firebase cần Email -> Ta dùng lại mẹo nối đuôi @zingme.vn
-                const fakeEmail = username + "@zingme.vn";
+                const fakeEmail = username + "@zingme.vn";[cite: 1]
                 
-                // Hàm đăng nhập của Firebase
-                await signInWithEmailAndPassword(auth, fakeEmail, password);
+                await signInWithEmailAndPassword(auth, fakeEmail, password);[cite: 1]
                 
-                // Đăng nhập thành công, chuyển sang trang cá nhân
-                window.location.href = "profile.html";
+                window.location.href = "home.html";
 
             } catch (error) {
-                console.error(error);
-                if (error.code === 'auth/invalid-credential') {
-                    alert("Sai tên đăng nhập hoặc mật khẩu!");
+                console.error(error);[cite: 1]
+                if (error.code === 'auth/invalid-credential') {[cite: 1]
+                    alert("Sai tên đăng nhập hoặc mật khẩu!");[cite: 1]
                 } else {
-                    alert("Đã xảy ra lỗi: " + error.message);
+                    alert("Đã xảy ra lỗi: " + error.message);[cite: 1]
                 }
+                
+                if(customLoader) customLoader.style.display = 'none';
+                
             } finally {
-                loginBtn.innerText = "Đăng nhập";
-                loginBtn.disabled = false;
+                loginBtn.innerText = "Đăng nhập";[cite: 1]
+                loginBtn.disabled = false;[cite: 1]
             }
         });
     </script>
