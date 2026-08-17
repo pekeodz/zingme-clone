@@ -108,8 +108,8 @@ onAuthStateChanged(auth, async (user) => {
                     document.getElementById('input-bio').value = data.bio || "";
                 }
                 
-                loadPosts(); // Tải bài viết
-                document.getElementById('loading-screen').style.display = 'none';
+                loadPosts(); 
+                document.getElementById('custom-loader').style.display = 'none';
             }
         } catch (e) { console.error(e); }
     } else { window.location.href = "index.html"; }
