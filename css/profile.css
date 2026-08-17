@@ -325,3 +325,29 @@
 		    height: 15px;
 		    background: transparent; 
 		}
+
+		/* --- HIỆU ỨNG LOADING BẰNG GIF --- */
+		#custom-loader {
+		    display: none; /* Mặc định ẩn đi */
+		    position: fixed;
+		    top: 0; left: 0; 
+		    width: 100%; height: 100%;
+		    background: rgba(255, 255, 255, 0.8); /* Phủ lớp nền trắng mờ */
+		    z-index: 9999; /* Đảm bảo nó luôn nằm trên cùng mọi thứ */
+		    justify-content: center;
+		    align-items: center;
+		    flex-direction: column;
+		}
+		
+		#custom-loader img {
+		    width: 60px; /* Bạn có thể chỉnh kích thước GIF to nhỏ ở đây */
+		    height: 60px;
+		    object-fit: contain;
+		}
+		
+		.loader-text {
+		    margin-top: 15px;
+		    font-size: 14px;
+		    font-weight: bold;
+		    color: #1e7ec8;
+		}
