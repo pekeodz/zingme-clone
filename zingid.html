@@ -97,7 +97,8 @@
                 <div class="change-pass-box" id="change-pass-box">
                     <div class="cp-row">
                         <label>Mật khẩu hiện tại:</label>
-                        <div class="cp-input-group"><input type="password"></div>
+                        <!-- Gắn id="input-old-pass" -->
+                        <div class="cp-input-group"><input type="password" id="input-old-pass"></div>
                     </div>
                     <div class="cp-row">
                         <label>Mật khẩu mới:</label>
@@ -111,19 +112,21 @@
                     </div>
                     <div class="cp-row">
                         <label>Xác nhận mật khẩu:</label>
-                        <div class="cp-input-group"><input type="password"></div>
+                        <!-- Gắn id="input-confirm-pass" -->
+                        <div class="cp-input-group"><input type="password" id="input-confirm-pass"></div>
                     </div>
                     <div class="cp-row">
                         <label>Mã kiểm tra:</label>
                         <div class="cp-input-group captcha-group">
-                           
+                            <!-- Ảnh Captcha chữ XMEFH3 -->
                             <img src="https://i.imgur.com/8Q5g36r.png" alt="Captcha" class="captcha-img"> 
                             <span class="refresh-captcha">🔄</span>
                         </div>
                     </div>
                     <div class="cp-row">
                         <label>Nhập mã kiểm tra:</label>
-                        <div class="cp-input-group"><input type="text"></div>
+                        <!-- Gắn id="input-captcha" -->
+                        <div class="cp-input-group"><input type="text" id="input-captcha"></div>
                     </div>
                     
                     <div class="cp-actions">
